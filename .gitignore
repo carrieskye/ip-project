@@ -1,8 +1,5 @@
-/course/src/main/webapp/files/payara-4.1.1.171.1.zip
-/course/src/main/webapp/files/jenkins.war
-/course/src/main/webapp/files/jdk-8u121-linux-x64.tar.gz
 
-# Created by https://www.gitignore.io/api/java,linux,macos,eclipse,windows,netbeans,intellij
+# Created by https://www.gitignore.io/api/java,linux,macos,maven,eclipse,windows,netbeans,java-web,intellij
 
 ### Eclipse ###
 
@@ -57,10 +54,10 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core
+# Eclipse Core		
 .project
 
-# JDT-specific (Eclipse Java Development Tools)
+# JDT-specific (Eclipse Java Development Tools)		
 .classpath
 
 ### Intellij ###
@@ -120,7 +117,7 @@ fabric.properties
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-*.iml
+# *.iml
 # modules.xml
 # .idea/misc.xml
 # *.ipr
@@ -151,6 +148,10 @@ fabric.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+### Java-Web ###
+## ignoring target file
+target/
 
 ### Linux ###
 *~
@@ -194,6 +195,19 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Maven ###
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
 ### NetBeans ###
 nbproject/private/
 build/
@@ -225,4 +239,4 @@ $RECYCLE.BIN/
 *.lnk
 
 
-# End of https://www.gitignore.io/api/java,linux,macos,eclipse,windows,netbeans,intellij
+# End of https://www.gitignore.io/api/java,linux,macos,maven,eclipse,windows,netbeans,java-web,intellij
