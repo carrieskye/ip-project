@@ -7,12 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TeacherDbInMemory {
-    private Map<String, Teacher> teachers = new HashMap<String, Teacher>();
+public class TeacherDbInMemory extends InMemoryDb {
+    private Map<String, Teacher> teachers = new HashMap<>();
 
     public TeacherDbInMemory() {
     }
 
+    @Override
     public Teacher get(String id) {
         if (id == null) {
             throw new DbException("No id given");
@@ -20,11 +21,14 @@ public class TeacherDbInMemory {
         return teachers.get(id);
     }
 
-    public List<Teacher> getAll() {
-        return new ArrayList<Teacher>(teachers.values());
+    @Override
+    public List<Object> getAll() {
+        return new ArrayList<>(teachers.values());
     }
 
-    public void add(Teacher teacher) throws DbException {
+    @Override
+    public void add(Object object) throws DbException {
+        Teacher teacher = (Teacher) object;
         if (teacher == null) {
             throw new DbException("No teacher given");
         }
@@ -34,7 +38,9 @@ public class TeacherDbInMemory {
         teachers.put(teacher.getId(), teacher);
     }
 
-    public void update(Teacher teacher) {
+    @Override
+    public void update(Object object) {
+        Teacher teacher = (Teacher) object;
         if (teacher == null) {
             throw new DbException("No teacher given");
         }
@@ -44,6 +50,7 @@ public class TeacherDbInMemory {
         teachers.put(teacher.getId(), teacher);
     }
 
+    @Override
     public void delete(String id) {
         if (id == null) {
             throw new DbException("No id given");

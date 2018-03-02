@@ -1,17 +1,19 @@
 package ip.db;
 
 import ip.domain.Classroom;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ClassroomDbInMemory {
-    private Map<String, Classroom> classrooms = new HashMap<String, Classroom>();
+public class ClassroomDbInMemory extends InMemoryDb {
+    private Map<String, Classroom> classrooms = new HashMap<>();
 
     public ClassroomDbInMemory() {
     }
 
+    @Override
     public Classroom get(String location) {
         if (location == null) {
             throw new DbException("No location given");
@@ -19,11 +21,14 @@ public class ClassroomDbInMemory {
         return classrooms.get(location);
     }
 
-    public List<Classroom> getAll() {
-        return new ArrayList<Classroom>(classrooms.values());
+    @Override
+    public List<Object> getAll() {
+        return new ArrayList<>(classrooms.values());
     }
 
-    public void add(Classroom classroom) throws DbException {
+    @Override
+    public void add(Object object) throws DbException {
+        Classroom classroom = (Classroom) object;
         if (classroom == null) {
             throw new DbException("No classroom given");
         }
@@ -33,7 +38,9 @@ public class ClassroomDbInMemory {
         classrooms.put(classroom.getLocation(), classroom);
     }
 
-    public void update(Classroom classroom) {
+    @Override
+    public void update(Object object) {
+        Classroom classroom = (Classroom) object;
         if (classroom == null) {
             throw new DbException("No classroom given");
         }
@@ -43,6 +50,7 @@ public class ClassroomDbInMemory {
         classrooms.put(classroom.getLocation(), classroom);
     }
 
+    @Override
     public void delete(String location) {
         if (location == null) {
             throw new DbException("No location given");

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Exam {
+    private String id;
     private LocalDateTime date;
     private Classroom classroom;
     private ArrayList<Student> students;
@@ -11,9 +12,20 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(LocalDateTime date, Classroom classroom) {
+    public Exam(String id, LocalDateTime date, Classroom classroom) {
         setDate(date);
         setClassroom(classroom);
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        if (id.isEmpty()){
+            throw new DomainException("No id given");
+        }
+        this.id = id;
     }
 
     public LocalDateTime getDate() {
