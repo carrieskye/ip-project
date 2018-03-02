@@ -11,11 +11,10 @@ public class CourseService implements Service {
 
     public CourseService(String type) {
         if (type == "Memory") {
-            db = new InMemoryDb();
+            db = InMemoryDb.createDb("Course");
         } else if (type == "SQL") {
-            db = new SQLDb();
+            db = SQLDb.createDb("Course");
         }
-        db.createDb("Course");
     }
 
     public Course get(String id) {

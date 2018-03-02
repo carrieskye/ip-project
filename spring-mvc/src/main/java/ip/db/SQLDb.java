@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SQLDb implements Db {
 
-    public SQLDb createDb(String type) {
+    public static SQLDb createDb(String type) {
         switch (type) {
             case "Classroom":
                 //TODO

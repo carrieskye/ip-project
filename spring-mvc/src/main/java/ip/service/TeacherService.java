@@ -12,11 +12,10 @@ public class TeacherService implements Service {
 
     public TeacherService(String type) {
         if (type == "Memory") {
-            db = new InMemoryDb();
+            db = InMemoryDb.createDb("Teacher");
         } else if (type == "SQL") {
-            db = new SQLDb();
+            db = SQLDb.createDb("Teacher");
         }
-        db.createDb("Teacher");
     }
 
     public Teacher get(String id) {

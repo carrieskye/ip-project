@@ -12,11 +12,10 @@ public class StudentService {
 
     public StudentService(String type) {
         if (type == "Memory") {
-            db = new InMemoryDb();
+            db = InMemoryDb.createDb("Student");
         } else if (type == "SQL") {
-            db = new SQLDb();
+            db = SQLDb.createDb("Student");
         }
-        db.createDb("Student");
     }
 
     public Student get(String id) {

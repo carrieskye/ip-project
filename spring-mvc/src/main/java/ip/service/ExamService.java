@@ -12,11 +12,10 @@ public class ExamService implements Service {
 
     public ExamService(String type) {
         if (type == "Memory") {
-            db = new InMemoryDb();
+            db = InMemoryDb.createDb("Exam");
         } else if (type == "SQL") {
-            db = new SQLDb();
+            db = SQLDb.createDb("Exam");
         }
-        db.createDb("Exam");
     }
 
     public Exam get(String id) {

@@ -11,11 +11,10 @@ public class ClassroomService {
 
     public ClassroomService(String type) {
         if (type == "Memory") {
-            db = new InMemoryDb();
+            db = InMemoryDb.createDb("Classroom");
         } else if (type == "SQL") {
-            db = new SQLDb();
+            db = SQLDb.createDb("Classroom");
         }
-        db.createDb("Classroom");
     }
 
     public Classroom get(String id) {

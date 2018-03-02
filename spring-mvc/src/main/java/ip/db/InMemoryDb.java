@@ -4,7 +4,7 @@ import java.util.List;
 
 public class InMemoryDb implements Db {
 
-    public InMemoryDb createDb(String type) {
+    public static InMemoryDb createDb(String type) {
         switch (type) {
             case "Classroom":
                 return new ClassroomDbInMemory();

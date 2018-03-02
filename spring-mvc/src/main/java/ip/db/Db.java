@@ -3,7 +3,6 @@ package ip.db;
 import java.util.List;
 
 public interface Db {
-    Object createDb(String type);
 
     Object get(String id);
 
