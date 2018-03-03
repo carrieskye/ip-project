@@ -13,7 +13,6 @@ public class CourseDbInMemory implements Db {
     public CourseDbInMemory() {
     }
 
-    @Override
     public Course get(String code) {
         if (code == null) {
             throw new DbException("No code given");
@@ -21,12 +20,10 @@ public class CourseDbInMemory implements Db {
         return courses.get(code);
     }
 
-    @Override
     public List<Object> getAll() {
         return new ArrayList<>(courses.values());
     }
 
-    @Override
     public void add(Object object) throws DbException {
         Course course = (Course) object;
         if (course == null) {
@@ -38,7 +35,6 @@ public class CourseDbInMemory implements Db {
         courses.put(course.getCode(), course);
     }
 
-    @Override
     public void update(Object object) {
         Course course = (Course) object;
         if (course == null) {
@@ -50,7 +46,6 @@ public class CourseDbInMemory implements Db {
         courses.put(course.getCode(), course);
     }
 
-    @Override
     public void delete(String code) {
         if (code == null) {
             throw new DbException("No code given");
