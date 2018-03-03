@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ClassroomDbInMemory extends InMemoryDb {
+public class ClassroomDbInMemory implements Db {
     private Map<String, Classroom> classrooms = new HashMap<>();
 
     public ClassroomDbInMemory() {

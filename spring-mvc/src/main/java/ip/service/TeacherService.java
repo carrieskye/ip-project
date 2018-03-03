@@ -1,20 +1,19 @@
 package ip.service;
 
 import ip.db.*;
-import ip.domain.Course;
 import ip.domain.Teacher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherService implements Service {
+public class TeacherService {
     private Db db;
 
     public TeacherService(String type) {
         if (type == "Memory") {
-            db = InMemoryDb.createDb("Teacher");
+            db = InMemoryDbFactory.createDb("Teacher");
         } else if (type == "SQL") {
-            db = SQLDb.createDb("Teacher");
+            db = SqlDbFactory.createDb("Teacher");
         }
     }
 

@@ -6,14 +6,14 @@ import ip.domain.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseService implements Service {
+public class CourseService {
     private Db db;
 
     public CourseService(String type) {
         if (type == "Memory") {
-            db = InMemoryDb.createDb("Course");
+            db = InMemoryDbFactory.createDb("Course");
         } else if (type == "SQL") {
-            db = SQLDb.createDb("Course");
+            db = SqlDbFactory.createDb("Course");
         }
     }
 

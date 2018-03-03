@@ -11,9 +11,9 @@ public class ClassroomService {
 
     public ClassroomService(String type) {
         if (type == "Memory") {
-            db = InMemoryDb.createDb("Classroom");
+            db = InMemoryDbFactory.createDb("Classroom");
         } else if (type == "SQL") {
-            db = SQLDb.createDb("Classroom");
+            db = SqlDbFactory.createDb("Classroom");
         }
     }
 

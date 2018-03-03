@@ -1,7 +1,6 @@
 package ip.service;
 
 import ip.db.*;
-import ip.domain.Course;
 import ip.domain.Student;
 
 import java.util.ArrayList;
@@ -12,9 +11,9 @@ public class StudentService {
 
     public StudentService(String type) {
         if (type == "Memory") {
-            db = InMemoryDb.createDb("Student");
+            db = InMemoryDbFactory.createDb("Student");
         } else if (type == "SQL") {
-            db = SQLDb.createDb("Student");
+            db = SqlDbFactory.createDb("Student");
         }
     }
 

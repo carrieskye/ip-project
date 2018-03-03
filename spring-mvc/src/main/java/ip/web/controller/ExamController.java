@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/Classroom")
+@RequestMapping(value = "/Exam")
 public class ExamController {
     private ExamService service;
 
