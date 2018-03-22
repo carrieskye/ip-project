@@ -30,7 +30,11 @@ public class ExamService {
     }
 
     public void add(Exam exam) throws DbException {
-        db.add(exam);
+        if (db.get(exam.getId()) == null) {
+            db.add(exam);
+        } else {
+            db.update(exam);
+        }
     }
 
     public void update(Exam exam) {

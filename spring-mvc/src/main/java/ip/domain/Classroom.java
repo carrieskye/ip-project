@@ -8,15 +8,15 @@ public class Classroom {
     private Map<LocalDateTime, Boolean> available = new HashMap<LocalDateTime, Boolean>();
     private String location;
     private int seats;
-    private boolean pc;
+    private String type;
 
     public Classroom() {
     }
 
-    public Classroom(String location, int seats, boolean pc){
+    public Classroom(String location, int seats, String type) {
         setLocation(location);
         setSeats(seats);
-        setPc(pc);
+        setType(type);
     }
 
     public String getLocation() {
@@ -24,7 +24,7 @@ public class Classroom {
     }
 
     public void setLocation(String location) {
-        if (location.isEmpty()){
+        if (location.isEmpty()) {
             throw new DomainException("No location given");
         }
         this.location = location;
@@ -35,18 +35,18 @@ public class Classroom {
     }
 
     public void setSeats(int seats) {
-        if (seats <= 0){
+        if (seats <= 0) {
             throw new DomainException("Number of seats cannot be 0 or a negative");
         }
         this.seats = seats;
     }
 
-    public boolean hasPc() {
-        return pc;
+    public String getType() {
+        return type;
     }
 
-    public void setPc(boolean pc) {
-        this.pc = pc;
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

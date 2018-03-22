@@ -30,7 +30,11 @@ public class TeacherService {
     }
 
     public void add(Teacher teacher) throws DbException {
-        db.add(teacher);
+        if (db.get(teacher.getId()) == null) {
+            db.add(teacher);
+        } else {
+            db.update(teacher);
+        }
     }
 
     public void update(Teacher teacher) {

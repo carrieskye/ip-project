@@ -30,7 +30,11 @@ public class CourseService {
     }
 
     public void add(Course course) throws DbException {
-        db.add(course);
+        if (db.get(course.getCode()) == null) {
+            db.add(course);
+        } else {
+            db.update(course);
+        }
     }
 
     public void update(Course course) {

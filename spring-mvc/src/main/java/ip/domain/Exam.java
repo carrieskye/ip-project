@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Exam {
     private String id;
+    private Course course;
     private LocalDateTime date;
     private Classroom classroom;
     private ArrayList<Student> students;
@@ -12,7 +13,9 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(String id, LocalDateTime date, Classroom classroom) {
+    public Exam(String id, Course course, LocalDateTime date, Classroom classroom) {
+        setId(id);
+        setCourse(course);
         setDate(date);
         setClassroom(classroom);
     }
@@ -26,6 +29,15 @@ public class Exam {
             throw new DomainException("No id given");
         }
         this.id = id;
+    }
+
+    public Course getCourse(){ return course;}
+
+    public void setCourse(Course course){
+        if (course == null){
+            throw new DomainException("No course given");
+        }
+        this.course = course;
     }
 
     public LocalDateTime getDate() {

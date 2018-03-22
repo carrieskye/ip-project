@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("web.controller")
+@ComponentScan("ip.web.controller")
 public class DispatcherServletConfig implements WebMvcConfigurer {
 
     @Override

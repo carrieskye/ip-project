@@ -9,6 +9,10 @@ public class Course {
     private ArrayList<Exam> exams;
     private ArrayList<Student> students;
 
+    public Course(){
+
+    }
+
     public Course(String code, String name, Teacher teacher) {
         setCode(code);
         setName(name);

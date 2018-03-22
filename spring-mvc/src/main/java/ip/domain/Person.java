@@ -5,6 +5,10 @@ public abstract class Person {
     private String firstName;
     private String lastName;
 
+    public Person(){
+
+    }
+
     public Person(String id, String firstName, String lastName){
         setId(id);
         setFirstName(firstName);

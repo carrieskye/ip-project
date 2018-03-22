@@ -30,7 +30,11 @@ public class ClassroomService {
     }
 
     public void add(Classroom classroom) throws DbException {
-        db.add(classroom);
+        if (db.get(classroom.getLocation()) == null) {
+            db.add(classroom);
+        } else {
+            db.update(classroom);
+        }
     }
 
     public void update(Classroom classroom) {
