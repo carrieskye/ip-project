@@ -1,7 +1,8 @@
 package ip.domain;
 
 public abstract class Person {
-    private String id;
+    private long id;
+    private String number;
     private String firstName;
     private String lastName;
 
@@ -9,21 +10,31 @@ public abstract class Person {
 
     }
 
-    public Person(String id, String firstName, String lastName){
+    public Person(long id, String number, String firstName, String lastName){
         setId(id);
+        setNumber(number);
         setFirstName(firstName);
         setLastName(lastName);
     }
 
-    public String getId() {
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        if (id.isEmpty()){
-            throw new DomainException("No id given");
-        }
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        if (number.isEmpty()){
+            throw new DomainException("No number given");
+        }
+        this.number = number;
     }
 
     public String getFirstName() {

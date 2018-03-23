@@ -13,7 +13,7 @@
     <nav>
         <ul>
             <li><a href="index.htm">
-                <img id="logo" src="${pageContext.request.contextPath}/images/ucll-logo.png" alt="Home"></a></li>
+                <img number="logo" src="${pageContext.request.contextPath}/images/ucll-logo.png" alt="Home"></a></li>
             <li><a href="<c:url value="/classroom.htm"/>">Classrooms</a></li>
             <li><a href="<c:url value="/course.htm"/>">Courses</a></li>
             <li><a href="<c:url value="/exam.htm"/>">Exams</a></li>

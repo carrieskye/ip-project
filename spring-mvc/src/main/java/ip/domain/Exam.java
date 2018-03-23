@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Exam {
-    private String id;
+    private long id;
     private Course course;
     private LocalDateTime date;
     private Classroom classroom;
@@ -13,28 +13,27 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(String id, Course course, LocalDateTime date, Classroom classroom) {
+    public Exam(long id, Course course, LocalDateTime date, Classroom classroom) {
         setId(id);
         setCourse(course);
         setDate(date);
         setClassroom(classroom);
     }
 
-    public String getId(){
+    public long getId() {
         return id;
     }
 
-    public void setId(String id){
-        if (id.isEmpty()){
-            throw new DomainException("No id given");
-        }
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Course getCourse(){ return course;}
+    public Course getCourse() {
+        return course;
+    }
 
-    public void setCourse(Course course){
-        if (course == null){
+    public void setCourse(Course course) {
+        if (course == null) {
             throw new DomainException("No course given");
         }
         this.course = course;
@@ -45,7 +44,7 @@ public class Exam {
     }
 
     public void setDate(LocalDateTime date) {
-        if (date.isBefore(LocalDateTime.now())){
+        if (date.isBefore(LocalDateTime.now())) {
             throw new DomainException("Date is in the past");
         }
         this.date = date;
@@ -56,7 +55,7 @@ public class Exam {
     }
 
     public void setClassroom(Classroom classroom) {
-        if (classroom == null){
+        if (classroom == null) {
             throw new DomainException("No classroom given");
         }
         this.classroom = classroom;

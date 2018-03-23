@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassroomDbInMemory implements Db {
-    private Map<String, Classroom> classrooms = new HashMap<>();
+    private Map<Long, Classroom> classrooms = new HashMap<>();
 
     public ClassroomDbInMemory() {
     }
 
     @Override
-    public Classroom get(String location) {
-        if (location == null) {
-            throw new DbException("No location given");
+    public Classroom get(long id) {
+        if (id == 0) {
+            throw new DbException("No id given");
         }
-        return classrooms.get(location);
+        return classrooms.get(id);
     }
 
     @Override
@@ -32,10 +32,10 @@ public class ClassroomDbInMemory implements Db {
         if (classroom == null) {
             throw new DbException("No classroom given");
         }
-        if (classrooms.containsKey(classroom.getLocation())) {
+        if (classrooms.containsKey(classroom.getId())) {
             throw new DbException("Classroom already exists");
         }
-        classrooms.put(classroom.getLocation(), classroom);
+        classrooms.put(classroom.getId(), classroom);
     }
 
     @Override
@@ -44,18 +44,18 @@ public class ClassroomDbInMemory implements Db {
         if (classroom == null) {
             throw new DbException("No classroom given");
         }
-        if (!classrooms.containsKey(classroom.getLocation())) {
+        if (!classrooms.containsKey(classroom.getId())) {
             throw new DbException("No classroom found");
         }
-        classrooms.put(classroom.getLocation(), classroom);
+        classrooms.put(classroom.getId(), classroom);
     }
 
     @Override
-    public void delete(String location) {
-        if (location == null) {
-            throw new DbException("No location given");
+    public void delete(long id) {
+        if (id == 0) {
+            throw new DbException("No id given");
         }
-        classrooms.remove(location);
+        classrooms.remove(id);
     }
 
 }

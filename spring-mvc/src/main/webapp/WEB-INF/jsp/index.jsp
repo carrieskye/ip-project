@@ -4,7 +4,7 @@
 <html>
 
 <body>
-<div id="container">
+<div number="container">
     <%@include file="header.jsp" %>
     <jsp:include page="head.jsp">
         <jsp:param name="title" value="Home"/>

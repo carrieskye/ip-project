@@ -5,7 +5,7 @@ public class SqlDbFactory{
     public static Db createDb(String type) {
         switch (type) {
             case "Classroom":
-                return new ClassroomDbSql();
+                return new ClassroomDbRelational();
             case "Course":
                 //TODO
             case "Exam":

@@ -17,7 +17,7 @@ public class ExamService {
         }
     }
 
-    public Exam get(String id) {
+    public Exam get(long id) {
         return (Exam) db.get(id);
     }
 
@@ -30,18 +30,14 @@ public class ExamService {
     }
 
     public void add(Exam exam) throws DbException {
-        if (db.get(exam.getId()) == null) {
-            db.add(exam);
-        } else {
-            db.update(exam);
-        }
+        db.add(exam);
     }
 
     public void update(Exam exam) {
         db.update(exam);
     }
 
-    public void delete(String id) {
+    public void delete(long id) {
         db.delete(id);
     }
 }

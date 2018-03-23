@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping(value = "/course")
 public class CourseController {
@@ -30,7 +32,7 @@ public class CourseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String save(Course course, BindingResult result) {
+    public String save(@Valid Course course, BindingResult result) {
         if (result.hasErrors()) {
             return "course/courseForm";
         }
@@ -38,8 +40,8 @@ public class CourseController {
         return "redirect:/course.htm";
     }
 
-    @RequestMapping(value = "/{code}", method = RequestMethod.GET)
-    public ModelAndView getEditForm(@PathVariable String code) {
-        return new ModelAndView("course/courseForm", "course", service.get(code));
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView getEditForm(@PathVariable long id) {
+        return new ModelAndView("course/courseForm", "course", service.get(id));
     }
 }

@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 public class StudentDbInMemory implements Db {
-    private Map<String, Student> students = new HashMap<>();
+    private Map<Long, Student> students = new HashMap<>();
 
     public StudentDbInMemory() {
     }
 
     @Override
-    public Student get(String id) {
-        if (id == null) {
+    public Student get(long id) {
+        if (id == 0) {
             throw new DbException("No id given");
         }
         return students.get(id);
@@ -51,8 +51,8 @@ public class StudentDbInMemory implements Db {
     }
 
     @Override
-    public void delete(String id) {
-        if (id == null) {
+    public void delete(long id) {
+        if (id == 0) {
             throw new DbException("No id given");
         }
         students.remove(id);

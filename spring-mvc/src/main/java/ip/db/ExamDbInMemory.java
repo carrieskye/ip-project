@@ -1,5 +1,6 @@
 package ip.db;
 
+import ip.domain.Course;
 import ip.domain.Exam;
 
 import java.util.ArrayList;
@@ -8,14 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 public class ExamDbInMemory implements Db {
-    private Map<String, Exam> exams = new HashMap<>();
+    private Map<Long, Exam> exams = new HashMap<>();
 
     public ExamDbInMemory() {
     }
 
     @Override
-    public Exam get(String id) {
-        if (id == null) {
+    public Exam get(long id) {
+        if (id == 0) {
             throw new DbException("No id given");
         }
         return exams.get(id);
@@ -51,8 +52,8 @@ public class ExamDbInMemory implements Db {
     }
 
     @Override
-    public void delete(String id) {
-        if (id == null) {
+    public void delete(long id) {
+        if (id == 0) {
             throw new DbException("No id given");
         }
         exams.remove(id);

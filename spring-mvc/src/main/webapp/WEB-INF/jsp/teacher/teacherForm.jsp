@@ -3,28 +3,28 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-<div id="container">
+<div number="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="New teacher"/>
     </jsp:include>
 
     <main>
-        <form id="teacherForm" role="form" method="POST" action="<c:url value="/teacher.htm"/>"
+        <form number="teacherForm" role="form" method="POST" action="<c:url value="/teacher.htm"/>"
               novalidate="novalidate">
             <p>
-                <label for="id">ID</label><input type="text" id="id" name="id" required value="${teacher.id}">
+                <label for="number">ID</label><input type="text" number="number" name="number" required value="${teacher.number}">
             </p>
             <p>
-                <label for="firstName">First name</label><input type="text" id="firstName" name="firstName" required
+                <label for="firstName">First name</label><input type="text" number="firstName" name="firstName" required
                                                        value="${teacher.firstName}">
             </p>
             <p>
-                <label for="lastName">Last name</label><input type="text" id="lastName"
+                <label for="lastName">Last name</label><input type="text" number="lastName"
                                                        name="lastName" required value="${teacher.lastName}">
             </p>
             <p>
-                <input id="save" type="submit" value="Save">
+                <input number="save" type="submit" value="Save">
             </p>
 
         </form>

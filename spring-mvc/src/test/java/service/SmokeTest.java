@@ -21,25 +21,25 @@ public class SmokeTest {
 
     @Before
     public void testData() {
-        teacher1 = new Teacher("u03942345", "An", "Goossens");
+        teacher1 = new Teacher(teacherService.getAll().size() + 1, "u03942345", "An", "Goossens");
         teacherService.add(teacher1);
-        course1 = new Course("XYZ1234", "Wiskunde", teacherService.get(teacher1.getId()));
-        course2 = new Course("ABC5678", "Nederlands", teacherService.get(teacher1.getId()));
-        course3 = new Course("EFG7890", "Frans", teacherService.get(teacher1.getId()));
+        course1 = new Course(courseService.getAll().size() + 1, "XYZ1234", "Wiskunde", teacherService.get(teacher1.getId()));
         courseService.add(course1);
+        course2 = new Course(courseService.getAll().size() + 1, "ABC5678", "Nederlands", teacherService.get(teacher1.getId()));
         courseService.add(course2);
+        course3 = new Course(courseService.getAll().size() + 1, "EFG7890", "Frans", teacherService.get(teacher1.getId()));
         courseService.add(course3);
     }
 
 
     @Test
     public void add_adds_new_course_if_valid() {
-        Teacher teacher2 = new Teacher("u04879878", "Tom", "Verschueren");
+        Teacher teacher2 = new Teacher(teacherService.getAll().size() + 1, "u04879878", "Tom", "Verschueren");
         teacherService.add(teacher2);
-        Course course4 = new Course("IJK3456", "Informatica", teacherService.get(teacher2.getId()));
+        Course course4 = new Course(courseService.getAll().size() + 1, "IJK3456", "Informatica", teacherService.get(teacher2.getId()));
         courseService.add(course4);
 
-        assertEquals(course4, courseService.get(course4.getCode()));
+        assertEquals(course4, courseService.get(course4.getId()));
         assertEquals(course4.getTeacher(), teacherService.get(teacher2.getId()));
     }
 
@@ -58,7 +58,7 @@ public class SmokeTest {
         course1.setName("Fysica");
         courseService.update(course1);
 
-        assertEquals(course1, courseService.get(course1.getCode()));
+        assertEquals(course1, courseService.get(course1.getId()));
     }
 
     @Test
@@ -67,18 +67,18 @@ public class SmokeTest {
         courses.add(course1);
         courses.add(course2);
 
-        courseService.delete(course3.getCode());
+        courseService.delete(course3.getId());
 
         assertEquals(courses, courseService.getAll());
-        assertEquals(null, courseService.get(course3.getCode()));
+        assertEquals(0, courseService.get(course3.getId()));
     }
 
     @After
-    public void cleanData(){
+    public void cleanData() {
         teacherService.delete(teacher1.getId());
-        courseService.delete(course1.getCode());
-        courseService.delete(course2.getCode());
-        courseService.delete(course3.getCode());
+        courseService.delete(course1.getId());
+        courseService.delete(course2.getId());
+        courseService.delete(course3.getId());
     }
 
 

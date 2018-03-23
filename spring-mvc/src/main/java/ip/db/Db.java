@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Db {
 
-    Object get(String id);
+    Object get(long id);
 
     List<Object> getAll();
 
@@ -12,5 +12,5 @@ public interface Db {
 
     void update(Object object);
 
-    void delete(String id);
+    void delete(long id);
 }

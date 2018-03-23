@@ -17,7 +17,7 @@ public class ClassroomService {
         }
     }
 
-    public Classroom get(String id) {
+    public Classroom get(long id) {
         return (Classroom) db.get(id);
     }
 
@@ -30,18 +30,15 @@ public class ClassroomService {
     }
 
     public void add(Classroom classroom) throws DbException {
-        if (db.get(classroom.getLocation()) == null) {
-            db.add(classroom);
-        } else {
-            db.update(classroom);
-        }
+        classroom.setId(getAll().size() + 1);
+        db.add(classroom);
     }
 
     public void update(Classroom classroom) {
         db.update(classroom);
     }
 
-    public void delete(String id) {
+    public void delete(long id) {
         db.delete(id);
     }
 }

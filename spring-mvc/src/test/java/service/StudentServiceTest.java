@@ -10,7 +10,7 @@ public class StudentServiceTest {
 
     @Test
     public void addStudent_stores_new_student(){
-        Student newStudent = new Student("r02934392","Jonas","Peeters" );
+        Student newStudent = new Student(service.getAll().size() + 1, "r02934392","Jonas","Peeters" );
         service.add(newStudent);
 
         Student retrievedStudent = service.get(newStudent.getId());

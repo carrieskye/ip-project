@@ -5,18 +5,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Classroom {
-    private Map<LocalDateTime, Boolean> available = new HashMap<LocalDateTime, Boolean>();
+    private long id;
     private String location;
     private int seats;
     private String type;
+    private Map<LocalDateTime, Boolean> available = new HashMap<LocalDateTime, Boolean>();
 
     public Classroom() {
+
     }
 
-    public Classroom(String location, int seats, String type) {
+    public Classroom(long id){
+        setId(id);
+    }
+
+    public Classroom(long id, String location, int seats, String type) {
+        setId(id);
         setLocation(location);
         setSeats(seats);
         setType(type);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLocation() {

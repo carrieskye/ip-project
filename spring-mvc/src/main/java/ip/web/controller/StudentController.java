@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping(value = "/student")
 public class StudentController {
@@ -31,7 +33,7 @@ public class StudentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String save(Student student, BindingResult result) {
+    public String save(@Valid Student student, BindingResult result) {
         if (result.hasErrors()) {
             return "student/studentForm";
         }
@@ -40,7 +42,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getEditForm(@PathVariable String id) {
+    public ModelAndView getEditForm(@PathVariable long id) {
         return new ModelAndView("student/studentForm", "student", service.get(id));
     }
 }

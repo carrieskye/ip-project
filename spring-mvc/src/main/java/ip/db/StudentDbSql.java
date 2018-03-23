@@ -4,7 +4,7 @@ import java.util.List;
 
 public class StudentDbSql implements Db {
 
-    public Object get(String id) {
+    public Object get(long id) {
         //TODO
         return null;
     }
@@ -22,7 +22,7 @@ public class StudentDbSql implements Db {
         //TODO
     }
 
-    public void delete(String id) {
+    public void delete(long id) {
         //TODO
     }
 }

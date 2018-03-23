@@ -3,6 +3,7 @@ package ip.domain;
 import java.util.ArrayList;
 
 public class Course {
+    private long id;
     private String code;
     private String name;
     private Teacher teacher;
@@ -13,10 +14,20 @@ public class Course {
 
     }
 
-    public Course(String code, String name, Teacher teacher) {
+    public Course(long id, String code, String name, Teacher teacher) {
+        setId(id);
         setCode(code);
         setName(name);
         setTeacher(teacher);
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getCode() {

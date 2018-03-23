@@ -17,7 +17,7 @@ public class StudentService {
         }
     }
 
-    public Student get(String id) {
+    public Student get(long id) {
         return (Student) db.get(id);
     }
 
@@ -30,18 +30,14 @@ public class StudentService {
     }
 
     public void add(Student student) throws DbException {
-        if (db.get(student.getId()) == null) {
-            db.add(student);
-        } else {
-            db.update(student);
-        }
+        db.add(student);
     }
 
     public void update(Student student) {
         db.update(student);
     }
 
-    public void delete(String id) {
+    public void delete(long id) {
         db.delete(id);
     }
 }
