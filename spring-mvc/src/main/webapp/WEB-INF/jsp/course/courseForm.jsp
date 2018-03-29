@@ -3,31 +3,40 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-<div number="container">
+<div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="New course"/>
     </jsp:include>
 
     <main>
-        <form number="courseForm" role="form" method="POST" action="<c:url value="/course.htm"/>"
-              novalidate="novalidate">
+        <c:url var="post_url" value="/course/save.htm"/>
+        <form:form modelAttribute="course" method="post" action="${post_url}">
             <p>
-                <label for="code">Code</label><input type="text" number="code" name="code" required value="${course.code}">
-            </p>
-            <p>
-                <label for="name">Name</label><input type="text" number="name" name="name" required
-                                                     value="${course.name}">
-            </p>
-            <p>
-                <label for="teacherId">Teacher ID</label><input type="text" number="teacherId"
-                                                                name="teacherId" required value="${course.teacher.number}">
-            </p>
-            <p>
-                <input number="save" type="submit" value="Save">
+                <form:hidden path="id"/>
             </p>
 
-        </form>
+            <p>
+                <label for="code">Code:</label>
+                <form:input id="code" path="code"/>
+                <form:errors path="code" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="name">Name:</label>
+                <form:input type="name" id="name" path="name"/>
+                <form:errors path="name" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="teacher">Teacher</label>
+                <form:select id="teacher" path="teacher" items="${teachers}" itemValue="id" itemLabel="info"/>
+            </p>
+
+            <p>
+                <input id="save" type="submit" value="Save"/>
+            </p>
+        </form:form>
     </main>
 
     <footer> &copy; Webontwikkeling 3, UC Leuven-Limburg</footer>

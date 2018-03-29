@@ -59,4 +59,8 @@ public abstract class Person {
         this.lastName = lastName;
     }
 
+    public String getInfo(){
+        return getFirstName() + " " + getLastName() + " (" + getNumber() + ")";
+    }
+
 }

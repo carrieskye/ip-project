@@ -1,6 +1,5 @@
 package ip.web.controller;
 
-import ip.domain.Course;
 import ip.domain.Teacher;
 import ip.service.TeacherService;
 import org.springframework.stereotype.Controller;
@@ -32,12 +31,16 @@ public class TeacherController {
         return new ModelAndView("teacher/teacherForm", "teacher", new Teacher());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@Valid Teacher teacher, BindingResult result) {
         if (result.hasErrors()) {
             return "teacher/teacherForm";
         }
-        service.add(teacher);
+        if (teacher.getId() == 0) {
+            service.add(teacher);
+        } else {
+            service.update(teacher);
+        }
         return "redirect:/teacher.htm";
     }
 

@@ -10,9 +10,9 @@ public class ClassroomService {
     private Db db;
 
     public ClassroomService(String type) {
-        if (type == "Memory") {
+        if (type.equals("Memory")) {
             db = InMemoryDbFactory.createDb("Classroom");
-        } else if (type == "SQL") {
+        } else if (type.equals("SQL")) {
             db = SqlDbFactory.createDb("Classroom");
         }
     }

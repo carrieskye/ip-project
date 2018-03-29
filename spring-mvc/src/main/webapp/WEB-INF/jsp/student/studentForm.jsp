@@ -3,31 +3,41 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-<div number="container">
+<div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="New student"/>
     </jsp:include>
 
     <main>
-        <form number="studentForm" role="form" method="POST" action="<c:url value="/student.htm"/>"
-              novalidate="novalidate">
+        <c:url var="post_url" value="/student/save.htm"/>
+        <form:form modelAttribute="student" method="post" action="${post_url}">
             <p>
-                <label for="number">ID</label><input type="text" number="number" name="number" required value="${student.number}">
-            </p>
-            <p>
-                <label for="firstName">First name</label><input type="text" number="firstName" name="firstName" required
-                                                       value="${student.firstName}">
-            </p>
-            <p>
-                <label for="lastName">Last name</label><input type="text" number="lastName"
-                                                       name="lastName" required value="${student.lastName}">
-            </p>
-            <p>
-                <input number="save" type="submit" value="Save">
+                <form:hidden path="id"/>
             </p>
 
-        </form>
+            <p>
+                <label for="number">Number:</label>
+                <form:input id="number" path="number"/>
+                <form:errors path="number" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="firstName">First name:</label>
+                <form:input id="firstName" path="firstName"/>
+                <form:errors path="firstName" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="lastName">Last name:</label>
+                <form:input id="lastName" path="lastName"/>
+                <form:errors path="lastName" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <input id="save" type="submit" value="Save"/>
+            </p>
+        </form:form>
     </main>
 
     <footer> &copy; Webontwikkeling 3, UC Leuven-Limburg</footer>

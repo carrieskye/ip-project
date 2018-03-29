@@ -10,9 +10,9 @@ public class CourseService {
     private Db db;
 
     public CourseService(String type) {
-        if (type == "Memory") {
+        if (type.equals("Memory")) {
             db = InMemoryDbFactory.createDb("Course");
-        } else if (type == "SQL") {
+        } else if (type.equals("SQL")) {
             db = SqlDbFactory.createDb("Course");
         }
     }
@@ -30,6 +30,7 @@ public class CourseService {
     }
 
     public void add(Course course) throws DbException {
+        course.setId(getAll().size() + 1);
         db.add(course);
     }
 

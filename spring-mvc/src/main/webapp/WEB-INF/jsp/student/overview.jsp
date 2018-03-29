@@ -4,7 +4,7 @@
 <html>
 
 <body>
-<div number="container">
+<div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="Students"/>
@@ -12,7 +12,7 @@
     <main>
         <table>
             <tr>
-                <th>ID</th>
+                <th>Number</th>
                 <th>First name</th>
                 <th>Last name</th>
                 <th></th>
@@ -20,7 +20,7 @@
 
             <c:forEach var="student" items="${students}">
                 <tr>
-                    <td><a href="<c:url value="student/${student.number}.htm"/>">${student.number}</a></td>
+                    <td><a href="<c:url value="student/${student.id}.htm"/>">${student.number}</a></td>
                     <td>${student.firstName}</td>
                     <td>${student.lastName}</td>
                     <td>Remove</td>

@@ -3,36 +3,41 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-<div number="container">
+<div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="New exam"/>
     </jsp:include>
 
     <main>
-        <form number="examForm" role="form" method="POST" action="<c:url value="/exam.htm"/>"
-              novalidate="novalidate">
+        <c:url var="post_url" value="/exam/save.htm"/>
+        <form:form modelAttribute="exam" method="post" action="${post_url}">
             <p>
-                <label for="number">ID</label><input type="text" number="number" name="number" required value="${exam.number}">
-            </p>
-            <p>
-                <label for="courseId">Course number</label><input type="text" number="courseId" name="courseId" required
-                                                              value="${exam.course.code}">
-            </p>
-            <p>
-                <label for="date">Date</label><input type="datetime-local" number="date"
-                                                     name="date" required value="${exam.date}">
-            </p>
-            <p>
-                <label for="classroom">Classroom</label><input type="text" number="classroom"
-                                                               name="classroom" required
-                                                               value="${exam.classroom.location}">
-            </p>
-            <p>
-                <input number="save" type="submit" value="Save">
+                <form:hidden path="id"/>
             </p>
 
-        </form>
+            <p>
+                <label for="course">Course code:</label>
+                <form:input id="course" path="course"/>
+                <form:errors path="course" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="date">Date:</label>
+                <form:input type="datetime-local" id="date" path="date"/>
+                <form:errors path="date" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="classroom">Classroom:</label>
+                <form:input id="classroom" path="classroom"/>
+                <form:errors path="classroom" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <input id="save" type="submit" value="Save"/>
+            </p>
+        </form:form>
     </main>
 
     <footer> &copy; Webontwikkeling 3, UC Leuven-Limburg</footer>

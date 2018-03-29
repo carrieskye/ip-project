@@ -32,12 +32,16 @@ public class StudentController {
         return new ModelAndView("student/studentForm", "student", new Student());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@Valid Student student, BindingResult result) {
         if (result.hasErrors()) {
             return "student/studentForm";
         }
-        service.add(student);
+        if (student.getId() == 0) {
+            service.add(student);
+        } else {
+            service.update(student);
+        }
         return "redirect:/student.htm";
     }
 

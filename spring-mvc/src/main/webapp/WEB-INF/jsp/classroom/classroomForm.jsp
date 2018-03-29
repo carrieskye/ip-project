@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-<div number="container">
+<div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="New classroom"/>
@@ -15,15 +15,16 @@
             <p>
                 <form:hidden path="id"/>
             </p>
+
             <p>
                 <label for="location">Location:</label>
-                <form:input number="location" path="location"/>
+                <form:input id="location" path="location"/>
                 <form:errors path="location" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="seats">Seats:</label>
-                <form:input type="number" number="seats" path="seats"/>
+                <form:input type="number" id="seats" path="seats"/>
                 <form:errors path="seats" cssClass="has-error"/>
             </p>
 
@@ -36,7 +37,9 @@
                 </form:select>
             </p>
 
-            <p><input number="save" type="submit" value="Save"/></p>
+            <p>
+                <input id="save" type="submit" value="Save"/>
+            </p>
         </form:form>
     </main>
 

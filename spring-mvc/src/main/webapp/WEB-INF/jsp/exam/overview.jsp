@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <body>
-<div number="container">
+<div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
         <jsp:param name="title" value="Exams"/>
@@ -11,7 +11,6 @@
     <main>
         <table>
             <tr>
-                <th>ID</th>
                 <th>Course</th>
                 <th>Date</th>
                 <th>Classroom</th>
@@ -20,8 +19,7 @@
 
             <c:forEach var="exam" items="${exams}">
                 <tr>
-                    <td><a href="<c:url value="exam/${exam.number}.htm"/>">${exam.number}</a></td>
-                    <td>${exam.course.name}</td>
+                    <td><a href="<c:url value="exam/${exam.id}.htm"/>">${exam.course.name}</a></td>
                     <td>${exam.date}</td>
                     <td>${exam.classroom.location}</td>
                     <td>Remove</td>
@@ -29,7 +27,6 @@
             </c:forEach>
 
             <td><a href="<c:url value="/exam/new.htm"/>">Add exam</a></td>
-            <td></td>
             <td></td>
             <td></td>
             <caption>Exam Overview</caption>

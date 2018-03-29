@@ -2,6 +2,7 @@ package ip.web.controller;
 
 import ip.domain.Course;
 import ip.service.CourseService;
+import ip.service.TeacherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -16,9 +17,11 @@ import javax.validation.Valid;
 @RequestMapping(value = "/course")
 public class CourseController {
     private CourseService service;
+    private TeacherService teacherService;
 
-    public CourseController(@Autowired CourseService service) {
+    public CourseController(@Autowired CourseService service, @Autowired TeacherService teacherService) {
         this.service = service;
+        this.teacherService = teacherService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -28,15 +31,21 @@ public class CourseController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
-        return new ModelAndView("course/courseForm", "course", new Course());
+        ModelAndView modelAndView = new ModelAndView("course/courseForm", "course", new Course());
+        modelAndView.addObject("teachers",teacherService.getAll());
+        return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@Valid Course course, BindingResult result) {
         if (result.hasErrors()) {
             return "course/courseForm";
         }
-        service.add(course);
+        if (course.getId() == 0) {
+            service.add(course);
+        } else {
+            service.update(course);
+        }
         return "redirect:/course.htm";
     }
 

@@ -1,6 +1,5 @@
 package ip.web.controller;
 
-import ip.domain.Course;
 import ip.domain.Exam;
 import ip.service.ExamService;
 import org.springframework.stereotype.Controller;
@@ -33,12 +32,16 @@ public class ExamController {
         return new ModelAndView("exam/examForm", "exam", new Exam());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
     public String save(@Valid Exam exam, BindingResult result) {
         if (result.hasErrors()) {
             return "exam/examForm";
         }
-        service.add(exam);
+        if (exam.getId() == 0) {
+            service.add(exam);
+        } else {
+            service.update(exam);
+        }
         return "redirect:/exam.htm";
     }
 
