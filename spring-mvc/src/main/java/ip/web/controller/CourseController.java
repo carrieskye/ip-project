@@ -1,17 +1,21 @@
 package ip.web.controller;
 
 import ip.domain.Course;
+import ip.domain.Teacher;
 import ip.service.CourseService;
 import ip.service.TeacherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "/course")
@@ -26,7 +30,13 @@ public class CourseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getCourses() {
-        return new ModelAndView("course/overview", "courses", service.getAll());
+        ArrayList<Course> courses = new ArrayList<>();
+        for (Course course: service.getAll()) {
+            course.setAttribute("teacher", teacherService.get(course.getTeacher()));
+            courses.add(course);
+        }
+
+        return new ModelAndView("course/overview", "courses", courses);
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)

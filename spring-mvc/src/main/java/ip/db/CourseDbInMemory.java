@@ -11,6 +11,14 @@ public class CourseDbInMemory implements Db {
     private Map<Long, Course> courses = new HashMap<>();
 
     public CourseDbInMemory() {
+        addTestData();
+    }
+
+    private void addTestData() {
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI65X", "Webontwikkeling 3", 1));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI88X", "Testing", 2));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI51X", "OO ontwerpen", 2));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI39X", "Internetprogrammeren minor", 3));
     }
 
     public Course get(long id) {

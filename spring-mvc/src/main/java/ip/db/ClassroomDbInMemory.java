@@ -11,6 +11,13 @@ public class ClassroomDbInMemory implements Db {
     private Map<Long, Classroom> classrooms = new HashMap<>();
 
     public ClassroomDbInMemory() {
+        addTestData();
+    }
+
+    private void addTestData(){
+        classrooms.put((long) classrooms.size()+1,new Classroom(classrooms.size()+1, "D1.80", 200, "Aula"));
+        classrooms.put((long) classrooms.size()+1,new Classroom(classrooms.size()+1, "D1.22", 40, "PC"));
+        classrooms.put((long) classrooms.size()+1,new Classroom(classrooms.size()+1, "D1.28", 20, "Regular"));
     }
 
     @Override

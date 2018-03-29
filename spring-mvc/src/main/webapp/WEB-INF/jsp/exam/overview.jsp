@@ -13,20 +13,23 @@
             <tr>
                 <th>Course</th>
                 <th>Date</th>
+                <th>Time</th>
                 <th>Classroom</th>
                 <th></th>
             </tr>
 
             <c:forEach var="exam" items="${exams}">
                 <tr>
-                    <td><a href="<c:url value="exam/${exam.id}.htm"/>">${exam.course.name}</a></td>
+                    <td><a href="<c:url value="exam/${exam.id}.htm"/>">${exam.attributes.get("course").code}</a></td>
                     <td>${exam.date}</td>
-                    <td>${exam.classroom.location}</td>
+                    <td>${exam.time}</td>
+                    <td>${exam.attributes.get("classroom").location}</td>
                     <td>Remove</td>
                 </tr>
             </c:forEach>
 
             <td><a href="<c:url value="/exam/new.htm"/>">Add exam</a></td>
+            <td></td>
             <td></td>
             <td></td>
             <caption>Exam Overview</caption>

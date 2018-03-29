@@ -23,11 +23,11 @@ public class SmokeTest {
     public void testData() {
         teacher1 = new Teacher(teacherService.getAll().size() + 1, "u03942345", "An", "Goossens");
         teacherService.add(teacher1);
-        course1 = new Course(courseService.getAll().size() + 1, "XYZ1234", "Wiskunde", teacherService.get(teacher1.getId()));
+        course1 = new Course(courseService.getAll().size() + 1, "XYZ1234", "Wiskunde", teacher1.getId());
         courseService.add(course1);
-        course2 = new Course(courseService.getAll().size() + 1, "ABC5678", "Nederlands", teacherService.get(teacher1.getId()));
+        course2 = new Course(courseService.getAll().size() + 1, "ABC5678", "Nederlands", teacher1.getId());
         courseService.add(course2);
-        course3 = new Course(courseService.getAll().size() + 1, "EFG7890", "Frans", teacherService.get(teacher1.getId()));
+        course3 = new Course(courseService.getAll().size() + 1, "EFG7890", "Frans", teacher1.getId());
         courseService.add(course3);
     }
 
@@ -36,11 +36,11 @@ public class SmokeTest {
     public void add_adds_new_course_if_valid() {
         Teacher teacher2 = new Teacher(teacherService.getAll().size() + 1, "u04879878", "Tom", "Verschueren");
         teacherService.add(teacher2);
-        Course course4 = new Course(courseService.getAll().size() + 1, "IJK3456", "Informatica", teacherService.get(teacher2.getId()));
+        Course course4 = new Course(courseService.getAll().size() + 1, "IJK3456", "Informatica", teacher2.getId());
         courseService.add(course4);
 
         assertEquals(course4, courseService.get(course4.getId()));
-        assertEquals(course4.getTeacher(), teacherService.get(teacher2.getId()));
+        assertEquals(course4.getTeacher(), teacher2.getId());
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SmokeTest {
         courseService.delete(course3.getId());
 
         assertEquals(courses, courseService.getAll());
-        assertEquals(0, courseService.get(course3.getId()));
+        assertEquals(null, courseService.get(course3.getId()));
     }
 
     @After

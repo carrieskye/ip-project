@@ -29,8 +29,12 @@
             </p>
 
             <p>
-                <label for="teacher">Teacher</label>
-                <form:select id="teacher" path="teacher" items="${teachers}" itemValue="id" itemLabel="info"/>
+                <label for="teacher">Teacher:</label>
+                <form:select id="teacher" path="teacher">
+                    <form:option value="0" label="Select teacher" disabled="true"/>
+                    <form:options items="${teachers}" itemValue="id" itemLabel="info"/>
+                </form:select>
+                <form:errors path="teacher" cssClass="has-error"/>
             </p>
 
             <p>
@@ -40,7 +44,7 @@
     </main>
 
     <footer> &copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
-    
+
 </div>
 </body>
 </html>

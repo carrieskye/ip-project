@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html>
 <body>
@@ -16,21 +17,28 @@
                 <form:hidden path="id"/>
             </p>
 
+
             <p>
-                <label for="course">Course code:</label>
-                <form:input id="course" path="course"/>
+                <label for="course">Course:</label>
+                <form:select id="course" path="course">
+                    <form:option value="0" label="Select course" disabled="true"/>
+                    <form:options items="${courses}" itemValue="id" itemLabel="info"/>
+                </form:select>
                 <form:errors path="course" cssClass="has-error"/>
             </p>
 
             <p>
-                <label for="date">Date:</label>
-                <form:input type="datetime-local" id="date" path="date"/>
-                <form:errors path="date" cssClass="has-error"/>
+                <label for="datetime">Date:</label>
+                <form:input type="datetime-local" id="datetime" path="datetime"/>
+                <form:errors path="datetime" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="classroom">Classroom:</label>
-                <form:input id="classroom" path="classroom"/>
+                <form:select id="classroom" path="classroom">
+                    <form:option value="0" label="Select classroom" disabled="true"/>
+                    <form:options items="${classrooms}" itemValue="id" itemLabel="info"/>
+                </form:select>
                 <form:errors path="classroom" cssClass="has-error"/>
             </p>
 

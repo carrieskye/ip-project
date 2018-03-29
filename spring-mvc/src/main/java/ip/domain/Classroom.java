@@ -64,4 +64,9 @@ public class Classroom {
         this.type = type;
     }
 
+    public String getInfo() {
+        return getLocation() + " (" + getSeats() + " seats, "+ getType() + ")";
+    }
+
+
 }

@@ -11,6 +11,13 @@ public class TeacherDbInMemory implements Db {
     private Map<Long, Teacher> teachers = new HashMap<>();
 
     public TeacherDbInMemory() {
+        addTestData();
+    }
+
+    private void addTestData() {
+        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0034728", "Elke", "Steegmans"));
+        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0038275", "Mieke", "Kemme"));
+        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0010298", "Kris", "Gabriëls"));
     }
 
     @Override

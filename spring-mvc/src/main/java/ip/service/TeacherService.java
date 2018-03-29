@@ -2,12 +2,18 @@ package ip.service;
 
 import ip.db.*;
 import ip.domain.Teacher;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TeacherService {
     private Db db;
+
+    public TeacherService() {
+        this("Memory");
+    }
 
     public TeacherService(String type) {
         if (type.equals("Memory")) {

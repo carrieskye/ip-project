@@ -11,7 +11,14 @@ public class StudentDbInMemory implements Db {
     private Map<Long, Student> students = new HashMap<>();
 
     public StudentDbInMemory() {
+        addTestData();
     }
+
+    private void addTestData(){
+        students.put((long) students.size() + 1, new Student(students.size()+1, "r0458882","Carolyne","Peelman"));
+        students.put((long) students.size() + 1, new Student(students.size()+1, "r0567231","Jonas","Goovaerts"));
+    }
+
 
     @Override
     public Student get(long id) {

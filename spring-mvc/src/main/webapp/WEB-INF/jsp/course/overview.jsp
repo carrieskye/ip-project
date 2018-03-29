@@ -22,7 +22,7 @@
                 <tr>
                     <td><a href="<c:url value="course/${course.id}.htm"/>">${course.code}</a></td>
                     <td>${course.name}</td>
-                    <td>${course.teacher.firstName} ${course.teacher.lastName}</td>
+                    <td>${course.attributes.get("teacher").firstName} ${course.attributes.get("teacher").lastName}</td>
                     <td>Remove</td>
                 </tr>
             </c:forEach>

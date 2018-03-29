@@ -9,11 +9,12 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new Class[]{ApplicationConfig.class};
     }
 
+    @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{DispatcherServletConfig.class};
     }
 
-
+    @Override
     protected String[] getServletMappings() {
         return new String[]{"*.htm"};
     }

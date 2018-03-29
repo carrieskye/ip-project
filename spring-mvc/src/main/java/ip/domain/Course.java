@@ -1,20 +1,22 @@
 package ip.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Course {
     private long id;
     private String code;
     private String name;
-    private Teacher teacher;
+    private long teacher;
     private ArrayList<Exam> exams;
     private ArrayList<Student> students;
+    private HashMap<String, Object> attributes = new HashMap<>();
 
-    public Course(){
+    public Course() {
 
     }
 
-    public Course(long id, String code, String name, Teacher teacher) {
+    public Course(long id, String code, String name, long teacher) {
         setId(id);
         setCode(code);
         setName(name);
@@ -35,7 +37,7 @@ public class Course {
     }
 
     public void setCode(String code) {
-        if (code.isEmpty()){
+        if (code.isEmpty()) {
             throw new DomainException("No code given");
         }
         this.code = code;
@@ -46,21 +48,31 @@ public class Course {
     }
 
     public void setName(String name) {
-        if (name.isEmpty()){
+        if (name.isEmpty()) {
             throw new DomainException("No name given");
         }
         this.name = name;
     }
 
-    public Teacher getTeacher() {
+    public long getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(Teacher teacher) {
-        if (teacher == null){
-            throw new DomainException("No teacher given");
-        }
+    public void setTeacher(long teacher) {
         this.teacher = teacher;
     }
+
+    public HashMap<String, Object> getAttributes() {
+        return this.attributes;
+    }
+
+    public void setAttribute(String key, Object object) {
+        attributes.put(key, object);
+    }
+
+    public String getInfo() {
+        return getCode() + " - " + getName();
+    }
+
 
 }
