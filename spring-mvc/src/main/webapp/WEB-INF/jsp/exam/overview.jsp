@@ -24,7 +24,7 @@
                     <td>${exam.date}</td>
                     <td>${exam.time}</td>
                     <td>${exam.attributes.get("classroom").location}</td>
-                    <td>Remove</td>
+                    <td><a href="<c:url value="/exam/confirmRemoval${exam.id}.htm"/>">Remove</a></td>
                 </tr>
             </c:forEach>
 

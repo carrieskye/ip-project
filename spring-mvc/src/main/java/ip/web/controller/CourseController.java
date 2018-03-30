@@ -1,13 +1,11 @@
 package ip.web.controller;
 
 import ip.domain.Course;
-import ip.domain.Teacher;
 import ip.service.CourseService;
 import ip.service.TeacherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "/course")
@@ -31,7 +28,7 @@ public class CourseController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getCourses() {
         ArrayList<Course> courses = new ArrayList<>();
-        for (Course course: service.getAll()) {
+        for (Course course : service.getAll()) {
             course.setAttribute("teacher", teacherService.get(course.getTeacher()));
             courses.add(course);
         }
@@ -42,7 +39,7 @@ public class CourseController {
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
         ModelAndView modelAndView = new ModelAndView("course/courseForm", "course", new Course());
-        modelAndView.addObject("teachers",teacherService.getAll());
+        modelAndView.addObject("teachers", teacherService.getAll());
         return modelAndView;
     }
 
@@ -62,5 +59,16 @@ public class CourseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
         return new ModelAndView("course/courseForm", "course", service.get(id));
+    }
+
+    @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)
+    public ModelAndView getRemoveConfirmation(@PathVariable long id) {
+        return new ModelAndView("course/removeCourse", "course", service.get(id));
+    }
+
+    @RequestMapping(value = "/remove{id}", method = RequestMethod.GET)
+    public String remove(@PathVariable long id) {
+        service.delete(id);
+        return "redirect:/course.htm";
     }
 }

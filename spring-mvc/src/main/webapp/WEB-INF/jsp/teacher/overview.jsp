@@ -23,7 +23,7 @@
                     <td><a href="<c:url value="teacher/${teacher.id}.htm"/>">${teacher.number}</a></td>
                     <td>${teacher.firstName}</td>
                     <td>${teacher.lastName}</td>
-                    <td>Remove</td>
+                    <td><a href="<c:url value="/teacher/confirmRemoval${teacher.id}.htm"/>">Remove</a></td>
                 </tr>
             </c:forEach>
 

@@ -1,24 +1,18 @@
 package ip.web.controller;
 
-import ip.domain.Course;
 import ip.domain.Exam;
-import ip.domain.Teacher;
 import ip.service.ClassroomService;
 import ip.service.CourseService;
 import ip.service.ExamService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "/exam")
@@ -69,5 +63,18 @@ public class ExamController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
         return new ModelAndView("exam/examForm", "exam", service.get(id));
+    }
+
+    @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)
+    public ModelAndView getRemoveConfirmation(@PathVariable long id) {
+        ModelAndView modelAndView = new ModelAndView("exam/removeExam", "exam", service.get(id));
+        modelAndView.addObject("course", courseService.get(service.get(id).getCourse()).getName());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/remove{id}", method = RequestMethod.GET)
+    public String remove(@PathVariable long id) {
+        service.delete(id);
+        return "redirect:/exam.htm";
     }
 }

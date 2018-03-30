@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 
 @Controller
@@ -45,5 +44,17 @@ public class ClassroomController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
         return new ModelAndView("classroom/classroomForm", "classroom", service.get(id));
+    }
+
+    @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)
+    public ModelAndView getRemoveConfirmation(@PathVariable long id) {
+        return new ModelAndView("classroom/removeClassroom", "classroom", service.get(id));
+    }
+
+
+    @RequestMapping(value = "/remove{id}", method = RequestMethod.GET)
+    public String remove(@PathVariable long id) {
+        service.delete(id);
+        return "redirect:/classroom.htm";
     }
 }

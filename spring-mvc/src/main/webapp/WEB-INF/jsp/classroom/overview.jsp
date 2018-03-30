@@ -23,7 +23,7 @@
                     <td><a href="<c:url value="classroom/${classroom.id}.htm"/>">${classroom.location}</a></td>
                     <td>${classroom.seats}</td>
                     <td>${classroom.type}</td>
-                    <td>Remove</td>
+                    <td><a href="<c:url value="/classroom/confirmRemoval${classroom.id}.htm"/>">Remove</a></td>
                 </tr>
             </c:forEach>
 
