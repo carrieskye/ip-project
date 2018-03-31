@@ -6,7 +6,7 @@
 <div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
-        <jsp:param name="title" value="New classroom"/>
+        <jsp:param name="title" value="${action} classroom"/>
     </jsp:include>
 
     <main>
@@ -30,11 +30,11 @@
 
             <p>
                 <label for="type">Type:</label>
-                <form:select path="type">
-                    <form:option value="Aula" label="Aula"/>
-                    <form:option value="PC" label="PC"/>
-                    <form:option value="Regular" label="Regular"/>
+                <form:select id="type" path="type">
+                    <form:option value="" label="Select type" />
+                    <form:options items="${types}"/>
                 </form:select>
+                <form:errors path="type" cssClass="has-error"/>
             </p>
 
             <p>

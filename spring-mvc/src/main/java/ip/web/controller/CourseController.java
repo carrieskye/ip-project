@@ -41,28 +41,30 @@ public class CourseController {
     public ModelAndView getNewForm() {
         ModelAndView modelAndView = new ModelAndView("course/courseForm", "course", new Course());
         modelAndView.addObject("teachers", teacherService.getAll());
+        modelAndView.addObject("action","Add");
         return modelAndView;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Course course, BindingResult result) {
-        if (result.hasErrors() || service.alreadyExists(course)) {
-            if (service.alreadyExists(course)) {
-                result.rejectValue("id", "error.id", "This course already exists.");
-            }
-            ModelAndView modelAndView = new ModelAndView("course/courseForm", "course", course);
-            modelAndView.addObject("teachers", teacherService.getAll());
+        ModelAndView modelAndView = new ModelAndView("course/courseForm", "course", course);
+        modelAndView.addObject("teachers", teacherService.getAll());
+        modelAndView.addObject("action", course.getId() == 0 ? "Add" : "Update");
+        if (result.hasErrors()) {
             return modelAndView;
         }
-
         if (course.getId() == 0) {
+            if (service.alreadyExists(course)) {
+                result.rejectValue("id", "error.id", "This course already exists.");
+                return modelAndView;
+            }
             service.add(course);
             teacherService.get(course.getTeacher()).increaseCourses();
         } else {
             updateTeacher(course);
             service.update(course);
         }
-        return getCourses();
+        return new ModelAndView("redirect:/course.htm");
     }
 
     private void updateTeacher(Course course) {
@@ -79,6 +81,7 @@ public class CourseController {
     public ModelAndView getEditForm(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("course/courseForm", "course", service.get(id));
         modelAndView.addObject("teachers", teacherService.getAll());
+        modelAndView.addObject("action","Update");
         return modelAndView;
     }
 

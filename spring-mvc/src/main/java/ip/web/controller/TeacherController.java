@@ -28,30 +28,35 @@ public class TeacherController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
-        return new ModelAndView("teacher/teacherForm", "teacher", new Teacher());
+        ModelAndView modelAndView = new ModelAndView("teacher/teacherForm", "teacher", new Teacher());
+        modelAndView.addObject("action", "Add");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@Valid Teacher teacher, BindingResult result) {
+    public ModelAndView save(@Valid Teacher teacher, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("teacher/teacherForm");
+        modelAndView.addObject("action", teacher.getId() == 0 ? "Add" : "Update");
         if (result.hasErrors()) {
-            return "teacher/teacherForm";
+            return modelAndView;
         }
-        if (service.alreadyExists(teacher)) {
-            result.rejectValue("id", "error.id", "This teacher already exists.");
-            return "teacher/teacherForm";
-        }
-
         if (teacher.getId() == 0) {
+            if (service.alreadyExists(teacher)) {
+                result.rejectValue("id", "error.id", "This teacher already exists.");
+                return modelAndView;
+            }
             service.add(teacher);
         } else {
             service.update(teacher);
         }
-        return "redirect:/teacher.htm";
+        return new ModelAndView("redirect:/teacher.htm");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
-        return new ModelAndView("teacher/teacherForm", "teacher", service.get(id));
+        ModelAndView modelAndView = new ModelAndView("teacher/teacherForm", "teacher", service.get(id));
+        modelAndView.addObject("action", "Update");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)
@@ -61,7 +66,7 @@ public class TeacherController {
             ModelAndView modelAndView = new ModelAndView("teacher/removeTeacherError", "teacher", teacher);
             String errorMessageOne = teacher.getInfo() + " still has 1 ongoing course. This course needs to be removed before " + teacher.getFirstName() + " can be removed.";
             String errorMessageMany = teacher.getInfo() + "still has " + teacher.getCourses() + " ongoing courses. These need to be removed before" + teacher.getFirstName() + " can be removed.";
-            modelAndView.addObject("courseError", teacher.getCourses() <= 1 ? errorMessageOne: errorMessageMany);
+            modelAndView.addObject("courseError", teacher.getCourses() <= 1 ? errorMessageOne : errorMessageMany);
             return modelAndView;
         }
         return new ModelAndView("teacher/removeTeacher", "teacher", teacher);

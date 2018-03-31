@@ -47,25 +47,28 @@ public class ExamController {
         ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", new Exam());
         modelAndView.addObject("courses", courseService.getAll());
         modelAndView.addObject("classrooms", classroomService.getAll());
+        modelAndView.addObject("action","Add");
         return modelAndView;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Exam exam, BindingResult result) {
         String isAvailable = classroomService.get(exam.getClassroom()).isAvailable(exam.getDate(), exam.getBegin(), exam.getEnd());
-        if (result.hasErrors() || !(isAvailable == null) || service.alreadyExists(exam)) {
-            if (service.alreadyExists(exam)) {
-                result.rejectValue("id", "error.id", "This exam already exists.");
-            } else if (!(isAvailable == null)) {
+        ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", exam);
+        modelAndView.addObject("courses", courseService.getAll());
+        modelAndView.addObject("classrooms", classroomService.getAll());
+        modelAndView.addObject("action", exam.getId() == 0 ? "Add" : "Update");
+        if (result.hasErrors() || !(isAvailable == null)) {
+            if (!(isAvailable == null)) {
                 result.rejectValue("end", "error.end", isAvailable);
             }
-            ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", exam);
-            modelAndView.addObject("courses", courseService.getAll());
-            modelAndView.addObject("classrooms", classroomService.getAll());
             return modelAndView;
         }
-
         if (exam.getId() == 0) {
+            if (service.alreadyExists(exam)) {
+                result.rejectValue("id", "error.id", "This exam already exists.");
+                return modelAndView;
+            }
             service.add(exam);
             classroomService.get(exam.getClassroom()).increaseExams();
 
@@ -75,7 +78,7 @@ public class ExamController {
         }
         classroomService.get(exam.getClassroom()).occupation(exam.getId(), exam.getDate(), exam.getBegin(), exam.getEnd());
 
-        return getExams();
+        return new ModelAndView("redirect:/exam.htm");
     }
 
     private void updateClassroomAndCourse(Exam exam) {
@@ -100,6 +103,7 @@ public class ExamController {
         ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", service.get(id));
         modelAndView.addObject("courses", courseService.getAll());
         modelAndView.addObject("classrooms", classroomService.getAll());
+        modelAndView.addObject("action","Update");
         return modelAndView;
     }
 

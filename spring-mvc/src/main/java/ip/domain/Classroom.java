@@ -2,9 +2,12 @@ package ip.domain;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Classroom {
+    public static ArrayList<String> allTypes = new ArrayList<>(Arrays.asList("Aula", "PC", "Regular", "Meeting room", "Other"));
     private long id;
     private String location;
     private int seats;
@@ -59,6 +62,9 @@ public class Classroom {
     }
 
     public void setType(String type) {
+        if (type.trim().isEmpty()) {
+            throw new DomainException("Please select a valid type.");
+        }
         this.type = type;
     }
 
@@ -66,9 +72,13 @@ public class Classroom {
         return this.exams;
     }
 
-    public void increaseExams(){this.exams += 1;}
+    public void increaseExams() {
+        this.exams += 1;
+    }
 
-    public void decreaseExams(){this.exams -= 1;}
+    public void decreaseExams() {
+        this.exams -= 1;
+    }
 
     public void occupation(long examId, LocalDate date, LocalTime begin, LocalTime end) {
         if (!notAvailable.containsKey(examId)) {

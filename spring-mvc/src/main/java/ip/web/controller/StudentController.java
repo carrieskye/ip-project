@@ -28,30 +28,35 @@ public class StudentController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
-        return new ModelAndView("student/studentForm", "student", new Student());
+        ModelAndView modelAndView = new ModelAndView("student/studentForm", "student", new Student());
+        modelAndView.addObject("action","Add");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@Valid Student student, BindingResult result) {
+    public ModelAndView save(@Valid Student student, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("student/studentForm");
+        modelAndView.addObject("action", student.getId() == 0 ? "Add" : "Update");
         if (result.hasErrors()) {
-            return "student/studentForm";
+            return modelAndView;
         }
-        if (service.alreadyExists(student)) {
-            result.rejectValue("id", "error.id", "This student already exists.");
-            return "student/studentForm";
-        }
-
         if (student.getId() == 0) {
+            if (service.alreadyExists(student)) {
+                result.rejectValue("id", "error.id", "This student already exists.");
+                return modelAndView;
+            }
             service.add(student);
         } else {
             service.update(student);
         }
-        return "redirect:/student.htm";
+        return new ModelAndView("redirect:/student.htm");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
-        return new ModelAndView("student/studentForm", "student", service.get(id));
+        ModelAndView modelAndView = new ModelAndView("student/studentForm", "student", service.get(id));
+        modelAndView.addObject("action","Update");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)

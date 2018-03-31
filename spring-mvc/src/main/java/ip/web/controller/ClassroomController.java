@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping(value = "/classroom")
@@ -26,29 +27,38 @@ public class ClassroomController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
-        return new ModelAndView("classroom/classroomForm", "classroom", new Classroom());
+        ModelAndView modelAndView = new ModelAndView("classroom/classroomForm", "classroom", new Classroom());
+        modelAndView.addObject("types", Classroom.allTypes);
+        modelAndView.addObject("action", "Add");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@Valid Classroom classroom, BindingResult result) {
+    public ModelAndView save(@Valid Classroom classroom, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("classroom/classroomForm", "classroom", classroom);
+        modelAndView.addObject("types", Classroom.allTypes);
+        modelAndView.addObject("action", classroom.getId() == 0 ? "Add" : "Update");
         if (result.hasErrors()) {
-            return "classroom/classroomForm";
-        }
-        if (service.alreadyExists(classroom)) {
-            result.rejectValue("id", "error.id", "This classroom already exists.");
-            return "classroom/classroomForm";
+            return modelAndView;
         }
         if (classroom.getId() == 0) {
+            if (service.alreadyExists(classroom)) {
+                result.rejectValue("id", "error.id", "This classroom already exists.");
+                return modelAndView;
+            }
             service.add(classroom);
         } else {
             service.update(classroom);
         }
-        return "redirect:/classroom.htm";
+        return new ModelAndView("redirect:/classroom.htm");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
-        return new ModelAndView("classroom/classroomForm", "classroom", service.get(id));
+        ModelAndView modelAndView = new ModelAndView("classroom/classroomForm", "classroom", service.get(id));
+        modelAndView.addObject("types", Classroom.allTypes);
+        modelAndView.addObject("action", "Update");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)

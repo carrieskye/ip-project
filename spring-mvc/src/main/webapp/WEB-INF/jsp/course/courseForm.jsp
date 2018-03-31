@@ -6,7 +6,7 @@
 <div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
-        <jsp:param name="title" value="New course"/>
+        <jsp:param name="title" value="${action} course"/>
     </jsp:include>
 
     <main>
