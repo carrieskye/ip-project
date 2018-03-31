@@ -6,11 +6,11 @@ public abstract class Person {
     private String firstName;
     private String lastName;
 
-    public Person(){
+    public Person() {
 
     }
 
-    public Person(long id, String number, String firstName, String lastName){
+    public Person(long id, String number, String firstName, String lastName) {
         setId(id);
         setNumber(number);
         setFirstName(firstName);
@@ -31,7 +31,7 @@ public abstract class Person {
     }
 
     public void setNumber(String number) {
-        if (number.isEmpty()){
+        if (number.isEmpty()) {
             throw new DomainException("No number given");
         }
         this.number = number;
@@ -42,7 +42,7 @@ public abstract class Person {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName.isEmpty()){
+        if (firstName.isEmpty()) {
             throw new DomainException("No first name given");
         }
         this.firstName = firstName;
@@ -53,14 +53,20 @@ public abstract class Person {
     }
 
     public void setLastName(String lastName) {
-        if (lastName.isEmpty()){
+        if (lastName.isEmpty()) {
             throw new DomainException("No last name given");
         }
         this.lastName = lastName;
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return getFirstName() + " " + getLastName() + " (" + getNumber() + ")";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        Person person = (Person) object;
+        return person.number.equals(this.number);
     }
 
 }

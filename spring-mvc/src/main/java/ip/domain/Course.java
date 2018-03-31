@@ -1,6 +1,5 @@
 package ip.domain;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Course {
@@ -8,19 +7,19 @@ public class Course {
     private String code;
     private String name;
     private long teacher;
-    private ArrayList<Exam> exams;
-    private ArrayList<Student> students;
     private HashMap<String, Object> attributes = new HashMap<>();
+    private int exams = 0;
 
     public Course() {
 
     }
 
-    public Course(long id, String code, String name, long teacher) {
+    public Course(long id, String code, String name, long teacher, int exams) {
         setId(id);
         setCode(code);
         setName(name);
         setTeacher(teacher);
+        this.exams = exams;
     }
 
 
@@ -62,6 +61,18 @@ public class Course {
         this.teacher = teacher;
     }
 
+    public int getExams() {
+        return exams;
+    }
+
+    public void increaseExams() {
+        this.exams += 1;
+    }
+
+    public void decreaseExams() {
+        this.exams -= 1;
+    }
+
     public HashMap<String, Object> getAttributes() {
         return this.attributes;
     }
@@ -71,8 +82,12 @@ public class Course {
     }
 
     public String getInfo() {
-        return getCode() + " - " + getName();
+        return getCode() + " (" + getName() + ")";
     }
 
-
+    @Override
+    public boolean equals(Object object) {
+        Course course = (Course) object;
+        return course.code.equals(this.code);
+    }
 }

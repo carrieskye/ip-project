@@ -21,22 +21,22 @@ public class SmokeTest {
 
     @Before
     public void testData() {
-        teacher1 = new Teacher(teacherService.getAll().size() + 1, "u03942345", "An", "Goossens");
+        teacher1 = new Teacher(teacherService.getAll().size() + 1, "u03942345", "An", "Goossens",3);
         teacherService.add(teacher1);
-        course1 = new Course(courseService.getAll().size() + 1, "XYZ1234", "Wiskunde", teacher1.getId());
+        course1 = new Course(courseService.getAll().size() + 1, "XYZ1234", "Wiskunde", teacher1.getId(),0);
         courseService.add(course1);
-        course2 = new Course(courseService.getAll().size() + 1, "ABC5678", "Nederlands", teacher1.getId());
+        course2 = new Course(courseService.getAll().size() + 1, "ABC5678", "Nederlands", teacher1.getId(),0);
         courseService.add(course2);
-        course3 = new Course(courseService.getAll().size() + 1, "EFG7890", "Frans", teacher1.getId());
+        course3 = new Course(courseService.getAll().size() + 1, "EFG7890", "Frans", teacher1.getId(),0);
         courseService.add(course3);
     }
 
 
     @Test
     public void add_adds_new_course_if_valid() {
-        Teacher teacher2 = new Teacher(teacherService.getAll().size() + 1, "u04879878", "Tom", "Verschueren");
+        Teacher teacher2 = new Teacher(teacherService.getAll().size() + 1, "u04879878", "Tom", "Verschueren",1);
         teacherService.add(teacher2);
-        Course course4 = new Course(courseService.getAll().size() + 1, "IJK3456", "Informatica", teacher2.getId());
+        Course course4 = new Course(courseService.getAll().size() + 1, "IJK3456", "Informatica", teacher2.getId(),0);
         courseService.add(course4);
 
         assertEquals(course4, courseService.get(course4.getId()));
@@ -50,7 +50,9 @@ public class SmokeTest {
         courses.add(course2);
         courses.add(course3);
 
-        assertEquals(courses, courseService.getAll());
+        assertTrue(courseService.getAll().contains(course1));
+        assertTrue(courseService.getAll().contains(course2));
+        assertTrue(courseService.getAll().contains(course3));
     }
 
     @Test
@@ -63,14 +65,11 @@ public class SmokeTest {
 
     @Test
     public void delete_removes_course_from_db() {
-        List<Course> courses = new ArrayList<>();
-        courses.add(course1);
-        courses.add(course2);
-
         courseService.delete(course3.getId());
 
-        assertEquals(courses, courseService.getAll());
-        assertEquals(null, courseService.get(course3.getId()));
+        assertTrue(courseService.getAll().contains(course1));
+        assertTrue(courseService.getAll().contains(course2));
+        assertTrue(!courseService.getAll().contains(course3));
     }
 
     @After

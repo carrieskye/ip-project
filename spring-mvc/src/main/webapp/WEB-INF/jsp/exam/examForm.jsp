@@ -28,9 +28,17 @@
             </p>
 
             <p>
-                <label for="datetime">Date:</label>
-                <form:input type="datetime-local" id="datetime" path="datetime"/>
-                <form:errors path="datetime" cssClass="has-error"/>
+                <label for="date">Date:</label>
+                <form:input type="date" id="date" path="date"/>
+                <form:errors path="date" cssClass="has-error"/>
+            </p>
+
+            <p>
+                <label for="begin">Begin:</label>
+                <form:input type="time" id="begin" path="begin"/>
+                <label for="end">End:</label>
+                <form:input type="time" id="end" path="end"/>
+                <form:errors path="end" cssClass="has-error"/>
             </p>
 
             <p>
@@ -44,6 +52,7 @@
 
             <p>
                 <input id="save" type="submit" value="Save"/>
+                <form:errors path="id" cssClass="has-error"/>
             </p>
         </form:form>
     </main>

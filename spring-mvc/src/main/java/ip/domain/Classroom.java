@@ -1,29 +1,27 @@
 package ip.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Classroom {
     private long id;
     private String location;
     private int seats;
     private String type;
-    private Map<LocalDateTime, Boolean> available = new HashMap<LocalDateTime, Boolean>();
+    private HashMap<Long, ClassroomOccupation> notAvailable = new HashMap<>();
+    private int exams = 0;
 
     public Classroom() {
 
     }
 
-    public Classroom(long id){
-        setId(id);
-    }
-
-    public Classroom(long id, String location, int seats, String type) {
+    public Classroom(long id, String location, int seats, String type, int exams) {
         setId(id);
         setLocation(location);
         setSeats(seats);
         setType(type);
+        this.exams = exams;
     }
 
     public long getId() {
@@ -64,8 +62,43 @@ public class Classroom {
         this.type = type;
     }
 
+    public int getExams() {
+        return this.exams;
+    }
+
+    public void increaseExams(){this.exams += 1;}
+
+    public void decreaseExams(){this.exams -= 1;}
+
+    public void occupation(long examId, LocalDate date, LocalTime begin, LocalTime end) {
+        if (!notAvailable.containsKey(examId)) {
+            notAvailable.put(examId, new ClassroomOccupation(date, begin, end));
+        } else {
+            notAvailable.replace(examId, new ClassroomOccupation(date, begin, end));
+        }
+    }
+
+    public String isAvailable(LocalDate date, LocalTime begin, LocalTime end) {
+        for (ClassroomOccupation occupation : notAvailable.values()) {
+            if (occupation.getDate().equals(date)) {
+                if ((begin.isAfter(occupation.getBegin()) && begin.isBefore(occupation.getEnd()))
+                        || (end.isAfter(occupation.getBegin()) && end.isBefore(occupation.getEnd()))
+                        || (begin.isBefore(occupation.getBegin()) && end.isAfter(occupation.getEnd()))) {
+                    return "Classroom is already occupied between " + occupation.getBegin().toString() + " and " + occupation.getEnd().toString() + ".";
+                }
+            }
+        }
+        return null;
+    }
+
     public String getInfo() {
-        return getLocation() + " (" + getSeats() + " seats, "+ getType() + ")";
+        return getLocation() + " (" + getSeats() + " seats, " + getType() + ")";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        Classroom classroom = (Classroom) object;
+        return classroom.location.equals(this.location);
     }
 
 

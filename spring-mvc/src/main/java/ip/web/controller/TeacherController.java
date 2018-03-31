@@ -36,6 +36,11 @@ public class TeacherController {
         if (result.hasErrors()) {
             return "teacher/teacherForm";
         }
+        if (service.alreadyExists(teacher)) {
+            result.rejectValue("id", "error.id", "This teacher already exists.");
+            return "teacher/teacherForm";
+        }
+
         if (teacher.getId() == 0) {
             service.add(teacher);
         } else {
@@ -51,7 +56,15 @@ public class TeacherController {
 
     @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)
     public ModelAndView getRemoveConfirmation(@PathVariable long id) {
-        return new ModelAndView("teacher/removeTeacher", "teacher", service.get(id));
+        Teacher teacher = service.get(id);
+        if (teacher.getCourses() > 0) {
+            ModelAndView modelAndView = new ModelAndView("teacher/removeTeacherError", "teacher", teacher);
+            String errorMessageOne = teacher.getInfo() + " still has 1 ongoing course. This course needs to be removed before " + teacher.getFirstName() + " can be removed.";
+            String errorMessageMany = teacher.getInfo() + "still has " + teacher.getCourses() + " ongoing courses. These need to be removed before" + teacher.getFirstName() + " can be removed.";
+            modelAndView.addObject("courseError", teacher.getCourses() <= 1 ? errorMessageOne: errorMessageMany);
+            return modelAndView;
+        }
+        return new ModelAndView("teacher/removeTeacher", "teacher", teacher);
     }
 
     @RequestMapping(value = "/remove{id}", method = RequestMethod.GET)

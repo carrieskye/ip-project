@@ -15,10 +15,10 @@ public class CourseDbInMemory implements Db {
     }
 
     private void addTestData() {
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI65X", "Webontwikkeling 3", 1));
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI88X", "Testing", 2));
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI51X", "OO ontwerpen", 2));
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI39X", "Internetprogrammeren minor", 3));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI65X", "Webontwikkeling 3", 1,1));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI88X", "Testing", 2,0));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI51X", "OO ontwerpen", 2,0));
+        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI39X", "Internetprogrammeren minor", 3,0));
     }
 
     public Course get(long id) {

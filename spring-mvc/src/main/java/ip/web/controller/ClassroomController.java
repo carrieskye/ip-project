@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 
 @Controller
@@ -33,6 +34,10 @@ public class ClassroomController {
         if (result.hasErrors()) {
             return "classroom/classroomForm";
         }
+        if (service.alreadyExists(classroom)) {
+            result.rejectValue("id", "error.id", "This classroom already exists.");
+            return "classroom/classroomForm";
+        }
         if (classroom.getId() == 0) {
             service.add(classroom);
         } else {
@@ -48,6 +53,14 @@ public class ClassroomController {
 
     @RequestMapping(value = "/confirmRemoval{id}", method = RequestMethod.GET)
     public ModelAndView getRemoveConfirmation(@PathVariable long id) {
+        Classroom classroom = service.get(id);
+        if (classroom.getExams() > 0) {
+            ModelAndView modelAndView = new ModelAndView("classroom/removeClassroomError", "classroom", classroom);
+            String errorMessageOne = "There is 1 exam that takes place in classroom " + classroom.getInfo() + ". This exam needs to be removed before classroom " + classroom.getLocation() + " can be removed.";
+            String errorMessageMany = "There are " + classroom.getExams() + " exams that takes place in classroom " + classroom.getInfo() + ". They need to be removed before classroom " + classroom.getLocation() + " can be removed.";
+            modelAndView.addObject("examError", classroom.getExams() <= 1 ? errorMessageOne : errorMessageMany);
+            return modelAndView;
+        }
         return new ModelAndView("classroom/removeClassroom", "classroom", service.get(id));
     }
 

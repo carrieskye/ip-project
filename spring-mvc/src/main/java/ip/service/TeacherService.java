@@ -1,6 +1,7 @@
 package ip.service;
 
 import ip.db.*;
+import ip.domain.Classroom;
 import ip.domain.Teacher;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,14 @@ public class TeacherService {
 
     public void delete(long id) {
         db.delete(id);
+    }
+
+    public boolean alreadyExists(Teacher newTeacher) {
+        for (Teacher teacher : getAll()) {
+            if (teacher.equals(newTeacher)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

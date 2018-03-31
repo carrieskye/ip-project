@@ -2,6 +2,8 @@ package ip.db;
 
 import ip.domain.Classroom;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +16,11 @@ public class ClassroomDbInMemory implements Db {
         addTestData();
     }
 
-    private void addTestData(){
-        classrooms.put((long) classrooms.size()+1,new Classroom(classrooms.size()+1, "D1.80", 200, "Aula"));
-        classrooms.put((long) classrooms.size()+1,new Classroom(classrooms.size()+1, "D1.22", 40, "PC"));
-        classrooms.put((long) classrooms.size()+1,new Classroom(classrooms.size()+1, "D1.28", 20, "Regular"));
+    private void addTestData() {
+        classrooms.put((long) classrooms.size() + 1, new Classroom(classrooms.size() + 1, "D1.80", 200, "Aula",0));
+        classrooms.put((long) classrooms.size() + 1, new Classroom(classrooms.size() + 1, "D1.22", 40, "PC",1));
+        classrooms.get((long) 2).occupation(1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0));
+        classrooms.put((long) classrooms.size() + 1, new Classroom(classrooms.size() + 1, "D1.28", 20, "Regular",0));
     }
 
     @Override

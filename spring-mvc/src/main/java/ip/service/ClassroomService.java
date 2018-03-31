@@ -41,4 +41,13 @@ public class ClassroomService {
     public void delete(long id) {
         db.delete(id);
     }
+
+    public boolean alreadyExists(Classroom newClassroom) {
+        for (Classroom classroom : getAll()) {
+            if (classroom.equals(newClassroom)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

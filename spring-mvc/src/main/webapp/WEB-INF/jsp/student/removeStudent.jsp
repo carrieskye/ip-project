@@ -7,7 +7,7 @@
 <div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
-        <jsp:param name="title" value="Remove student"/>
+        <jsp:param name="title" value="Remove ${student.firstName} ${student.lastName}"/>
     </jsp:include>
     <main>
         <p>Are you sure you want to remove ${student.firstName} ${student.lastName}?</p>

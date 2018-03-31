@@ -7,16 +7,13 @@
 <div id="container">
     <%@include file="../header.jsp" %>
     <jsp:include page="../head.jsp">
-        <jsp:param name="title" value="Remove exam"/>
+        <jsp:param name="title" value="Remove course"/>
     </jsp:include>
     <main>
-        <p>Are you sure you want to remove exam ${course} on ${exam.date} (${exam.begin} - ${exam.end})?</p>
+        <p>${examError}</p>
 
         <p>
-            <a id="confirm" href="<c:url value="/exam/remove${exam.id}.htm"/>">OK</a>
-        </p>
-        <p>
-            <a href="<c:url value="/exam.htm"/>">Cancel</a>
+            <a href="<c:url value="/course.htm"/>">Cancel</a>
         </p>
 
     </main>

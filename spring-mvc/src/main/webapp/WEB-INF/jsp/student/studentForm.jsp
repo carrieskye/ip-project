@@ -36,6 +36,7 @@
 
             <p>
                 <input id="save" type="submit" value="Save"/>
+                <form:errors path="id" cssClass="has-error"/>
             </p>
         </form:form>
     </main>

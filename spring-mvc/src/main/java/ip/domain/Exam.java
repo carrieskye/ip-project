@@ -2,28 +2,32 @@ package ip.domain;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Exam {
     private long id;
     private long course;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime datetime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+    @DateTimeFormat(pattern = "HH:mm")
+    private LocalTime begin;
+    @DateTimeFormat(pattern = "HH:mm")
+    private LocalTime end;
     private long classroom;
-    private ArrayList<Student> students;
     private HashMap<String, Object> attributes = new HashMap<>();
 
     public Exam() {
     }
 
-    public Exam(long id, long course, LocalDateTime datetime, long classroom) {
+    public Exam(long id, long course, LocalDate date, LocalTime begin, LocalTime end, long classroom) {
         setId(id);
+        setDate(date);
         setCourse(course);
-        setDatetime(datetime);
+        setBegin(begin);
+        setEnd(end);
         setClassroom(classroom);
     }
 
@@ -44,25 +48,44 @@ public class Exam {
     }
 
 
-    public void setDatetime(LocalDateTime datetime) {
-        if (datetime.isBefore(LocalDateTime.now())) {
-            throw new DomainException("Date is in the past");
+    public void setBegin(LocalTime begin) {
+        this.begin = begin;
+    }
+
+    public LocalTime getBegin() {
+        return begin;
+    }
+
+    public void setEnd(LocalTime end) {
+        if (end.isBefore(begin)) {
+            throw new DomainException("End time has to be after begin time.");
         }
-        this.datetime = datetime;
+        this.end = end;
     }
 
-    public LocalDateTime getDatetime(){
-        return datetime;
+    public LocalTime getEnd() {
+        return end;
     }
 
-    public String getDate() {
+    public void setDate(LocalDate date) {
+        if (date.isBefore(LocalDate.now())) {
+            throw new DomainException("Date has to be in the future.");
+        }
+        this.date = date;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getDateString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        return formatter.format(datetime);
+        return formatter.format(date);
     }
 
-    public String getTime(){
+    public String getTimeString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return formatter.format(datetime);
+        return formatter.format(begin) + " - " + formatter.format(end);
     }
 
     public long getClassroom() {
@@ -73,11 +96,17 @@ public class Exam {
         this.classroom = classroom;
     }
 
-    public HashMap<String, Object> getAttributes(){
+    public HashMap<String, Object> getAttributes() {
         return this.attributes;
     }
 
-    public void setAttribute(String key, Object object){
+    public void setAttribute(String key, Object object) {
         attributes.put(key, object);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        Exam exam = (Exam) object;
+        return exam.course == this.course && exam.date.equals(this.date) && exam.begin.equals(this.begin) && exam.end.equals(this.end) && exam.classroom == this.classroom;
     }
 }

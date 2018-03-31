@@ -3,7 +3,9 @@ package ip.db;
 import ip.domain.Course;
 import ip.domain.Exam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,7 @@ public class ExamDbInMemory implements Db {
     }
 
     private void addTestData() {
-        exams.put((long) exams.size() + 1, new Exam(exams.size()+1,1,LocalDateTime.of(2018,6,12,9,0),2));
+        exams.put((long) exams.size() + 1, new Exam(exams.size() + 1, 1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0), 2));
     }
 
     @Override

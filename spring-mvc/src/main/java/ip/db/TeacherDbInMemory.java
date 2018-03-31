@@ -15,9 +15,9 @@ public class TeacherDbInMemory implements Db {
     }
 
     private void addTestData() {
-        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0034728", "Elke", "Steegmans"));
-        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0038275", "Mieke", "Kemme"));
-        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0010298", "Kris", "Gabriëls"));
+        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0034728", "Elke", "Steegmans",1));
+        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0038275", "Mieke", "Kemme",2));
+        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0010298", "Kris", "Gabriëls",1));
     }
 
     @Override

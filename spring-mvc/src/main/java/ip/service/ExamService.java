@@ -1,6 +1,7 @@
 package ip.service;
 
 import ip.db.*;
+import ip.domain.Classroom;
 import ip.domain.Exam;
 
 import java.util.ArrayList;
@@ -40,5 +41,14 @@ public class ExamService {
 
     public void delete(long id) {
         db.delete(id);
+    }
+
+    public boolean alreadyExists(Exam newExam) {
+        for (Exam exam : getAll()) {
+            if (exam.equals(newExam)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

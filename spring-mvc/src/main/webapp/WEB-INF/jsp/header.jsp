@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="css/sample.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/sample.css"/>"/>
 </head>
 
 <header>
     <nav>
         <ul>
             <li><a href="<c:url value="/index.htm"/>">
-                <img id="logo" src="${pageContext.request.contextPath}/images/ucll-logo.png" alt="Home"></a></li>
+                <img id="logo" src="<c:url value="/images/ucll-logo.png"/>" alt="Home"></a></li>
             <li><a href="<c:url value="/classroom.htm"/>">Classrooms</a></li>
             <li><a href="<c:url value="/course.htm"/>">Courses</a></li>
             <li><a href="<c:url value="/exam.htm"/>">Exams</a></li>

@@ -36,6 +36,11 @@ public class StudentController {
         if (result.hasErrors()) {
             return "student/studentForm";
         }
+        if (service.alreadyExists(student)) {
+            result.rejectValue("id", "error.id", "This student already exists.");
+            return "student/studentForm";
+        }
+
         if (student.getId() == 0) {
             service.add(student);
         } else {
