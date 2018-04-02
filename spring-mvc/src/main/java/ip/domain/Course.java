@@ -58,6 +58,9 @@ public class Course {
     }
 
     public void setTeacher(long teacher) {
+        if (teacher <= 0) {
+            throw new DomainException("Please select a course teacher.");
+        }
         this.teacher = teacher;
     }
 

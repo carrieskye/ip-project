@@ -26,11 +26,9 @@ public class StudentIT extends ObjectIT {
         driver = new ChromeDriver();
         super.setUp(driver);
 
-        driver.get("http://localhost:8080/IP/student/new.htm");
-        addObject("student", personFields(studentNumberOld, studentFirstNameOld, studentLastNameOld), personSelects());
-
         driver.get("http://localhost:8080/IP/student.htm");
-        records = driver.findElements(By.id("tr")).size();
+        records = driver.findElements(By.cssSelector("table tr")).size() - 2;
+        addObject("student", personFields(studentNumberOld, studentFirstNameOld, studentLastNameOld), personSelects());
     }
 
     @After
@@ -38,8 +36,9 @@ public class StudentIT extends ObjectIT {
         if (getByUniqueValue("student", studentNumberOld) != null) {
             removeObjectByValue("student", studentNumberOld);
         }
+
         driver.get("http://localhost:8080/IP/student.htm");
-        if (driver.findElements(By.id("tr")).size() != records) {
+        if (driver.findElements(By.cssSelector("table tr")).size() - 2 != records) {
             throw new Exception("State of db could not be recovered.");
         }
         driver.quit();
@@ -47,11 +46,9 @@ public class StudentIT extends ObjectIT {
 
     @Test
     public void addStudent_with_correct_parameters() {
-        driver.get("http://localhost:8080/IP/student/new.htm");
         addObject("student", personFields(studentNumberNew, studentFirstNameNew, studentLastNameNew), personSelects());
 
-        String title = driver.getTitle();
-        assertEquals("Students", title);
+        assertEquals("Students", driver.getTitle());
         assertNotNull(getByUniqueValue("student", studentNumberNew));
 
         removeObjectByValue("student", studentNumberNew);
@@ -60,88 +57,55 @@ public class StudentIT extends ObjectIT {
 
     @Test
     public void addStudent_with_empty_number() {
-        driver.get("http://localhost:8080/IP/student/new.htm");
         addObject("student", personFields("", studentFirstNameNew, studentLastNameNew), personSelects());
 
-        String title = driver.getTitle();
-        assertEquals("Add student", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a student number.", errorMsg.getText());
-
-        WebElement fieldNumber = driver.findElement(By.id("number"));
-        assertEquals("", fieldNumber.getAttribute("value"));
-
-        WebElement fieldFirstName = driver.findElement(By.id("firstName"));
-        assertEquals(studentFirstNameNew, fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName = driver.findElement(By.id("lastName"));
-        assertEquals(studentLastNameNew, fieldLastName.getAttribute("value"));
+        assertEquals("Add student", driver.getTitle());
+        assertEquals("Please enter a student number.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals("", driver.findElement(By.id("number")).getAttribute("value"));
+        assertEquals(studentFirstNameNew, driver.findElement(By.id("firstName")).getAttribute("value"));
+        assertEquals(studentLastNameNew, driver.findElement(By.id("lastName")).getAttribute("value"));
     }
 
     @Test
     public void addStudent_with_empty_first_name() {
-        driver.get("http://localhost:8080/IP/student/new.htm");
         addObject("student", personFields(studentNumberNew, "", studentLastNameNew), personSelects());
 
-        String title = driver.getTitle();
-        assertEquals("Add student", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a first name.", errorMsg.getText());
-
-        WebElement fieldNumber = driver.findElement(By.id("number"));
-        assertEquals(studentNumberNew, fieldNumber.getAttribute("value"));
-
-        WebElement fieldFirstName = driver.findElement(By.id("firstName"));
-        assertEquals("", fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName = driver.findElement(By.id("lastName"));
-        assertEquals(studentLastNameNew, fieldLastName.getAttribute("value"));
+        assertEquals("Add student", driver.getTitle());
+        assertEquals("Please enter a first name.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals(studentNumberNew, driver.findElement(By.id("number")).getAttribute("value"));
+        assertEquals("", driver.findElement(By.id("firstName")).getAttribute("value"));
+        assertEquals(studentLastNameNew, driver.findElement(By.id("lastName")).getAttribute("value"));
     }
 
     @Test
     public void addStudent_with_empty_last_name() {
-        driver.get("http://localhost:8080/IP/student/new.htm");
         addObject("student", personFields(studentNumberNew, studentFirstNameNew, ""), personSelects());
 
-        String title = driver.getTitle();
-        assertEquals("Add student", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a last name.", errorMsg.getText());
-
-        WebElement fieldNumber = driver.findElement(By.id("number"));
-        assertEquals(studentNumberNew, fieldNumber.getAttribute("value"));
-
-        WebElement fieldFirstName = driver.findElement(By.id("firstName"));
-        assertEquals(studentFirstNameNew, fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName = driver.findElement(By.id("lastName"));
-        assertEquals("", fieldLastName.getAttribute("value"));
+        assertEquals("Add student", driver.getTitle());
+        assertEquals("Please enter a last name.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals(studentNumberNew, driver.findElement(By.id("number")).getAttribute("value"));
+        assertEquals(studentFirstNameNew, driver.findElement(By.id("firstName")).getAttribute("value"));
+        assertEquals("", driver.findElement(By.id("lastName")).getAttribute("value"));
     }
 
     @Test
     public void updateStudent_with_correct_parameters() {
-        driver.get("http://localhost:8080/IP/student.htm");
         WebElement student = getByUniqueValue("student", studentNumberOld);
         assertNotNull(student);
         student.findElement(By.linkText(studentNumberOld)).click();
 
-        String title = driver.getTitle();
-        assertEquals("Update student", title);
-        fillOutField("firstName", "FName5");
-        fillOutField("lastName", "LName5");
+        assertEquals("Update student", driver.getTitle());
+        fillOutField("firstName", studentFirstNameNew);
+        fillOutField("lastName", studentLastNameNew);
         driver.findElement(By.id("save")).click();
 
         student = getByUniqueValue("student", studentNumberOld);
         assertNotNull(student);
-        assertTrue(student.getText().contains("FName5") && student.getText().contains("LName5"));
+        assertTrue(student.getText().contains(studentFirstNameNew) && student.getText().contains(studentLastNameNew));
     }
 
     @Test
     public void updateStudent_with_empty_first_name() {
-        driver.get("http://localhost:8080/IP/student.htm");
         WebElement student = getByUniqueValue("student", studentNumberOld);
         assertNotNull(student);
         student.findElement(By.linkText(studentNumberOld)).click();
@@ -150,29 +114,18 @@ public class StudentIT extends ObjectIT {
         location.clear();
         driver.findElement(By.id("save")).click();
 
-        String title = driver.getTitle();
-        assertEquals("Update student", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a first name.", errorMsg.getText());
-
-        WebElement fieldNumber = driver.findElement(By.id("number"));
-        assertEquals(studentNumberOld, fieldNumber.getAttribute("value"));
-
-        WebElement fieldFirstName = driver.findElement(By.id("firstName"));
-        assertEquals("", fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName = driver.findElement(By.id("lastName"));
-        assertEquals(studentLastNameOld, fieldLastName.getAttribute("value"));
+        assertEquals("Update student", driver.getTitle());
+        assertEquals("Please enter a first name.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals(studentNumberOld, driver.findElement(By.id("number")).getAttribute("value"));
+        assertEquals("", driver.findElement(By.id("firstName")).getAttribute("value"));
+        assertEquals(studentLastNameOld, driver.findElement(By.id("lastName")).getAttribute("value"));
     }
 
     @Test
     public void removeStudent_removes_student_from_overview() {
-        driver.get("http://localhost:8080/IP/student.htm");
         removeObjectByValue("student", studentNumberOld);
 
-        String title = driver.getTitle();
-        assertEquals("Students", title);
+        assertEquals("Students", driver.getTitle());
         assertNull(getByUniqueValue("student", studentNumberOld));
     }
 

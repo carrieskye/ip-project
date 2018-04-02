@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.*;
 
 public class ClassroomIT extends ObjectIT {
@@ -27,11 +29,9 @@ public class ClassroomIT extends ObjectIT {
         driver = new ChromeDriver();
         super.setUp(driver);
 
-        driver.get("http://localhost:8080/IP/classroom/new.htm");
-        addObject("classroom", classroomFields(classroomLocationOld, classroomSeatsOld), classroomSelects(classroomTypeOld));
-
         driver.get("http://localhost:8080/IP/classroom.htm");
-        records = driver.findElements(By.id("tr")).size();
+        records = driver.findElements(By.cssSelector("table tr")).size() - 2;
+        addObject("classroom", classroomFields(classroomLocationOld, classroomSeatsOld), classroomSelects(classroomTypeOld));
     }
 
     @After
@@ -39,8 +39,9 @@ public class ClassroomIT extends ObjectIT {
         if (getByUniqueValue("classroom", classroomLocationOld) != null) {
             removeObjectByValue("classroom", classroomLocationOld);
         }
+
         driver.get("http://localhost:8080/IP/classroom.htm");
-        if (driver.findElements(By.id("tr")).size() != records) {
+        if (driver.findElements(By.cssSelector("table tr")).size() - 2 != records) {
             throw new Exception("State of db could not be recovered.");
         }
         driver.quit();
@@ -49,11 +50,9 @@ public class ClassroomIT extends ObjectIT {
 
     @Test
     public void addClassroom_with_correct_parameters() {
-        driver.get("http://localhost:8080/IP/classroom/new.htm");
         addObject("classroom", classroomFields(classroomLocationNew, classroomSeatsNew), classroomSelects(classroomTypeNew));
 
-        String title = driver.getTitle();
-        assertEquals("Classrooms", title);
+        assertEquals("Classrooms", driver.getTitle());
         assertNotNull(getByUniqueValue("classroom", classroomLocationNew));
 
         removeObjectByValue("classroom", classroomLocationNew);
@@ -61,55 +60,47 @@ public class ClassroomIT extends ObjectIT {
 
     @Test
     public void addClassroom_with_empty_location() {
-        driver.get("http://localhost:8080/IP/classroom/new.htm");
         addObject("classroom", classroomFields("", classroomSeatsNew), classroomSelects(classroomTypeNew));
 
-        String title = driver.getTitle();
-        assertEquals("Add classroom", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a classroom location.", errorMsg.getText());
-
-        WebElement fieldLocation = driver.findElement(By.id("location"));
-        assertEquals("", fieldLocation.getAttribute("value"));
-
-        WebElement fieldSeats = driver.findElement(By.id("seats"));
-        assertEquals(String.valueOf(classroomSeatsNew), fieldSeats.getAttribute("value"));
-
-        Select selectType = new Select(driver.findElement(By.id("type")));
-        assertEquals(classroomTypeNew, selectType.getFirstSelectedOption().getAttribute("value"));
+        assertEquals("Add classroom", driver.getTitle());
+        assertEquals("Please enter a classroom location.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals("", driver.findElement(By.id("location")).getAttribute("value"));
+        assertEquals(String.valueOf(classroomSeatsNew), driver.findElement(By.id("seats")).getAttribute("value"));
+        assertEquals(classroomTypeNew, new Select(driver.findElement(By.id("type"))).getFirstSelectedOption().getAttribute("value"));
     }
 
     @Test
     public void addClassroom_with_zero_seats() {
-        driver.get("http://localhost:8080/IP/classroom/new.htm");
         addObject("classroom", classroomFields(classroomLocationNew, 0), classroomSelects(classroomTypeNew));
 
-        String title = driver.getTitle();
-        assertEquals("Add classroom", title);
+        assertEquals("Add classroom", driver.getTitle());
+        assertEquals("Please enter a positive number of seats.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals(classroomLocationNew, driver.findElement(By.id("location")).getAttribute("value"));
+        assertEquals("0", driver.findElement(By.id("seats")).getAttribute("value"));
+        assertEquals(classroomTypeNew, new Select(driver.findElement(By.id("type"))).getFirstSelectedOption().getAttribute("value"));
+    }
 
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a positive number of seats.", errorMsg.getText());
+    @Test
+    public void addClassroom_without_type() {
+        addObject("classroom", classroomFields(classroomLocationNew, classroomSeatsNew), new HashMap<>());
 
-        WebElement fieldLocation = driver.findElement(By.id("location"));
-        assertEquals(classroomLocationNew, fieldLocation.getAttribute("value"));
-
-        WebElement fieldSeats = driver.findElement(By.id("seats"));
-        assertEquals("0", fieldSeats.getAttribute("value"));
+        assertEquals("Add classroom", driver.getTitle());
+        assertEquals("Please select a classroom type.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals(classroomLocationNew, driver.findElement(By.id("location")).getAttribute("value"));
+        assertEquals(String.valueOf(classroomSeatsNew), driver.findElement(By.id("seats")).getAttribute("value"));
 
         Select selectType = new Select(driver.findElement(By.id("type")));
-        assertEquals(classroomTypeNew, selectType.getFirstSelectedOption().getAttribute("value"));
+        assertEquals("", selectType.getFirstSelectedOption().getAttribute("value"));
+        assertEquals("Select type", selectType.getFirstSelectedOption().getAttribute("label"));
     }
 
     @Test
     public void updateClassroom_with_correct_parameters() {
-        driver.get("http://localhost:8080/IP/classroom.htm");
         WebElement classroom = getByUniqueValue("classroom", classroomLocationOld);
         assertNotNull(classroom);
         classroom.findElement(By.linkText(classroomLocationOld)).click();
 
-        String title = driver.getTitle();
-        assertEquals("Update classroom", title);
+        assertEquals("Update classroom", driver.getTitle());
         fillOutField("seats", String.valueOf(classroomSeatsNew));
         driver.findElement(By.id("save")).click();
 
@@ -119,29 +110,7 @@ public class ClassroomIT extends ObjectIT {
     }
 
     @Test
-    public void addClassroom_with_empty_type() {
-        driver.get("http://localhost:8080/IP/classroom/new.htm");
-        addObject("classroom", classroomFields(classroomLocationNew, classroomSeatsNew), classroomSelects("Select type"));
-
-        String title = driver.getTitle();
-        assertEquals("Add classroom", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please select a classroom type.", errorMsg.getText());
-
-        WebElement fieldLocation = driver.findElement(By.id("location"));
-        assertEquals(classroomLocationNew, fieldLocation.getAttribute("value"));
-
-        WebElement fieldSeats = driver.findElement(By.id("seats"));
-        assertEquals(String.valueOf(classroomSeatsNew), fieldSeats.getAttribute("value"));
-
-        Select selectType = new Select(driver.findElement(By.id("type")));
-        assertEquals("", selectType.getFirstSelectedOption().getAttribute("value"));
-    }
-
-    @Test
     public void updateClassroom_with_empty_location() {
-        driver.get("http://localhost:8080/IP/classroom.htm");
         WebElement classroom = getByUniqueValue("classroom", classroomLocationOld);
         assertNotNull(classroom);
         classroom.findElement(By.linkText(classroomLocationOld)).click();
@@ -150,29 +119,18 @@ public class ClassroomIT extends ObjectIT {
         location.clear();
         driver.findElement(By.id("save")).click();
 
-        String title = driver.getTitle();
-        assertEquals("Update classroom", title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector(".has-error"));
-        assertEquals("Please enter a classroom location.", errorMsg.getText());
-
-        WebElement fieldLocation = driver.findElement(By.id("location"));
-        assertEquals("", fieldLocation.getAttribute("value"));
-
-        WebElement fieldSeats = driver.findElement(By.id("seats"));
-        assertEquals(String.valueOf(classroomSeatsOld), fieldSeats.getAttribute("value"));
-
-        Select selectType = new Select(driver.findElement(By.id("type")));
-        assertEquals(classroomTypeOld, selectType.getFirstSelectedOption().getAttribute("value"));
+        assertEquals("Update classroom", driver.getTitle());
+        assertEquals("Please enter a classroom location.", driver.findElement(By.cssSelector(".has-error")).getText());
+        assertEquals("", driver.findElement(By.id("location")).getAttribute("value"));
+        assertEquals(String.valueOf(classroomSeatsOld), driver.findElement(By.id("seats")).getAttribute("value"));
+        assertEquals(classroomTypeOld, new Select(driver.findElement(By.id("type"))).getFirstSelectedOption().getAttribute("value"));
     }
 
     @Test
     public void removeClassroom_removes_classroom_from_overview() {
-        driver.get("http://localhost:8080/IP/classroom.htm");
         removeObjectByValue("classroom", classroomLocationOld);
 
-        String title = driver.getTitle();
-        assertEquals("Classrooms", title);
+        assertEquals("Classrooms", driver.getTitle());
         assertNull(getByUniqueValue("classroom", classroomLocationOld));
     }
 
@@ -180,20 +138,17 @@ public class ClassroomIT extends ObjectIT {
     public void removeClassroom_does_not_remove_if_exam_in_classroom_exists() {
         addObject("teacher", personFields(teacherNumberOld, teacherFirstNameOld, teacherLastNameOld), personSelects());
         addObject("course", courseFields(courseCodeOld, courseNameOld), courseSelects(courseTeacherOld));
-        addObject("exam", examFields(examDate, examBegin, examEnd), examSelects(examCourse, examClassroom));
+        addObject("exam", examFields(examDateOld, examBeginOld, examEndOld), examSelects(examCourseOld, examClassroomOld));
 
-        driver.get("http://localhost:8080/IP/classroom.htm");
         WebElement classroom = getByUniqueValue("classroom", classroomLocationOld);
         if (classroom != null) {
             classroom.findElement(By.linkText("Remove")).click();
         }
 
-        String title = driver.getTitle();
-        assertEquals("Remove classroom", title);
-
+        assertEquals("Remove classroom", driver.getTitle());
         assertTrue(driver.getPageSource().contains("exam"));
 
-        removeObjectByValue("exam", courseNameOld);
+        removeObjectByValue("exam", examCourseOld);
         removeObjectByValue("course", courseCodeOld);
         removeObjectByValue("teacher", teacherNumberOld);
     }

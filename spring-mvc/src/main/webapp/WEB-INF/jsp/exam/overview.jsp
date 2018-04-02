@@ -20,10 +20,10 @@
 
             <c:forEach var="exam" items="${exams}">
                 <tr>
-                    <td><a href="<c:url value="exam/${exam.id}.htm"/>">${exam.attributes.get("course").name}</a></td>
+                    <td><a href="<c:url value="exam/${exam.id}.htm"/>">${exam.attributes.get("course").info}</a></td>
                     <td>${exam.dateString}</td>
                     <td>${exam.timeString}</td>
-                    <td>${exam.attributes.get("classroom").location}</td>
+                    <td>${exam.attributes.get("classroom").info}</td>
                     <td><a href="<c:url value="/exam/confirmRemoval${exam.id}.htm"/>">Remove</a></td>
                 </tr>
             </c:forEach>

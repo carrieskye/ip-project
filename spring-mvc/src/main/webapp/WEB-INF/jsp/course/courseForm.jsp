@@ -24,14 +24,14 @@
 
             <p>
                 <label for="name">Name:</label>
-                <form:input type="name" id="name" path="name"/>
+                <form:input id="name" path="name"/>
                 <form:errors path="name" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="teacher">Teacher:</label>
                 <form:select id="teacher" path="teacher">
-                    <form:option value="0" label="Select teacher" disabled="true"/>
+                    <form:option value="0" label="Select teacher"/>
                     <form:options items="${teachers}" itemValue="id" itemLabel="info"/>
                 </form:select>
                 <form:errors path="teacher" cssClass="has-error"/>

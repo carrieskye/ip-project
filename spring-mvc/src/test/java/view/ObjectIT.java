@@ -4,19 +4,36 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.swing.text.DateFormatter;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ObjectIT {
     private WebDriver driver;
+
+    //Classroom
     static String classroomLocationOld, classroomTypeOld, classroomLocationNew, classroomTypeNew;
     static int classroomSeatsOld, classroomSeatsNew;
-    static String courseCodeOld, courseNameOld, courseTeacherOld;
-    //static String courseCodeNew, courseNameNew, courseTeacherNew;
-    static String examCourse, examDate, examBegin, examEnd, examClassroom;
+
+    //Course
+    static String courseCodeOld, courseNameOld, courseTeacherOld, courseCodeNew, courseNameNew, courseTeacherNew;
+
+    //Exam
+    static LocalDate examDateOld, examDateNew;
+    static LocalTime examBeginOld, examEndOld, examBeginNew, examEndNew;
+    static String examCourseOld, examClassroomOld, examCourseNew, examClassroomNew;
+
+    //Student
     static String studentNumberOld, studentFirstNameOld, studentLastNameOld, studentNumberNew, studentFirstNameNew, studentLastNameNew;
+
+    //Teacher
     static String teacherNumberOld, teacherFirstNameOld, teacherLastNameOld, teacherNumberNew, teacherFirstNameNew, teacherLastNameNew;
 
     static void initialize() {
@@ -46,37 +63,43 @@ public class ObjectIT {
         courseNameOld = "English VII";
         courseTeacherOld = teacherFirstNameOld + " " + teacherLastNameOld + " (" + teacherNumberOld + ")";
 
-        //courseCodeNew = "MBX20X";
-        //courseNameNew = "French XI";
-        //courseTeacherNew = teacherFirstNameNew + " " + teacherLastNameNew + " (" + teacherNumberNew + ")";
+        courseCodeNew = "MBX20X";
+        courseNameNew = "French XI";
+        courseTeacherNew = teacherFirstNameNew + " " + teacherLastNameNew + " (" + teacherNumberNew + ")";
     }
 
     private static void setUpExam() {
-        examCourse = courseCodeOld + " (" + courseNameOld + ")";
-        examDate = "14/06/2020";
-        examBegin = "09:00";
-        examEnd = "13:00";
-        examClassroom = classroomLocationOld + " (" + classroomSeatsOld + " seats, " + classroomTypeOld + ")";
+        examCourseOld = courseCodeOld + " (" + courseNameOld + ")";
+        examDateOld = LocalDate.of(2120, 6, 14);
+        examBeginOld = LocalTime.of(9, 0);
+        examEndOld = examBeginOld.plusHours(3);
+        examClassroomOld = classroomLocationOld + " (" + classroomSeatsOld + " seats, " + classroomTypeOld + ")";
+
+        examCourseNew = courseCodeNew + " (" + courseNameNew + ")";
+        examDateNew = LocalDate.of(2120, 6, 20);
+        examBeginNew = LocalTime.of(9, 0);
+        examEndNew = examBeginNew.plusHours(3);
+        examClassroomNew = classroomLocationNew + " (" + classroomSeatsNew + " seats, " + classroomTypeNew + ")";
     }
 
     private static void setUpStudent() {
         studentNumberOld = "r1111111";
-        studentFirstNameOld = "FName1";
-        studentLastNameOld = "lName1";
+        studentFirstNameOld = "Mark";
+        studentLastNameOld = "Goossens";
 
         studentNumberNew = "r3333333";
-        studentFirstNameNew = "FName3";
-        studentLastNameNew = "LName3";
+        studentFirstNameNew = "Jan";
+        studentLastNameNew = "Holemans";
     }
 
     private static void setUpTeacher() {
         teacherNumberOld = "u1111111";
-        teacherFirstNameOld = "FName1";
-        teacherLastNameOld = "lName1";
+        teacherFirstNameOld = "Laura";
+        teacherLastNameOld = "Peeters";
 
         teacherNumberNew = "u3333333";
-        teacherFirstNameNew = "FName3";
-        teacherLastNameNew = "LName3";
+        teacherFirstNameNew = "Jonas";
+        teacherLastNameNew = "Verschueren";
     }
 
     void fillOutField(String name, String value) {
@@ -87,7 +110,7 @@ public class ObjectIT {
         field.sendKeys(value);
     }
 
-    private void selectField(String name, String value) {
+    void selectField(String name, String value) {
         Select select = new Select(driver.findElement(By.id(name)));
         select.selectByVisibleText(value);
     }
@@ -165,11 +188,11 @@ public class ObjectIT {
         return values;
     }
 
-    HashMap<String, String> examFields(String date, String begin, String end) {
+    HashMap<String, String> examFields(LocalDate date, LocalTime begin, LocalTime end) {
         HashMap<String, String> values = new HashMap<>();
-        values.put("date", date);
-        values.put("begin", begin);
-        values.put("end", end);
+        values.put("date", toString(date));
+        values.put("begin", toString(begin));
+        values.put("end", toString(end));
         return values;
     }
 
@@ -178,5 +201,15 @@ public class ObjectIT {
         values.put("course", course);
         values.put("classroom", classroom);
         return values;
+    }
+
+    String toString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
+    }
+
+    String toString(LocalTime time){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return time.format(formatter);
     }
 }

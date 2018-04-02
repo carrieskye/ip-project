@@ -1,14 +1,12 @@
 package ip.web.controller;
 
-import ip.domain.Course;
 import ip.domain.Exam;
 import ip.service.ClassroomService;
 import ip.service.CourseService;
 import ip.service.ExamService;
-import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,13 +45,13 @@ public class ExamController {
         ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", new Exam());
         modelAndView.addObject("courses", courseService.getAll());
         modelAndView.addObject("classrooms", classroomService.getAll());
-        modelAndView.addObject("action","Add");
+        modelAndView.addObject("action", "Add");
         return modelAndView;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Exam exam, BindingResult result) {
-        String isAvailable = classroomService.get(exam.getClassroom()).isAvailable(exam.getDate(), exam.getBegin(), exam.getEnd());
+        String isAvailable = (exam.getClassroom() > 0 ? classroomService.get(exam.getClassroom()).isAvailable(exam.getDate(), exam.getBegin(), exam.getEnd()) : null);
         ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", exam);
         modelAndView.addObject("courses", courseService.getAll());
         modelAndView.addObject("classrooms", classroomService.getAll());
@@ -103,7 +101,7 @@ public class ExamController {
         ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", service.get(id));
         modelAndView.addObject("courses", courseService.getAll());
         modelAndView.addObject("classrooms", classroomService.getAll());
-        modelAndView.addObject("action","Update");
+        modelAndView.addObject("action", "Update");
         return modelAndView;
     }
 

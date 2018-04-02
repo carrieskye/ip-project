@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Exam {
     private long id;
     private long course;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime begin;
@@ -44,11 +44,17 @@ public class Exam {
     }
 
     public void setCourse(long course) {
+        if (course <= 0) {
+            throw new DomainException("Please enter an exam course.");
+        }
         this.course = course;
     }
 
 
     public void setBegin(LocalTime begin) {
+        if (begin.equals(end)) {
+            throw new DomainException("Begin time has to be before end time.");
+        }
         this.begin = begin;
     }
 
@@ -93,6 +99,9 @@ public class Exam {
     }
 
     public void setClassroom(long classroom) {
+        if (classroom <= 0) {
+            throw new DomainException("Please enter an exam location.");
+        }
         this.classroom = classroom;
     }
 

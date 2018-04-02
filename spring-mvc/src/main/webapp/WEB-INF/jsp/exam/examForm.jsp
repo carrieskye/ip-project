@@ -17,11 +17,10 @@
                 <form:hidden path="id"/>
             </p>
 
-
             <p>
                 <label for="course">Course:</label>
                 <form:select id="course" path="course">
-                    <form:option value="0" label="Select course" disabled="true"/>
+                    <form:option value="0" label="Select course"/>
                     <form:options items="${courses}" itemValue="id" itemLabel="info"/>
                 </form:select>
                 <form:errors path="course" cssClass="has-error"/>
@@ -29,22 +28,23 @@
 
             <p>
                 <label for="date">Date:</label>
-                <form:input type="date" id="date" path="date"/>
+                <form:input id="date" path="date" placeholder="dd/mm/yyyy"/>
                 <form:errors path="date" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="begin">Begin:</label>
-                <form:input type="time" id="begin" path="begin"/>
+                <form:input type="time" id="begin" path="begin" placehold="hh:mm"/>
+                <form:errors path="begin" cssClass="has-error"/>
                 <label for="end">End:</label>
-                <form:input type="time" id="end" path="end"/>
+                <form:input type="time" id="end" path="end" placehold="hh:mm"/>
                 <form:errors path="end" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="classroom">Classroom:</label>
                 <form:select id="classroom" path="classroom">
-                    <form:option value="0" label="Select classroom" disabled="true"/>
+                    <form:option value="0" label="Select classroom"/>
                     <form:options items="${classrooms}" itemValue="id" itemLabel="info"/>
                 </form:select>
                 <form:errors path="classroom" cssClass="has-error"/>
