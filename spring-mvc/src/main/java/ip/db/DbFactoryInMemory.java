@@ -1,6 +1,6 @@
 package ip.db;
 
-public class InMemoryDbFactory {
+public class DbFactoryInMemory {
 
     public static Db createDb(String type) {
         switch (type) {

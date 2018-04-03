@@ -2,8 +2,6 @@ package ip.db;
 
 import ip.domain.Classroom;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +15,9 @@ public class ClassroomDbInMemory implements Db {
     }
 
     private void addTestData() {
-        classrooms.put((long) classrooms.size() + 1, new Classroom(classrooms.size() + 1, "D1.80", 200, "Aula",0));
-        classrooms.put((long) classrooms.size() + 1, new Classroom(classrooms.size() + 1, "D1.22", 40, "PC",1));
-        classrooms.get((long) 2).occupation(1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0));
-        classrooms.put((long) classrooms.size() + 1, new Classroom(classrooms.size() + 1, "D1.28", 20, "Regular",0));
+        add(new Classroom("D1.80", 200, "Aula"));
+        add(new Classroom("D1.22", 40, "PC", 1));
+        add(new Classroom("D1.28", 20, "Regular"));
     }
 
     @Override
@@ -45,6 +42,7 @@ public class ClassroomDbInMemory implements Db {
         if (classrooms.containsKey(classroom.getId())) {
             throw new DbException("Classroom already exists");
         }
+        classroom.setId(classrooms.size() + 1);
         classrooms.put(classroom.getId(), classroom);
     }
 

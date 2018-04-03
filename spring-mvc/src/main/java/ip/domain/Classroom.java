@@ -1,30 +1,40 @@
 package ip.domain;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
+@Entity
 public class Classroom {
-    public static ArrayList<String> allTypes = new ArrayList<>(Arrays.asList("Aula", "PC", "Regular", "Meeting room", "Other"));
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String location;
+    private String location, type;
     private int seats;
-    private String type;
-    private HashMap<Long, ClassroomOccupation> notAvailable = new HashMap<>();
     private int exams = 0;
+
+    public static ArrayList<String> allTypes = new ArrayList<>(Arrays.asList("Aula", "PC", "Regular", "Meeting room", "Other"));
 
     public Classroom() {
 
     }
 
-    public Classroom(long id, String location, int seats, String type, int exams) {
+    public Classroom(String location, int seats, String type) {
         setId(id);
         setLocation(location);
         setSeats(seats);
         setType(type);
-        this.exams = exams;
+    }
+
+    public Classroom(String location, int seats, String type, int exams) {
+        setId(id);
+        setLocation(location);
+        setSeats(seats);
+        setType(type);
+        setExams(exams);
     }
 
     public long getId() {
@@ -72,33 +82,16 @@ public class Classroom {
         return this.exams;
     }
 
+    public void setExams(int exams) {
+        this.exams = exams;
+    }
+
     public void increaseExams() {
         this.exams += 1;
     }
 
     public void decreaseExams() {
         this.exams -= 1;
-    }
-
-    public void occupation(long examId, LocalDate date, LocalTime begin, LocalTime end) {
-        if (!notAvailable.containsKey(examId)) {
-            notAvailable.put(examId, new ClassroomOccupation(date, begin, end));
-        } else {
-            notAvailable.replace(examId, new ClassroomOccupation(date, begin, end));
-        }
-    }
-
-    public String isAvailable(LocalDate date, LocalTime begin, LocalTime end) {
-        for (ClassroomOccupation occupation : notAvailable.values()) {
-            if (occupation.getDate().equals(date)) {
-                if ((begin.isAfter(occupation.getBegin()) && begin.isBefore(occupation.getEnd()))
-                        || (end.isAfter(occupation.getBegin()) && end.isBefore(occupation.getEnd()))
-                        || (begin.isBefore(occupation.getBegin()) && end.isAfter(occupation.getEnd()))) {
-                    return "Classroom is already occupied between " + occupation.getBegin().toString() + " and " + occupation.getEnd().toString() + ".";
-                }
-            }
-        }
-        return null;
     }
 
     public String getInfo() {

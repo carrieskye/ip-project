@@ -1,27 +1,36 @@
 package ip.domain;
 
+import javax.persistence.*;
 import java.util.HashMap;
 
+@Entity
 public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String code;
-    private String name;
+    private String code, name;
     private long teacher;
-    private HashMap<String, Object> attributes = new HashMap<>();
     private int exams = 0;
+
+    @Transient
+    private HashMap<String, Object> attributes = new HashMap<>();
 
     public Course() {
 
     }
 
-    public Course(long id, String code, String name, long teacher, int exams) {
-        setId(id);
+    public Course(String code, String name, long teacher) {
         setCode(code);
         setName(name);
         setTeacher(teacher);
-        this.exams = exams;
     }
 
+    public Course(String code, String name, long teacher, int exams) {
+        setCode(code);
+        setName(name);
+        setTeacher(teacher);
+        setExams(exams);
+    }
 
     public long getId() {
         return id;
@@ -66,6 +75,10 @@ public class Course {
 
     public int getExams() {
         return exams;
+    }
+
+    public void setExams(int exams) {
+        this.exams = exams;
     }
 
     public void increaseExams() {

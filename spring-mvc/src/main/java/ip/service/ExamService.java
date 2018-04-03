@@ -1,9 +1,13 @@
 package ip.service;
 
-import ip.db.*;
-import ip.domain.Classroom;
+import ip.db.Db;
+import ip.db.DbException;
+import ip.db.DbFactoryInMemory;
+import ip.db.DbFactoryJPA;
 import ip.domain.Exam;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +16,9 @@ public class ExamService {
 
     public ExamService(String type) {
         if (type.equals("Memory")) {
-            db = InMemoryDbFactory.createDb("Exam");
-        } else if (type.equals("SQL")) {
-            db = SqlDbFactory.createDb("Exam");
+            db = DbFactoryInMemory.createDb("Exam");
+        } else if (type.equals("JPA")) {
+            db = DbFactoryJPA.createDb("Exam");
         }
     }
 
@@ -31,7 +35,6 @@ public class ExamService {
     }
 
     public void add(Exam exam) throws DbException {
-        exam.setId(getAll().size() + 1);
         db.add(exam);
     }
 
@@ -50,5 +53,18 @@ public class ExamService {
             }
         }
         return false;
+    }
+
+    public String classroomIsStillAvailable(long classroom, LocalDate date, LocalTime begin, LocalTime end) {
+        for (Exam exam : getAll()) {
+            if (exam.getClassroom() == classroom && exam.getDate().equals(date)) {
+                if ((begin.isAfter(exam.getBegin()) && begin.isBefore(exam.getEnd()))
+                        || (end.isAfter(exam.getBegin()) && end.isBefore(exam.getEnd()))
+                        || (begin.isBefore(exam.getBegin()) && end.isAfter(exam.getEnd()))) {
+                    return "Classroom is already occupied between " + exam.getBegin().toString() + " and " + exam.getEnd().toString() + ".";
+                }
+            }
+        }
+        return null;
     }
 }

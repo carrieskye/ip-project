@@ -1,10 +1,8 @@
 package ip.db;
 
-import ip.domain.Course;
 import ip.domain.Exam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ public class ExamDbInMemory implements Db {
     }
 
     private void addTestData() {
-        exams.put((long) exams.size() + 1, new Exam(exams.size() + 1, 1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0), 2));
+        add(new Exam(1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0), 2));
     }
 
     @Override
@@ -44,6 +42,7 @@ public class ExamDbInMemory implements Db {
         if (exams.containsKey(exam.getId())) {
             throw new DbException("Exam already exists");
         }
+        exam.setId(exams.size() + 1);
         exams.put(exam.getId(), exam);
     }
 

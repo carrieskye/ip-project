@@ -15,10 +15,10 @@ public class CourseDbInMemory implements Db {
     }
 
     private void addTestData() {
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI65X", "Webontwikkeling 3", 1,1));
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI88X", "Testing", 2,0));
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI51X", "OO ontwerpen", 2,0));
-        courses.put((long) (courses.size() + 1), new Course(courses.size() + 1, "MBI39X", "Internetprogrammeren minor", 3,0));
+        add(new Course("MBI65X", "Webontwikkeling 3", 1, 1));
+        add(new Course("MBI88X", "Testing", 2));
+        add(new Course("MBI51X", "OO ontwerpen", 2));
+        add(new Course("MBI39X", "Internetprogrammeren minor", 3));
     }
 
     public Course get(long id) {
@@ -40,6 +40,7 @@ public class CourseDbInMemory implements Db {
         if (courses.containsKey(course.getId())) {
             throw new DbException("Course already exists");
         }
+        course.setId(courses.size() + 1);
         courses.put(course.getId(), course);
     }
 

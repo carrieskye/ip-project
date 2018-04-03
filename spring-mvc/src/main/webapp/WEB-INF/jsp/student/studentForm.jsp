@@ -18,19 +18,19 @@
 
             <p>
                 <label for="number">Number:</label>
-                <form:input id="number" path="number"/>
+                <form:input path="number"/>
                 <form:errors path="number" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="firstName">First name:</label>
-                <form:input id="firstName" path="firstName"/>
+                <form:input path="firstName"/>
                 <form:errors path="firstName" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="lastName">Last name:</label>
-                <form:input id="lastName" path="lastName"/>
+                <form:input path="lastName"/>
                 <form:errors path="lastName" cssClass="has-error"/>
             </p>
 

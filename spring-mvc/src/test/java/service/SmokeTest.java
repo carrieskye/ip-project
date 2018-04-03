@@ -8,35 +8,35 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SmokeTest {
-    TeacherService teacherService = new TeacherService("Memory");
-    CourseService courseService = new CourseService("Memory");
-    Teacher teacher1;
-    Course course1, course2, course3;
+    private TeacherService teacherService = new TeacherService("Memory");
+    private CourseService courseService = new CourseService("Memory");
+    private Teacher teacher1;
+    private Course course1, course2, course3;
 
     @Before
     public void testData() {
-        teacher1 = new Teacher(teacherService.getAll().size() + 1, "u03942345", "An", "Goossens",3);
+        teacher1 = new Teacher("u03942345", "An", "Goossens");
+        teacher1.setCourses(3);
         teacherService.add(teacher1);
-        course1 = new Course(courseService.getAll().size() + 1, "XYZ1234", "Wiskunde", teacher1.getId(),0);
+        course1 = new Course("XYZ1234", "Wiskunde", teacher1.getId());
         courseService.add(course1);
-        course2 = new Course(courseService.getAll().size() + 1, "ABC5678", "Nederlands", teacher1.getId(),0);
+        course2 = new Course("ABC5678", "Nederlands", teacher1.getId());
         courseService.add(course2);
-        course3 = new Course(courseService.getAll().size() + 1, "EFG7890", "Frans", teacher1.getId(),0);
+        course3 = new Course("EFG7890", "Frans", teacher1.getId());
         courseService.add(course3);
     }
 
 
     @Test
     public void add_adds_new_course_if_valid() {
-        Teacher teacher2 = new Teacher(teacherService.getAll().size() + 1, "u04879878", "Tom", "Verschueren",1);
+        Teacher teacher2 = new Teacher("u04879878", "Tom", "Verschueren");
+        teacher2.setCourses(2);
         teacherService.add(teacher2);
-        Course course4 = new Course(courseService.getAll().size() + 1, "IJK3456", "Informatica", teacher2.getId(),0);
+        Course course4 = new Course("IJK3456", "Informatica", teacher2.getId());
         courseService.add(course4);
 
         assertEquals(course4, courseService.get(course4.getId()));
@@ -45,11 +45,6 @@ public class SmokeTest {
 
     @Test
     public void getAll_shows_all_courses() {
-        List<Course> courses = new ArrayList<>();
-        courses.add(course1);
-        courses.add(course2);
-        courses.add(course3);
-
         assertTrue(courseService.getAll().contains(course1));
         assertTrue(courseService.getAll().contains(course2));
         assertTrue(courseService.getAll().contains(course3));

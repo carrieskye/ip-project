@@ -14,9 +14,9 @@ public class StudentDbInMemory implements Db {
         addTestData();
     }
 
-    private void addTestData(){
-        students.put((long) students.size() + 1, new Student(students.size()+1, "r0458882","Carolyne","Peelman"));
-        students.put((long) students.size() + 1, new Student(students.size()+1, "r0567231","Jonas","Goovaerts"));
+    private void addTestData() {
+        add(new Student("r0458882", "Carolyne", "Peelman"));
+        add(new Student("r0567231", "Jonas", "Goovaerts"));
     }
 
 
@@ -42,6 +42,7 @@ public class StudentDbInMemory implements Db {
         if (students.containsKey(student.getId())) {
             throw new DbException("Student already exists");
         }
+        student.setId(students.size() + 1);
         students.put(student.getId(), student);
     }
 

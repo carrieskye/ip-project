@@ -18,19 +18,19 @@
 
             <p>
                 <label for="code">Code:</label>
-                <form:input id="code" path="code"/>
+                <form:input path="code"/>
                 <form:errors path="code" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="name">Name:</label>
-                <form:input id="name" path="name"/>
+                <form:input path="name"/>
                 <form:errors path="name" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="teacher">Teacher:</label>
-                <form:select id="teacher" path="teacher">
+                <form:select path="teacher">
                     <form:option value="0" label="Select teacher"/>
                     <form:options items="${teachers}" itemValue="id" itemLabel="info"/>
                 </form:select>

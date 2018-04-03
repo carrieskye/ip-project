@@ -18,19 +18,19 @@
 
             <p>
                 <label for="location">Location:</label>
-                <form:input id="location" path="location"/>
+                <form:input path="location"/>
                 <form:errors path="location" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="seats">Seats:</label>
-                <form:input type="number" id="seats" path="seats"/>
+                <form:input type="number" path="seats"/>
                 <form:errors path="seats" cssClass="has-error"/>
             </p>
 
             <p>
                 <label for="type">Type:</label>
-                <form:select id="type" path="type">
+                <form:select path="type">
                     <form:option value="" label="Select type" />
                     <form:options items="${types}"/>
                 </form:select>

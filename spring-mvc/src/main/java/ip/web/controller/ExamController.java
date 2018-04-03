@@ -51,7 +51,7 @@ public class ExamController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView save(@Valid Exam exam, BindingResult result) {
-        String isAvailable = (exam.getClassroom() > 0 ? classroomService.get(exam.getClassroom()).isAvailable(exam.getDate(), exam.getBegin(), exam.getEnd()) : null);
+        String isAvailable = (exam.getClassroom() > 0 ? service.classroomIsStillAvailable(exam.getClassroom(), exam.getDate(), exam.getBegin(), exam.getEnd()) : null);
         ModelAndView modelAndView = new ModelAndView("exam/examForm", "exam", exam);
         modelAndView.addObject("courses", courseService.getAll());
         modelAndView.addObject("classrooms", classroomService.getAll());
@@ -74,7 +74,7 @@ public class ExamController {
             updateClassroomAndCourse(exam);
             service.update(exam);
         }
-        classroomService.get(exam.getClassroom()).occupation(exam.getId(), exam.getDate(), exam.getBegin(), exam.getEnd());
+        //classroomService.get(exam.getClassroom()).occupation(exam.getId(), exam.getDate(), exam.getBegin(), exam.getEnd());
 
         return new ModelAndView("redirect:/exam.htm");
     }

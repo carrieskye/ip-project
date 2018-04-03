@@ -2,28 +2,30 @@ package ip.domain;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
+@Entity
 public class Exam {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long course;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private long course, classroom;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime begin;
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime end;
-    private long classroom;
+    private LocalTime begin, end;
+
+    @Transient
     private HashMap<String, Object> attributes = new HashMap<>();
 
     public Exam() {
     }
 
-    public Exam(long id, long course, LocalDate date, LocalTime begin, LocalTime end, long classroom) {
-        setId(id);
+    public Exam(long course, LocalDate date, LocalTime begin, LocalTime end, long classroom) {
         setDate(date);
         setCourse(course);
         setBegin(begin);
@@ -50,11 +52,7 @@ public class Exam {
         this.course = course;
     }
 
-
     public void setBegin(LocalTime begin) {
-        if (begin.equals(end)) {
-            throw new DomainException("Begin time has to be before end time.");
-        }
         this.begin = begin;
     }
 

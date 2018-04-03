@@ -15,9 +15,9 @@ public class TeacherDbInMemory implements Db {
     }
 
     private void addTestData() {
-        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0034728", "Elke", "Steegmans",1));
-        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0038275", "Mieke", "Kemme",2));
-        teachers.put((long) teachers.size() + 1, new Teacher(teachers.size() + 1, "u0010298", "Kris", "Gabriëls",1));
+        add(new Teacher("u0034728", "Elke", "Steegmans", 1));
+        add(new Teacher("u0038275", "Mieke", "Kemme", 2));
+        add(new Teacher("u0010298", "Kris", "Gabriëls", 1));
     }
 
     @Override
@@ -42,6 +42,7 @@ public class TeacherDbInMemory implements Db {
         if (teachers.containsKey(teacher.getId())) {
             throw new DbException("Teacher already exists");
         }
+        teacher.setId(teachers.size() + 1);
         teachers.put(teacher.getId(), teacher);
     }
 

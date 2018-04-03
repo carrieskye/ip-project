@@ -1,7 +1,9 @@
 package ip.service;
 
-import ip.db.*;
-import ip.domain.Classroom;
+import ip.db.Db;
+import ip.db.DbException;
+import ip.db.DbFactoryInMemory;
+import ip.db.DbFactoryJPA;
 import ip.domain.Course;
 
 import java.util.ArrayList;
@@ -12,9 +14,9 @@ public class CourseService {
 
     public CourseService(String type) {
         if (type.equals("Memory")) {
-            db = InMemoryDbFactory.createDb("Course");
-        } else if (type.equals("SQL")) {
-            db = SqlDbFactory.createDb("Course");
+            db = DbFactoryInMemory.createDb("Course");
+        } else if (type.equals("JPA")) {
+            db = DbFactoryJPA.createDb("Course");
         }
     }
 
@@ -31,7 +33,6 @@ public class CourseService {
     }
 
     public void add(Course course) throws DbException {
-        course.setId(getAll().size() + 1);
         db.add(course);
     }
 

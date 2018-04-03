@@ -1,19 +1,19 @@
 package ip.db;
 
-public class SqlDbFactory{
+public class DbFactoryJPA {
 
     public static Db createDb(String type) {
         switch (type) {
             case "Classroom":
-                return new ClassroomDbRelational();
+                return new ClassroomDbJPA();
             case "Course":
-                //TODO
+                return new CourseDbJPA();
             case "Exam":
-                //TODO
+                return new ExamDbJPA();
             case "Student":
-                //TODO
+                return new StudentDbJPA();
             case "Teacher":
-                //TODO
+                return new TeacherDbJPA();
         }
         return null;
     }

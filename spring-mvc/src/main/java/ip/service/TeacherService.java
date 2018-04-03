@@ -1,7 +1,9 @@
 package ip.service;
 
-import ip.db.*;
-import ip.domain.Classroom;
+import ip.db.Db;
+import ip.db.DbException;
+import ip.db.DbFactoryInMemory;
+import ip.db.DbFactoryJPA;
 import ip.domain.Teacher;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,9 @@ public class TeacherService {
 
     public TeacherService(String type) {
         if (type.equals("Memory")) {
-            db = InMemoryDbFactory.createDb("Teacher");
-        } else if (type.equals("SQL")) {
-            db = SqlDbFactory.createDb("Teacher");
+            db = DbFactoryInMemory.createDb("Teacher");
+        } else if (type.equals("JPA")) {
+            db = DbFactoryJPA.createDb("Teacher");
         }
     }
 
@@ -37,7 +39,6 @@ public class TeacherService {
     }
 
     public void add(Teacher teacher) throws DbException {
-        teacher.setId(getAll().size() + 1);
         db.add(teacher);
     }
 

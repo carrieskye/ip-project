@@ -10,7 +10,7 @@
         <jsp:param name="title" value="Remove teacher"/>
     </jsp:include>
     <main>
-        <p>Are you sure you want to remove ${teacher.firstName} ${teacher.lastName}?</p>
+        <p>Are you sure you want to remove ${teacher.info}?</p>
 
         <p>
             <a id="confirm" href="<c:url value="/teacher/remove${teacher.id}.htm"/>">OK</a>
