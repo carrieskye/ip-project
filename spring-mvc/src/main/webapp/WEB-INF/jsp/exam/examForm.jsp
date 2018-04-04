@@ -33,12 +33,12 @@
             </p>
 
             <p>
-                <label for="begin">Begin:</label>
-                <form:input type="time" path="begin"/>
-                <form:errors path="begin" cssClass="has-error"/>
-                <label for="end">End:</label>
-                <form:input type="time" path="end"/>
-                <form:errors path="end" cssClass="has-error"/>
+                <label for="beginTime">Begin:</label>
+                <form:input type="time" path="beginTime"/>
+                <form:errors path="beginTime" cssClass="has-error"/>
+                <label for="endTime">End:</label>
+                <form:input type="time" path="endTime"/>
+                <form:errors path="endTime" cssClass="has-error"/>
             </p>
 
             <p>

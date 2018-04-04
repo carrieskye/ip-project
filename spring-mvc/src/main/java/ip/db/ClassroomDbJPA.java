@@ -1,6 +1,7 @@
 package ip.db;
 
 import ip.domain.Classroom;
+import ip.domain.Exam;
 
 import javax.persistence.*;
 import java.util.ArrayList;

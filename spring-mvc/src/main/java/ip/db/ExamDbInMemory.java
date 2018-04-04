@@ -11,8 +11,10 @@ import java.util.Map;
 
 public class ExamDbInMemory implements Db {
     private Map<Long, Exam> exams = new HashMap<>();
+    private int nextId;
 
     public ExamDbInMemory() {
+        nextId = 1;
         addTestData();
     }
 
@@ -42,8 +44,9 @@ public class ExamDbInMemory implements Db {
         if (exams.containsKey(exam.getId())) {
             throw new DbException("Exam already exists");
         }
-        exam.setId(exams.size() + 1);
+        exam.setId(nextId);
         exams.put(exam.getId(), exam);
+        nextId += 1;
     }
 
     @Override

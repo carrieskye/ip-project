@@ -138,7 +138,7 @@ public class ClassroomIT extends ObjectIT {
     public void removeClassroom_does_not_remove_if_exam_in_classroom_exists() {
         addObject("teacher", personFields(teacherNumberOld, teacherFirstNameOld, teacherLastNameOld), personSelects());
         addObject("course", courseFields(courseCodeOld, courseNameOld), courseSelects(courseTeacherOld));
-        addObject("exam", examFields(examDateOld, examBeginOld, examEndOld), examSelects(examCourseOld, examClassroomOld));
+        addObject("exam", examFields(examDateOld, examBeginTimeOld, examEndTimeOld), examSelects(examCourseOld, examClassroomOld));
 
         WebElement classroom = getByUniqueValue("classroom", classroomLocationOld);
         if (classroom != null) {

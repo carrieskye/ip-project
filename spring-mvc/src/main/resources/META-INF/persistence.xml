@@ -6,17 +6,21 @@
     <persistence-unit name="ip" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
+        <class>ip.converter.LocalTimeConverter</class>
+        <class>ip.converter.LocalDateConverter</class>
+
         <class>ip.domain.Classroom</class>
         <class>ip.domain.Course</class>
         <class>ip.domain.Exam</class>
         <class>ip.domain.Student</class>
         <class>ip.domain.Teacher</class>
+
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/ip;create=true"/>
             <property name="javax.persistence.jdbc.user" value="app"/>
             <property name="javax.persistence.jdbc.password" value="app"/>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
         </properties>
 
     </persistence-unit>

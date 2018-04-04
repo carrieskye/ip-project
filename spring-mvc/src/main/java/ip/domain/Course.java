@@ -8,6 +8,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String code, name;
     private long teacher;
     private int exams = 0;
@@ -26,9 +27,7 @@ public class Course {
     }
 
     public Course(String code, String name, long teacher, int exams) {
-        setCode(code);
-        setName(name);
-        setTeacher(teacher);
+        this(code, name, teacher);
         setExams(exams);
     }
 

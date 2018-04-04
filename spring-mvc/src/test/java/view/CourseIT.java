@@ -142,7 +142,7 @@ public class CourseIT extends ObjectIT {
     @Test
     public void removeCourse_does_not_remove_if_exam_for_course_exists() {
         addObject("classroom", classroomFields(classroomLocationOld, classroomSeatsOld), classroomSelects(classroomTypeOld));
-        addObject("exam", examFields(examDateOld, examBeginOld, examEndOld), examSelects(examCourseOld, examClassroomOld));
+        addObject("exam", examFields(examDateOld, examBeginTimeOld, examEndTimeOld), examSelects(examCourseOld, examClassroomOld));
 
         WebElement course = getByUniqueValue("course", courseCodeOld);
         if (course != null) {

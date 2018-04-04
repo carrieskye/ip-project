@@ -9,14 +9,16 @@ import java.util.Map;
 
 public class StudentDbInMemory implements Db {
     private Map<Long, Student> students = new HashMap<>();
+    private int nextId;
 
     public StudentDbInMemory() {
+        nextId = 1;
         addTestData();
     }
 
     private void addTestData() {
         add(new Student("r0458882", "Carolyne", "Peelman"));
-        add(new Student("r0567231", "Jonas", "Goovaerts"));
+        add(new Student( "r0567231", "Jonas", "Goovaerts"));
     }
 
 
@@ -42,8 +44,9 @@ public class StudentDbInMemory implements Db {
         if (students.containsKey(student.getId())) {
             throw new DbException("Student already exists");
         }
-        student.setId(students.size() + 1);
+        student.setId(nextId);
         students.put(student.getId(), student);
+        nextId += 1;
     }
 
     @Override

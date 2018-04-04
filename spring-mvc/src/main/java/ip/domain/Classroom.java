@@ -1,9 +1,7 @@
 package ip.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,6 +10,7 @@ public class Classroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String location, type;
     private int seats;
     private int exams = 0;
@@ -22,18 +21,14 @@ public class Classroom {
 
     }
 
-    public Classroom(String location, int seats, String type) {
-        setId(id);
+    public Classroom(String location, int seats, String type){
         setLocation(location);
         setSeats(seats);
         setType(type);
     }
 
     public Classroom(String location, int seats, String type, int exams) {
-        setId(id);
-        setLocation(location);
-        setSeats(seats);
-        setType(type);
+        this(location, seats, type);
         setExams(exams);
     }
 

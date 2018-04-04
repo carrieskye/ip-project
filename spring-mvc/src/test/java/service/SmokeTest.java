@@ -19,10 +19,9 @@ public class SmokeTest {
 
     @Before
     public void testData() {
-        teacher1 = new Teacher("u03942345", "An", "Goossens");
-        teacher1.setCourses(3);
+        teacher1 = new Teacher("u03942345", "An", "Goossens", 3);
         teacherService.add(teacher1);
-        course1 = new Course("XYZ1234", "Wiskunde", teacher1.getId());
+        course1 = new Course( "XYZ1234", "Wiskunde", teacher1.getId());
         courseService.add(course1);
         course2 = new Course("ABC5678", "Nederlands", teacher1.getId());
         courseService.add(course2);
@@ -33,8 +32,7 @@ public class SmokeTest {
 
     @Test
     public void add_adds_new_course_if_valid() {
-        Teacher teacher2 = new Teacher("u04879878", "Tom", "Verschueren");
-        teacher2.setCourses(2);
+        Teacher teacher2 = new Teacher("u04879878", "Tom", "Verschueren", 1);
         teacherService.add(teacher2);
         Course course4 = new Course("IJK3456", "Informatica", teacher2.getId());
         courseService.add(course4);

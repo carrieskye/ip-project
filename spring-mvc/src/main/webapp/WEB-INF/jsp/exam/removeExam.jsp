@@ -10,7 +10,7 @@
         <jsp:param name="title" value="Remove exam"/>
     </jsp:include>
     <main>
-        <p>Are you sure you want to remove exam ${course} on ${exam.date} (${exam.begin} - ${exam.end})?</p>
+        <p>Are you sure you want to remove exam ${course} on ${exam.date} (${exam.beginTime} - ${exam.endTime})?</p>
 
         <p>
             <a id="confirm" href="<c:url value="/exam/remove${exam.id}.htm"/>">OK</a>

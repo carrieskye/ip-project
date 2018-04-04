@@ -20,7 +20,7 @@ public class ApplicationConfig {
 
     @Bean
     public ExamService examService() {
-        return new ExamService("Memory");
+        return new ExamService(dbType);
     }
 
     @Bean

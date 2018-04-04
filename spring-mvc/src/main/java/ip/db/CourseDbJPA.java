@@ -1,6 +1,7 @@
 package ip.db;
 
 import ip.domain.Course;
+import ip.domain.Exam;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class CourseDbJPA implements Db {
         factory = Persistence.createEntityManagerFactory("ip");
         manager = factory.createEntityManager();
 
-        if (getAll().size() == 0){
+        if (getAll().size() == 0) {
             addTestData();
         }
     }

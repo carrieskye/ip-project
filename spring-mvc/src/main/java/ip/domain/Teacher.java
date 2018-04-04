@@ -1,9 +1,6 @@
 package ip.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Teacher {
@@ -26,9 +23,7 @@ public class Teacher {
     }
 
     public Teacher(String number, String firstName, String lastName, int courses) {
-        setNumber(number);
-        setFirstName(firstName);
-        setLastName(lastName);
+        this(number, firstName, lastName);
         setCourses(courses);
     }
 

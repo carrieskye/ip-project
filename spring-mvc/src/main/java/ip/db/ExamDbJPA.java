@@ -1,6 +1,7 @@
 package ip.db;
 
 import ip.domain.Exam;
+import ip.domain.Teacher;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public class ExamDbJPA implements Db {
         factory = Persistence.createEntityManagerFactory("ip");
         manager = factory.createEntityManager();
 
-        if (getAll().size() == 0){
+        if (getAll().size() == 0) {
             addTestData();
         }
     }

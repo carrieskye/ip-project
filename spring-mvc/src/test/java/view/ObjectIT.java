@@ -24,7 +24,7 @@ public class ObjectIT {
 
     //Exam
     static LocalDate examDateOld, examDateNew;
-    static LocalTime examBeginOld, examEndOld, examBeginNew, examEndNew;
+    static LocalTime examBeginTimeOld, examEndTimeOld, examBeginTimeNew, examEndTimeNew;
     static String examCourseOld, examClassroomOld, examCourseNew, examClassroomNew;
 
     //Student
@@ -68,14 +68,14 @@ public class ObjectIT {
     private static void setUpExam() {
         examCourseOld = courseCodeOld + " (" + courseNameOld + ")";
         examDateOld = LocalDate.of(2120, 6, 14);
-        examBeginOld = LocalTime.of(9, 0);
-        examEndOld = examBeginOld.plusHours(3);
+        examBeginTimeOld = LocalTime.of(9, 0);
+        examEndTimeOld = examBeginTimeOld.plusHours(3);
         examClassroomOld = classroomLocationOld + " (" + classroomSeatsOld + " seats, " + classroomTypeOld + ")";
 
         examCourseNew = courseCodeNew + " (" + courseNameNew + ")";
         examDateNew = LocalDate.of(2120, 6, 20);
-        examBeginNew = LocalTime.of(9, 0);
-        examEndNew = examBeginNew.plusHours(3);
+        examBeginTimeNew = LocalTime.of(9, 0);
+        examEndTimeNew = examBeginTimeNew.plusHours(3);
         examClassroomNew = classroomLocationNew + " (" + classroomSeatsNew + " seats, " + classroomTypeNew + ")";
     }
 
@@ -185,11 +185,11 @@ public class ObjectIT {
         return values;
     }
 
-    HashMap<String, String> examFields(LocalDate date, LocalTime begin, LocalTime end) {
+    HashMap<String, String> examFields(LocalDate date, LocalTime beginTime, LocalTime endTime) {
         HashMap<String, String> values = new HashMap<>();
         values.put("date", toString(date));
-        values.put("begin", toString(begin));
-        values.put("end", toString(end));
+        values.put("beginTime", toString(beginTime));
+        values.put("endTime", toString(endTime));
         return values;
     }
 

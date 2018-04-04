@@ -55,13 +55,13 @@ public class ExamService {
         return false;
     }
 
-    public String classroomIsStillAvailable(long classroom, LocalDate date, LocalTime begin, LocalTime end) {
+    public String classroomIsStillAvailable(long newExam, long classroom, LocalDate date, LocalTime beginTime, LocalTime endTime) {
         for (Exam exam : getAll()) {
-            if (exam.getClassroom() == classroom && exam.getDate().equals(date)) {
-                if ((begin.isAfter(exam.getBegin()) && begin.isBefore(exam.getEnd()))
-                        || (end.isAfter(exam.getBegin()) && end.isBefore(exam.getEnd()))
-                        || (begin.isBefore(exam.getBegin()) && end.isAfter(exam.getEnd()))) {
-                    return "Classroom is already occupied between " + exam.getBegin().toString() + " and " + exam.getEnd().toString() + ".";
+            if (newExam != exam.getId() && exam.getClassroom() == classroom && exam.getDate().equals(date)) {
+                if ((beginTime.isAfter(exam.getBeginTime()) && beginTime.isBefore(exam.getEndTime()))
+                        || (endTime.isAfter(exam.getBeginTime()) && endTime.isBefore(exam.getEndTime()))
+                        || (beginTime.isBefore(exam.getBeginTime()) && endTime.isAfter(exam.getEndTime()))) {
+                    return "Classroom is already occupied between " + exam.getBeginTime().toString() + " and " + exam.getEndTime().toString() + ".";
                 }
             }
         }

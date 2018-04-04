@@ -9,8 +9,10 @@ import java.util.Map;
 
 public class CourseDbInMemory implements Db {
     private Map<Long, Course> courses = new HashMap<>();
+    private int nextId;
 
     public CourseDbInMemory() {
+        nextId = 1;
         addTestData();
     }
 
@@ -40,8 +42,9 @@ public class CourseDbInMemory implements Db {
         if (courses.containsKey(course.getId())) {
             throw new DbException("Course already exists");
         }
-        course.setId(courses.size() + 1);
+        course.setId(nextId);
         courses.put(course.getId(), course);
+        nextId += 1;
     }
 
     public void update(Object object) {

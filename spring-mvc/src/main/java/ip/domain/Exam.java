@@ -1,5 +1,7 @@
 package ip.domain;
 
+import ip.converter.LocalDateConverter;
+import ip.converter.LocalTimeConverter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,11 +15,14 @@ public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private long course, classroom;
+    @Convert(converter = LocalDateConverter.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+    @Convert(converter = LocalTimeConverter.class)
     @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime begin, end;
+    private LocalTime beginTime, endTime;
 
     @Transient
     private HashMap<String, Object> attributes = new HashMap<>();
@@ -25,11 +30,11 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(long course, LocalDate date, LocalTime begin, LocalTime end, long classroom) {
+    public Exam(long course, LocalDate date, LocalTime beginTime, LocalTime endTime, long classroom) {
         setDate(date);
         setCourse(course);
-        setBegin(begin);
-        setEnd(end);
+        setBeginTime(beginTime);
+        setEndTime(endTime);
         setClassroom(classroom);
     }
 
@@ -52,23 +57,23 @@ public class Exam {
         this.course = course;
     }
 
-    public void setBegin(LocalTime begin) {
-        this.begin = begin;
+    public void setBeginTime(LocalTime begin) {
+        this.beginTime = begin;
     }
 
-    public LocalTime getBegin() {
-        return begin;
+    public LocalTime getBeginTime() {
+        return beginTime;
     }
 
-    public void setEnd(LocalTime end) {
-        if (end.isBefore(begin)) {
+    public void setEndTime(LocalTime end) {
+        if (end.isBefore(beginTime)) {
             throw new DomainException("End time has to be after begin time.");
         }
-        this.end = end;
+        this.endTime = end;
     }
 
-    public LocalTime getEnd() {
-        return end;
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
     public void setDate(LocalDate date) {
@@ -89,7 +94,7 @@ public class Exam {
 
     public String getTimeString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return formatter.format(begin) + " - " + formatter.format(end);
+        return formatter.format(beginTime) + " - " + formatter.format(endTime);
     }
 
     public long getClassroom() {
@@ -114,6 +119,6 @@ public class Exam {
     @Override
     public boolean equals(Object object) {
         Exam exam = (Exam) object;
-        return exam.course == this.course && exam.date.equals(this.date) && exam.begin.equals(this.begin) && exam.end.equals(this.end) && exam.classroom == this.classroom;
+        return exam.course == this.course && exam.date.equals(this.date) && exam.beginTime.equals(this.beginTime) && exam.endTime.equals(this.endTime) && exam.classroom == this.classroom;
     }
 }

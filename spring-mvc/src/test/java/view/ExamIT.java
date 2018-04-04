@@ -39,7 +39,7 @@ public class ExamIT extends ObjectIT {
         addObject("course", courseFields(courseCodeNew, courseNameNew), courseSelects(courseTeacherNew));
         addObject("classroom", classroomFields(classroomLocationOld, classroomSeatsOld), classroomSelects(classroomTypeOld));
         addObject("classroom", classroomFields(classroomLocationNew, classroomSeatsNew), classroomSelects(classroomTypeNew));
-        addObject("exam", examFields(examDateOld, examBeginOld, examEndOld), examSelects(examCourseOld, examClassroomOld));
+        addObject("exam", examFields(examDateOld, examBeginTimeOld, examEndTimeOld), examSelects(examCourseOld, examClassroomOld));
     }
 
     @After
@@ -64,7 +64,7 @@ public class ExamIT extends ObjectIT {
 
     @Test
     public void addExam_with_correct_parameters() {
-        addObject("exam", examFields(examDateNew, examBeginNew, examEndNew), examSelects(examCourseNew, examClassroomNew));
+        addObject("exam", examFields(examDateNew, examBeginTimeNew, examEndTimeNew), examSelects(examCourseNew, examClassroomNew));
 
         assertEquals("Exams", driver.getTitle());
         assertNotNull(getByUniqueValue("exam", examCourseNew));
@@ -76,7 +76,7 @@ public class ExamIT extends ObjectIT {
     public void addExam_without_course() {
         HashMap<String, String> examSelects = new HashMap<>();
         examSelects.put("classroom", examClassroomNew);
-        addObject("exam", examFields(examDateNew, examBeginNew, examEndNew), examSelects);
+        addObject("exam", examFields(examDateNew, examBeginTimeNew, examEndTimeNew), examSelects);
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Please enter an exam course.", driver.findElement(By.cssSelector(".has-error")).getText());
@@ -84,8 +84,8 @@ public class ExamIT extends ObjectIT {
         assertEquals("0", selectCourse.getFirstSelectedOption().getAttribute("value"));
         assertEquals("Select course", selectCourse.getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateNew), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginNew), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndNew), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeNew), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeNew), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomNew, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
@@ -93,30 +93,30 @@ public class ExamIT extends ObjectIT {
     @Test
     public void addExam_with_past_date() {
         LocalDate date = LocalDate.of(2000, 6, 20);
-        addObject("exam", examFields(date, examBeginNew, examEndNew), examSelects(examCourseNew, examClassroomNew));
+        addObject("exam", examFields(date, examBeginTimeNew, examEndTimeNew), examSelects(examCourseNew, examClassroomNew));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Please enter a valid date.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(date), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginNew), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndNew), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeNew), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeNew), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomNew, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
     @Test
     public void addExam_with_empty_date() {
         HashMap<String, String> examFields = new HashMap<>();
-        examFields.put("begin", toString(examBeginNew));
-        examFields.put("end", toString(examEndNew));
+        examFields.put("beginTime", toString(examBeginTimeNew));
+        examFields.put("endTime", toString(examEndTimeNew));
         addObject("exam", examFields, examSelects(examCourseNew, examClassroomNew));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Please enter a valid date.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals("", driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginNew), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndNew), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeNew), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeNew), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomNew, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
@@ -124,15 +124,15 @@ public class ExamIT extends ObjectIT {
     public void addExam_with_empty_begin_time() {
         HashMap<String, String> examFields = new HashMap<>();
         examFields.put("date", toString(examDateNew));
-        examFields.put("end", toString(examEndNew));
+        examFields.put("endTime", toString(examEndTimeNew));
         addObject("exam", examFields, examSelects(examCourseNew, examClassroomNew));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Please enter a valid time.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateNew), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals("", driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndNew), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals("", driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeNew), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomNew, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
@@ -140,55 +140,55 @@ public class ExamIT extends ObjectIT {
     public void addExam_with_empty_end_time() {
         HashMap<String, String> examFields = new HashMap<>();
         examFields.put("date", toString(examDateNew));
-        examFields.put("begin", toString(examBeginNew));
+        examFields.put("beginTime", toString(examBeginTimeNew));
         addObject("exam", examFields, examSelects(examCourseNew, examClassroomNew));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Please enter a valid time.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateNew), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginNew), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals("", driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeNew), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals("", driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomNew, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
     @Test
     public void addExam_with_classroom_occupied_on_begin_time() {
-        addObject("exam", examFields(examDateOld, examBeginOld.plusHours(1), examEndOld.plusHours(1)), examSelects(examCourseNew, examClassroomOld));
+        addObject("exam", examFields(examDateOld, examBeginTimeOld.plusHours(1), examEndTimeOld.plusHours(1)), examSelects(examCourseNew, examClassroomOld));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Classroom is already occupied between 09:00 and 12:00.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateOld), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginOld.plusHours(1)), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndOld.plusHours(1)), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeOld.plusHours(1)), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeOld.plusHours(1)), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomOld, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
 
     }
 
     @Test
     public void addExam_with_classroom_occupied_on_end_time() {
-        addObject("exam", examFields(examDateOld, examBeginOld.minusHours(1), examEndOld.minusHours(1)), examSelects(examCourseNew, examClassroomOld));
+        addObject("exam", examFields(examDateOld, examBeginTimeOld.minusHours(1), examEndTimeOld.minusHours(1)), examSelects(examCourseNew, examClassroomOld));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Classroom is already occupied between 09:00 and 12:00.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateOld), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginOld.minusHours(1)), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndOld.minusHours(1)), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeOld.minusHours(1)), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeOld.minusHours(1)), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomOld, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
     @Test
     public void addExam_with_classroom_occupied_in_between_begin_and_end_time() {
-        addObject("exam", examFields(examDateOld, examBeginOld.minusHours(1), examEndOld.plusHours(1)), examSelects(examCourseNew, examClassroomOld));
+        addObject("exam", examFields(examDateOld, examBeginTimeOld.minusHours(1), examEndTimeOld.plusHours(1)), examSelects(examCourseNew, examClassroomOld));
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Classroom is already occupied between 09:00 and 12:00.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateOld), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginOld.minusHours(1)), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndOld.plusHours(1)), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeOld.minusHours(1)), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeOld.plusHours(1)), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals(examClassroomOld, new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 
@@ -196,14 +196,14 @@ public class ExamIT extends ObjectIT {
     public void addExam_without_classroom() {
         HashMap<String, String> examSelects = new HashMap<>();
         examSelects.put("course", examCourseNew);
-        addObject("exam", examFields(examDateNew, examBeginNew, examEndNew), examSelects);
+        addObject("exam", examFields(examDateNew, examBeginTimeNew, examEndTimeNew), examSelects);
 
         assertEquals("Add exam", driver.getTitle());
         assertEquals("Please enter an exam classroom.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseNew, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateNew), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginNew), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndNew), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeNew), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeNew), driver.findElement(By.id("endTime")).getAttribute("value"));
         Select selectClassroom = new Select(driver.findElement(By.id("classroom")));
         assertEquals("0", selectClassroom.getFirstSelectedOption().getAttribute("value"));
         assertEquals("Select classroom", selectClassroom.getFirstSelectedOption().getAttribute("label"));
@@ -240,8 +240,8 @@ public class ExamIT extends ObjectIT {
         assertEquals("Please enter an exam classroom.", driver.findElement(By.cssSelector(".has-error")).getText());
         assertEquals(examCourseOld, new Select(driver.findElement(By.id("course"))).getFirstSelectedOption().getAttribute("label"));
         assertEquals(toStringReversed(examDateOld), driver.findElement(By.id("date")).getAttribute("value"));
-        assertEquals(toString(examBeginOld), driver.findElement(By.id("begin")).getAttribute("value"));
-        assertEquals(toString(examEndOld), driver.findElement(By.id("end")).getAttribute("value"));
+        assertEquals(toString(examBeginTimeOld), driver.findElement(By.id("beginTime")).getAttribute("value"));
+        assertEquals(toString(examEndTimeOld), driver.findElement(By.id("endTime")).getAttribute("value"));
         assertEquals("Select classroom", new Select(driver.findElement(By.id("classroom"))).getFirstSelectedOption().getAttribute("label"));
     }
 

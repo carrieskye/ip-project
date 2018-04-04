@@ -1,5 +1,6 @@
 package ip.db;
 
+import ip.domain.Student;
 import ip.domain.Teacher;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class TeacherDbJPA implements Db {
         factory = Persistence.createEntityManagerFactory("ip");
         manager = factory.createEntityManager();
 
-        if (getAll().size() == 0){
+        if (getAll().size() == 0) {
             addTestData();
         }
     }
