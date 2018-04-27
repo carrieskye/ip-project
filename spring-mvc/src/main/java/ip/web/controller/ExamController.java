@@ -68,7 +68,8 @@ public class ExamController {
                 return modelAndView;
             }
             service.add(exam);
-            classroomService.get(exam.getClassroom()).increaseExams();
+            classroomService.increaseExams(classroomService.get(exam.getClassroom()));
+            courseService.increaseExams(courseService.get(exam.getCourse()));
 
         } else {
             updateClassroomAndCourse(exam);
@@ -85,13 +86,13 @@ public class ExamController {
         long newCourse = exam.getCourse();
 
         if (oldClassroom != newClassroom) {
-            classroomService.get(oldClassroom).decreaseExams();
-            classroomService.get(newClassroom).increaseExams();
+            classroomService.decreaseExams(classroomService.get(oldClassroom));
+            classroomService.increaseExams(classroomService.get(newClassroom));
         }
 
         if (oldCourse != newCourse) {
-            courseService.get(oldCourse).decreaseExams();
-            courseService.get(newCourse).increaseExams();
+            courseService.decreaseExams(courseService.get(oldCourse));
+            courseService.increaseExams(courseService.get(newCourse));
         }
     }
 
@@ -113,8 +114,8 @@ public class ExamController {
 
     @RequestMapping(value = "/remove{id}", method = RequestMethod.GET)
     public String remove(@PathVariable long id) {
-        classroomService.get(service.get(id).getClassroom()).decreaseExams();
-        courseService.get(service.get(id).getCourse()).decreaseExams();
+        classroomService.decreaseExams(classroomService.get(service.get(id).getClassroom()));
+        courseService.decreaseExams(courseService.get(service.get(id).getCourse()));
         service.delete(id);
         return "redirect:/exam.htm";
     }

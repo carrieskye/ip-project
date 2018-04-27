@@ -58,7 +58,7 @@ public class CourseController {
                 return modelAndView;
             }
             service.add(course);
-            teacherService.get(course.getTeacher()).increaseCourses();
+            teacherService.increaseCourses(teacherService.get(course.getTeacher()));
         } else {
             updateTeacher(course);
             service.update(course);
@@ -71,8 +71,8 @@ public class CourseController {
         long newTeacher = course.getTeacher();
 
         if (oldTeacher != newTeacher) {
-            teacherService.get(oldTeacher).decreaseCourses();
-            teacherService.get(newTeacher).increaseCourses();
+            teacherService.decreaseCourses(teacherService.get(oldTeacher));
+            teacherService.increaseCourses(teacherService.get(newTeacher));
         }
     }
 
@@ -100,7 +100,7 @@ public class CourseController {
 
     @RequestMapping(value = "/remove{id}", method = RequestMethod.GET)
     public String remove(@PathVariable long id) {
-        teacherService.get(service.get(id).getTeacher()).decreaseCourses();
+        teacherService.decreaseCourses(teacherService.get(service.get(id).getTeacher()));
         service.delete(id);
         return "redirect:/course.htm";
     }

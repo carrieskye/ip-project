@@ -53,4 +53,15 @@ public class ClassroomService {
         return false;
     }
 
+    public void increaseExams(Classroom classroom){
+        classroom.increaseExams();
+        update(classroom);
+    }
+
+    public void decreaseExams(Classroom classroom){
+        classroom.decreaseExams();
+        update(classroom);
+    }
+
+
 }

@@ -65,7 +65,7 @@ public class TeacherController {
         if (teacher.getCourses() > 0) {
             ModelAndView modelAndView = new ModelAndView("teacher/removeTeacherError", "teacher", teacher);
             String errorMessageOne = teacher.getInfo() + " still has 1 ongoing course. This course needs to be removed before " + teacher.getFirstName() + " can be removed.";
-            String errorMessageMany = teacher.getInfo() + " still has " + teacher.getCourses() + " ongoing courses. These need to be removed before" + teacher.getFirstName() + " can be removed.";
+            String errorMessageMany = teacher.getInfo() + " still has " + teacher.getCourses() + " ongoing courses. These need to be removed before " + teacher.getFirstName() + " can be removed.";
             modelAndView.addObject("courseError", teacher.getCourses() <= 1 ? errorMessageOne : errorMessageMany);
             return modelAndView;
         }

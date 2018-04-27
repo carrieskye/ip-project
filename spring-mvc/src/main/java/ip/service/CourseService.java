@@ -52,4 +52,15 @@ public class CourseService {
         }
         return false;
     }
+
+    public void increaseExams(Course course){
+        course.increaseExams();
+        update(course);
+    }
+
+    public void decreaseExams(Course course){
+        course.decreaseExams();
+        update(course);
+    }
+
 }

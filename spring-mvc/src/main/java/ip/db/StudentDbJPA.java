@@ -12,10 +12,21 @@ public class StudentDbJPA implements Db {
 
     StudentDbJPA() {
         factory = Persistence.createEntityManagerFactory("ip");
-        manager = factory.createEntityManager();
 
         if (getAll().size() == 0) {
             addTestData();
+        }
+    }
+
+    private void openConnection() {
+        manager = factory.createEntityManager();
+    }
+
+    private void closeConnection() throws DbException {
+        try {
+            manager.close();
+        } catch (Exception e) {
+            throw new DbException(e.getMessage(), e);
         }
     }
 
@@ -27,7 +38,10 @@ public class StudentDbJPA implements Db {
     @Override
     public Object get(long id) {
         try {
-            return manager.find(Student.class, id);
+            openConnection();
+            Object object = manager.find(Student.class,id);
+            closeConnection();
+            return object;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
@@ -36,8 +50,11 @@ public class StudentDbJPA implements Db {
     @Override
     public List<Object> getAll() {
         try {
+            openConnection();
             Query query = manager.createQuery("select s from Student s");
-            return new ArrayList<Object>(query.getResultList());
+            List<Object> students = new ArrayList<Object>(query.getResultList());
+            closeConnection();
+            return students;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
@@ -46,12 +63,14 @@ public class StudentDbJPA implements Db {
     @Override
     public void add(Object object) {
         try {
+            openConnection();
             Student student = (Student) object;
             EntityTransaction t = manager.getTransaction();
             t.begin();
             manager.persist(student);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             EntityTransaction t = manager.getTransaction();
             t.rollback();
@@ -62,12 +81,14 @@ public class StudentDbJPA implements Db {
     @Override
     public void update(Object object) {
         try {
+            openConnection();
             Student student = (Student) object;
             EntityTransaction t = manager.getTransaction();
             t.begin();
             manager.merge(student);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             EntityTransaction t = manager.getTransaction();
             t.rollback();
@@ -78,23 +99,17 @@ public class StudentDbJPA implements Db {
     @Override
     public void delete(long id) {
         try {
+            openConnection();
             EntityTransaction t = manager.getTransaction();
             t.begin();
-            Student student = (Student) get(id);
+            Student student = manager.find(Student.class,id);
             manager.remove(student);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
     }
 
-    private void closeConnection() throws DbException {
-        try {
-            manager.close();
-            factory.close();
-        } catch (Exception e) {
-            throw new DbException(e.getMessage(), e);
-        }
-    }
 }

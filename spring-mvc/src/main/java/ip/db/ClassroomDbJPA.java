@@ -1,8 +1,6 @@
 package ip.db;
 
 import ip.domain.Classroom;
-import ip.domain.Exam;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +9,23 @@ public class ClassroomDbJPA implements Db {
     private EntityManagerFactory factory;
     private EntityManager manager;
 
-    public ClassroomDbJPA() {
+    ClassroomDbJPA() {
         factory = Persistence.createEntityManagerFactory("ip");
-        manager = factory.createEntityManager();
 
         if (getAll().size() == 0) {
             addTestData();
+        }
+    }
+
+    private void openConnection() {
+        manager = factory.createEntityManager();
+    }
+
+    private void closeConnection() throws DbException {
+        try {
+            manager.close();
+        } catch (Exception e) {
+            throw new DbException(e.getMessage(), e);
         }
     }
 
@@ -29,7 +38,10 @@ public class ClassroomDbJPA implements Db {
     @Override
     public Object get(long id) {
         try {
-            return manager.find(Classroom.class, id);
+            openConnection();
+            Object object = manager.find(Classroom.class,id);
+            closeConnection();
+            return object;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
@@ -38,8 +50,11 @@ public class ClassroomDbJPA implements Db {
     @Override
     public List<Object> getAll() {
         try {
+            openConnection();
             Query query = manager.createQuery("select c from Classroom c");
-            return new ArrayList<Object>(query.getResultList());
+            List<Object> classrooms = new ArrayList<Object>(query.getResultList());
+            closeConnection();
+            return classrooms;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
@@ -48,12 +63,14 @@ public class ClassroomDbJPA implements Db {
     @Override
     public void add(Object object) {
         try {
+            openConnection();
             Classroom classroom = (Classroom) object;
             EntityTransaction t = manager.getTransaction();
             t.begin();
             manager.persist(classroom);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             EntityTransaction t = manager.getTransaction();
             t.rollback();
@@ -64,12 +81,14 @@ public class ClassroomDbJPA implements Db {
     @Override
     public void update(Object object) {
         try {
+            openConnection();
             Classroom classroom = (Classroom) object;
             EntityTransaction t = manager.getTransaction();
             t.begin();
             manager.merge(classroom);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             EntityTransaction t = manager.getTransaction();
             t.rollback();
@@ -80,23 +99,17 @@ public class ClassroomDbJPA implements Db {
     @Override
     public void delete(long id) {
         try {
+            openConnection();
             EntityTransaction t = manager.getTransaction();
             t.begin();
-            Classroom classroom = (Classroom) get(id);
+            Classroom classroom = manager.find(Classroom.class,id);
             manager.remove(classroom);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
     }
 
-    public void closeConnection() throws DbException {
-        try {
-            manager.close();
-            factory.close();
-        } catch (Exception e) {
-            throw new DbException(e.getMessage(), e);
-        }
-    }
 }

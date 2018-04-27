@@ -1,8 +1,6 @@
 package ip.db;
 
 import ip.domain.Course;
-import ip.domain.Exam;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +11,21 @@ public class CourseDbJPA implements Db {
 
     CourseDbJPA() {
         factory = Persistence.createEntityManagerFactory("ip");
-        manager = factory.createEntityManager();
 
         if (getAll().size() == 0) {
             addTestData();
+        }
+    }
+
+    private void openConnection() {
+        manager = factory.createEntityManager();
+    }
+
+    private void closeConnection() throws DbException {
+        try {
+            manager.close();
+        } catch (Exception e) {
+            throw new DbException(e.getMessage(), e);
         }
     }
 
@@ -30,7 +39,10 @@ public class CourseDbJPA implements Db {
     @Override
     public Object get(long id) {
         try {
-            return manager.find(Course.class, id);
+            openConnection();
+            Object object = manager.find(Course.class,id);
+            closeConnection();
+            return object;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
@@ -39,8 +51,11 @@ public class CourseDbJPA implements Db {
     @Override
     public List<Object> getAll() {
         try {
+            openConnection();
             Query query = manager.createQuery("select c from Course c");
-            return new ArrayList<Object>(query.getResultList());
+            List<Object> courses = new ArrayList<Object>(query.getResultList());
+            closeConnection();
+            return courses;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
@@ -49,12 +64,14 @@ public class CourseDbJPA implements Db {
     @Override
     public void add(Object object) {
         try {
+            openConnection();
             Course course = (Course) object;
             EntityTransaction t = manager.getTransaction();
             t.begin();
             manager.persist(course);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             EntityTransaction t = manager.getTransaction();
             t.rollback();
@@ -65,12 +82,14 @@ public class CourseDbJPA implements Db {
     @Override
     public void update(Object object) {
         try {
+            openConnection();
             Course course = (Course) object;
             EntityTransaction t = manager.getTransaction();
             t.begin();
             manager.merge(course);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             EntityTransaction t = manager.getTransaction();
             t.rollback();
@@ -81,23 +100,17 @@ public class CourseDbJPA implements Db {
     @Override
     public void delete(long id) {
         try {
+            openConnection();
             EntityTransaction t = manager.getTransaction();
             t.begin();
-            Course course = (Course) get(id);
+            Course course = manager.find(Course.class,id);
             manager.remove(course);
             manager.flush();
             t.commit();
+            closeConnection();
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }
     }
 
-    public void closeConnection() throws DbException {
-        try {
-            manager.close();
-            factory.close();
-        } catch (Exception e) {
-            throw new DbException(e.getMessage(), e);
-        }
-    }
 }

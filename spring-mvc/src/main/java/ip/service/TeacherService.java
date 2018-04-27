@@ -58,4 +58,14 @@ public class TeacherService {
         }
         return false;
     }
+
+    public void increaseCourses(Teacher teacher){
+        teacher.increaseCourses();
+        update(teacher);
+    }
+
+    public void decreaseCourses(Teacher teacher){
+        teacher.decreaseCourses();
+        update(teacher);
+    }
 }
