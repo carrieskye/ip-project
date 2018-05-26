@@ -12,10 +12,10 @@
     <form name='login' action="<c:url value="/login"/>" method="POST" id="loginForm">
         <div class="form-group input-group">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <input class="form-control" type="text" name='username' placeholder="Username"/>
+            <input class="form-control" id='username' type="text" name='username' placeholder="Username"/>
         </div>
         <div class="form-group input-group">
-            <input class="form-control" type="password" name='password' placeholder="Password"/>
+            <input class="form-control" id='password' type="password" name='password' placeholder="Password"/>
         </div>
         <div class="form-group">
             <button id="login" type="submit" class="btn btn-primary">Log in</button>
