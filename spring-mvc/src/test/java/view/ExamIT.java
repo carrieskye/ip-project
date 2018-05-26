@@ -31,6 +31,11 @@ public class ExamIT extends ObjectIT {
         super.setUp(driver);
 
         driver.get("http://localhost:8080/IP/exam.htm");
+        fillOutField("username", "admin");
+        fillOutField("password", "t");
+        driver.findElement(By.id("login")).click();
+
+        driver.get("http://localhost:8080/IP/exam.htm");
         records = driver.findElements(By.cssSelector("table tr")).size() - 2;
 
         addObject("teacher", personFields(teacherNumberOld, teacherFirstNameOld, teacherLastNameOld), personSelects());
@@ -58,6 +63,7 @@ public class ExamIT extends ObjectIT {
         if (driver.findElements(By.cssSelector("table tr")).size() - 2 != records) {
             throw new Exception("State of db could not be recovered.");
         }
+        driver.get("http://localhost:8080/IP/logout");
         driver.quit();
     }
 
