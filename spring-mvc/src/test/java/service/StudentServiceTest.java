@@ -1,92 +1,64 @@
 package service;
 
-import ip.domain.DomainException;
+import ip.db.StudentDbJPA;
 import ip.domain.Student;
 import ip.service.StudentService;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class StudentServiceTest extends ServiceTest {
-    private int records;
+public class StudentServiceTest {
+    private StudentService service;
 
-    @BeforeClass
-    public static void initialize() {
-        ServiceTest.initialize();
-    }
+    @Mock
+    private StudentDbJPA db;
+
+    @InjectMocks
+    private Student student = new Student("r0012345","Kate","Jones");
 
     @Before
-    public void setUp() {
-        records = studentService.getAll().size() - 2;
-        studentService.add(studentOld);
-    }
-
-    @After
-    public void clean() throws Exception {
-        if (studentService.get(studentOld.getId()) != null) {
-            studentService.delete(studentOld.getId());
-        }
-
-        if (studentService.getAll().size() - 2 != records) {
-            throw new Exception("State of db could not be recovered.");
-        }
+    public void setup() throws Exception {
+        initMocks(this);
+        service = new StudentService(db);
     }
 
     @Test
-    public void addStudent_with_correct_parameters() {
-        studentService.add(studentNew);
-        Student retrievedStudent = studentService.get(studentNew.getId());
-        assertEquals(studentNew, retrievedStudent);
-        studentService.delete(studentNew.getId());
-    }
-
-
-    @Test(expected = DomainException.class)
-    public void addStudent_with_empty_number() {
-        Student illegalStudent = new Student("", studentNew.getFirstName(), studentNew.getLastName());
-        studentService.add(illegalStudent);
-    }
-
-    @Test(expected = DomainException.class)
-    public void addStudent_with_empty_first_name() {
-        Student illegalStudent = new Student(studentNew.getNumber(), "", studentNew.getLastName());
-        studentService.add(illegalStudent);
-    }
-
-    @Test(expected = DomainException.class)
-    public void addStudent_with_empty_last_name() {
-        Student illegalStudent = new Student(studentNew.getNumber(), studentNew.getFirstName(), "");
-        studentService.add(illegalStudent);
+    public void addStudent_should_ask_database_class_to_add_the_student() {
+        Student newStudent = new Student("r0012346","Lucy","Jones");
+        service.add(newStudent);
+        verify(db).add(newStudent);
     }
 
     @Test
-    public void updateStudent_with_correct_parameters() {
-        Student student = studentService.get(studentOld.getId());
-        student.setFirstName(studentNew.getFirstName());
-        student.setLastName(studentNew.getLastName());
-        studentService.update(student);
-
-        Student retrievedStudent = studentService.get(studentOld.getId());
-        assertEquals(studentOld.getNumber(), retrievedStudent.getNumber());
-        assertEquals(studentNew.getFirstName(), retrievedStudent.getFirstName());
-        assertEquals(studentNew.getLastName(), retrievedStudent.getLastName());
-    }
-
-    @Test(expected = DomainException.class)
-    public void updateStudent_with_empty_first_name() {
-        Student student = studentService.get(studentOld.getId());
-        student.setFirstName("");
-        studentService.update(student);
+    public void updateStudent_should_ask_database_to_update_given_student(){
+        Student updatedStudent = student;
+        updatedStudent.setFirstName("John");
+        service.update(updatedStudent);
+        verify(db).update(updatedStudent);
     }
 
     @Test
-    public void removeStudent_removes_student_from_overview() {
-        studentService.delete(studentOld.getId());
-        assertTrue(!studentService.getAll().contains(studentOld));
+    public void getAllStudents_should_ask_database_to_return_all_students(){
+        service.getAll();
+        verify(db).getAll();
+    }
+
+    @Test
+    public void removeStudent_should_ask_database_to_remove_given_student(){
+        long id = student.getId();
+        service.delete(id);
+        verify(db).delete(id);
+    }
+
+    @Test
+    public void getStudent_should_ask_database_to_return_student(){
+        long id = student.getId();
+        service.get(id);
+        verify(db).get(id);
     }
 
 }

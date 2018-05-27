@@ -5,7 +5,7 @@ import ip.service.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-class ServiceTest {
+class ServiceIntegrationTest {
     static String dbType = "JPA";
     static ClassroomService classroomService;
     static CourseService courseService;

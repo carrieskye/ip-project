@@ -22,6 +22,10 @@ public class ExamService {
         }
     }
 
+    public ExamService(Db db) {
+        this.db = db;
+    }
+
     public Exam get(long id) {
         return (Exam) db.get(id);
     }
