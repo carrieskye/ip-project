@@ -18,7 +18,8 @@ div#container {
 footer {
     background-color: #E00049;
     color: #FFF;
-    text-align: center;
+    alignment: center;
+    font-size: 80%;
 }
 
 nav ul {
@@ -26,12 +27,10 @@ nav ul {
     background-color: #E00049;
     box-sizing: border-box;
     margin-bottom: 1em;
-    margin-top: 0em;
 }
 
 nav ul li {
-    height: 3em;
-    font-size: 150%;
+    font-size: 130%;
     font-weight: bold;
     padding: 10px;
     width: 100%;
@@ -44,17 +43,27 @@ nav ul li a {
     display: block;
 }
 
-img#logo{
-    height: 2em;
+nav ul li #logout {
+    font-size: 80%;
+    font-weight: normal;
+    margin-left: 2em;
+}
+
+img#logo {
+    height: 3em;
     width: auto;
+    margin-left: 2em;
+    margin-right: 10em;
+}
+
+img#logout-button {
+    height: 1.2em;
+    width: auto;
+    margin-left: 0.2em;
 }
 
 h2, main, footer {
     padding: 15px 10px;
-}
-
-footer{
-    align-content: center;
 }
 
 h1 {
@@ -129,7 +138,6 @@ nav ul li {
     display: block;
 }
 
-
 label, input, textarea {
     display: block;
 }
@@ -174,7 +182,7 @@ input {
     }
 
     footer {
-        text-align: right;
+        text-align: center;
     }
 
     .alert-danger {

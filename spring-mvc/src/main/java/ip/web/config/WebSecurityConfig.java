@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login.htm").permitAll()
-                .loginProcessingUrl("/login").permitAll()
+                .loginProcessingUrl("/login.htm").permitAll()
                 .defaultSuccessUrl("/index.htm")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index.htm")
@@ -43,8 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withDefaultPasswordEncoder().username("r0458882").password("ikbencaro").roles("USER").build());
-        manager.createUser(User.withDefaultPasswordEncoder().username("admin").password("t").roles("ADMIN").build());
+        manager.createUser(User.withDefaultPasswordEncoder().username("r0458882").password("ikbencaro0458882").roles("USER").build());
+        manager.createUser(User.withDefaultPasswordEncoder().username("admin").password("adminpw345?").roles("ADMIN").build());
         return manager;
     }
 

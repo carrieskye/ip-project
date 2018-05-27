@@ -7,22 +7,26 @@
 <div id="container">
     <%@include file="header.jsp" %>
     <jsp:include page="head.jsp">
-        <jsp:param name="title" value="Home"/>
+        <jsp:param name="title" value="Login"/>
     </jsp:include>
-    <form name='login' action="<c:url value="/login"/>" method="POST" id="loginForm">
-        <div class="form-group input-group">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <input class="form-control" id='username' type="text" name='username' placeholder="Username"/>
-        </div>
-        <div class="form-group input-group">
-            <input class="form-control" id='password' type="password" name='password' placeholder="Password"/>
-        </div>
-        <div class="form-group">
-            <button id="login" type="submit" class="btn btn-primary">Log in</button>
-        </div>
-        <br><br><br>
-    </form>
+    <main>
+        <form name='login' action="<c:url value="/login.htm"/>" method="POST" id="loginForm">
+            <p>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <label for="username">Username:</label>
+                <input id='username' type="text" name='username' placeholder="Username"/></p>
+            <p>
+                <label for="password">Password:</label>
+                <input id='password' type="password" name='password' placeholder="Password"/>
+            </p>
+            <p>
+                <input id="login" type="submit" value="Log in"/>
+            </p>
+        </form>
+    </main>
+
     <footer> &copy; Carolyne Peelman, UC Leuven-Limburg</footer>
+
 </div>
 </body>
 
