@@ -26,6 +26,10 @@ public class TeacherService {
         }
     }
 
+    public TeacherService(Db db) {
+        this.db = db;
+    }
+
     public Teacher get(long id) {
         return (Teacher) db.get(id);
     }
@@ -59,12 +63,12 @@ public class TeacherService {
         return false;
     }
 
-    public void increaseCourses(Teacher teacher){
+    public void increaseCourses(Teacher teacher) {
         teacher.increaseCourses();
         update(teacher);
     }
 
-    public void decreaseCourses(Teacher teacher){
+    public void decreaseCourses(Teacher teacher) {
         teacher.decreaseCourses();
         update(teacher);
     }

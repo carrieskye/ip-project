@@ -1,91 +1,64 @@
 package service;
 
-import ip.domain.DomainException;
+import ip.db.TeacherDbJPA;
 import ip.domain.Teacher;
-import org.junit.After;
+import ip.service.TeacherService;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class TeacherServiceTest extends ServiceTest {
-    private int records;
+public class TeacherServiceTest {
+    private TeacherService service;
 
-    @BeforeClass
-    public static void initialize() {
-        ServiceTest.initialize();
-    }
+    @Mock
+    private TeacherDbJPA db;
+
+    @InjectMocks
+    private Teacher teacher = new Teacher("u0012345","Kate","Jones");
 
     @Before
-    public void setUp() {
-        records = teacherService.getAll().size() - 2;
-        teacherService.add(teacherOld);
-    }
-
-    @After
-    public void clean() throws Exception {
-        if (teacherService.get(teacherOld.getId()) != null) {
-            teacherService.delete(teacherOld.getId());
-        }
-        if (teacherService.getAll().size() - 2 != records) {
-            throw new Exception("State of db could not be recovered.");
-        }
+    public void setup() throws Exception {
+        initMocks(this);
+        service = new TeacherService(db);
     }
 
     @Test
-    public void addTeacher_with_correct_parameters() {
-        teacherService.add(teacherNew);
-
-        Teacher retrievedTeacher = teacherService.get(teacherNew.getId());
-        assertEquals(teacherNew, retrievedTeacher);
-        teacherService.delete(teacherNew.getId());
-    }
-
-
-    @Test(expected = DomainException.class)
-    public void addTeacher_with_empty_number() {
-        Teacher illegalTeacher = new Teacher("", teacherNew.getFirstName(), teacherNew.getLastName());
-        teacherService.add(illegalTeacher);
-    }
-
-    @Test(expected = DomainException.class)
-    public void addTeacher_with_empty_first_name() {
-        Teacher illegalTeacher = new Teacher(teacherNew.getNumber(), "", teacherNew.getLastName());
-        teacherService.add(illegalTeacher);
-    }
-
-    @Test(expected = DomainException.class)
-    public void addTeacher_with_empty_last_name() {
-        Teacher illegalTeacher = new Teacher(teacherNew.getNumber(), teacherNew.getFirstName(), "");
-        teacherService.add(illegalTeacher);
+    public void addTeacher_should_ask_database_class_to_add_the_teacher() {
+        Teacher newTeacher =  new Teacher("u0012345","Lucy","Jones");
+        service.add(newTeacher);
+        verify(db).add(newTeacher);
     }
 
     @Test
-    public void updateTeacher_with_correct_parameters() {
-        Teacher teacher = teacherService.get(teacherOld.getId());
-        teacher.setFirstName(teacherNew.getFirstName());
-        teacher.setLastName(teacherNew.getLastName());
-        teacherService.update(teacher);
-
-        Teacher retrievedTeacher = teacherService.get(teacherOld.getId());
-        assertEquals(teacherOld.getNumber(), retrievedTeacher.getNumber());
-        assertEquals(teacherNew.getFirstName(), retrievedTeacher.getFirstName());
-        assertEquals(teacherNew.getLastName(), retrievedTeacher.getLastName());
-    }
-
-    @Test(expected = DomainException.class)
-    public void updateTeacher_with_empty_first_name() {
-        Teacher teacher = teacherService.get(teacherOld.getId());
-        teacher.setFirstName("");
-        teacherService.update(teacher);
+    public void updateTeacher_should_ask_database_to_update_given_teacher(){
+        Teacher updatedTeacher = teacher;
+        updatedTeacher.setFirstName("John");
+        service.update(updatedTeacher);
+        verify(db).update(updatedTeacher);
     }
 
     @Test
-    public void removeTeacher_removes_teacher_from_overview() {
-        teacherService.delete(teacherOld.getId());
-        assertTrue(!teacherService.getAll().contains(teacherOld));
+    public void getAllTeacher_should_ask_database_to_return_all_teachers(){
+        service.getAll();
+        verify(db).getAll();
+    }
+
+    @Test
+    public void removeTeacher_should_ask_database_to_remove_given_teacher(){
+        long id = teacher.getId();
+        service.delete(id);
+        verify(db).delete(id);
+    }
+
+    @Test
+    public void getTeacher_should_ask_database_to_return_teacher(){
+        long id = teacher.getId();
+        service.get(id);
+        verify(db).get(id);
     }
 
 }

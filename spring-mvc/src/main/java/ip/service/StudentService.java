@@ -20,6 +20,10 @@ public class StudentService {
         }
     }
 
+    public StudentService(Db db){
+        this.db = db;
+    }
+
     public Student get(long id) {
         return (Student) db.get(id);
     }

@@ -20,6 +20,10 @@ public class ClassroomService {
         }
     }
 
+    public ClassroomService(Db db) {
+        this.db = db;
+    }
+
     public Classroom get(long id) {
         return (Classroom) db.get(id);
     }
@@ -53,12 +57,12 @@ public class ClassroomService {
         return false;
     }
 
-    public void increaseExams(Classroom classroom){
+    public void increaseExams(Classroom classroom) {
         classroom.increaseExams();
         update(classroom);
     }
 
-    public void decreaseExams(Classroom classroom){
+    public void decreaseExams(Classroom classroom) {
         classroom.decreaseExams();
         update(classroom);
     }
