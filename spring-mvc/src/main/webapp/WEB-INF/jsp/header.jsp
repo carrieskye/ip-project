@@ -20,7 +20,8 @@
             <li><a href="<c:url value="/student.htm"/>">Students</a></li>
             <li><a href="<c:url value="/teacher.htm"/>">Teachers</a></li>
             <security:authorize access="hasAnyRole('ADMIN', 'USER')">
-                <li><a id="logout" href="<c:url value="/logout"/>">Logout</a></li>
+                <li><a id="logout" href="<c:url value="/logout"/>">Logout
+                    <img id="logout-button" src="<c:url value="/images/logout.png"/>"/></a></li>
             </security:authorize>
         </ul>
     </nav>
