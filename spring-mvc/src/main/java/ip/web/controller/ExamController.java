@@ -39,6 +39,17 @@ public class ExamController {
         return new ModelAndView("exam/overview", "exams", exams);
     }
 
+    @RequestMapping(value = "sortedBy{column}", method = RequestMethod.GET)
+    public ModelAndView getExamsSorted(@PathVariable String column) {
+        ArrayList<Exam> exams = new ArrayList<>();
+        for (Exam exam : service.getAllSorted(column.substring(0, 1).toLowerCase() + column.substring(1))) {
+            exam.setAttribute("course", courseService.get(exam.getCourse()));
+            exam.setAttribute("classroom", classroomService.get(exam.getClassroom()));
+            exams.add(exam);
+        }
+        return new ModelAndView("exam/overview", "exams", exams);
+    }
+
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {

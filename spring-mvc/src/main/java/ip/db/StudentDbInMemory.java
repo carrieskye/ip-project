@@ -18,7 +18,7 @@ public class StudentDbInMemory implements Db {
 
     private void addTestData() {
         add(new Student("r0458882", "Carolyne", "Peelman"));
-        add(new Student( "r0567231", "Jonas", "Goovaerts"));
+        add(new Student("r0567231", "Jonas", "Goovaerts"));
     }
 
 
@@ -32,6 +32,12 @@ public class StudentDbInMemory implements Db {
 
     @Override
     public List<Object> getAll() {
+        return new ArrayList<>(students.values());
+    }
+
+    @Override
+    public List<Object> getAllSorted(String column) {
+        //TODO
         return new ArrayList<>(students.values());
     }
 

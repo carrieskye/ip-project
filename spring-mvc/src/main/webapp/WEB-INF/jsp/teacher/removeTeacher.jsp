@@ -11,13 +11,11 @@
     </jsp:include>
     <main>
         <p>Are you sure you want to remove ${teacher.info}?</p>
-
-        <p>
-            <a id="confirm" href="<c:url value="/teacher/remove${teacher.id}.htm"/>">OK</a>
-        </p>
-        <p>
-            <a href="<c:url value="/teacher.htm"/>">Cancel</a>
-        </p>
+        <form>
+            <input class="remove" type="submit" value="OK"
+                   formaction="<c:url value="/teacher/remove${teacher.id}.htm"/>">
+            <input class="remove" type="submit" value="Cancel" formaction="<c:url value="/teacher.htm"/>">
+        </form>
 
     </main>
     <footer> &copy; Carolyne Peelman, UC Leuven-Limburg</footer>

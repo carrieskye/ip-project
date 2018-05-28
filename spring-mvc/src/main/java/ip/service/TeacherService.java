@@ -42,6 +42,14 @@ public class TeacherService {
         return teachers;
     }
 
+    public List<Teacher> getAllSorted(String column) {
+        List<Teacher> teachers = new ArrayList<>();
+        for (Object object : db.getAllSorted(column)) {
+            teachers.add((Teacher) object);
+        }
+        return teachers;
+    }
+
     public void add(Teacher teacher) throws DbException {
         db.add(teacher);
     }

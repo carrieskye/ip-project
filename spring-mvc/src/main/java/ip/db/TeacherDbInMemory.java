@@ -36,6 +36,12 @@ public class TeacherDbInMemory implements Db {
     }
 
     @Override
+    public List<Object> getAllSorted(String column) {
+        //TODO
+        return new ArrayList<>(teachers.values());
+    }
+
+    @Override
     public void add(Object object) throws DbException {
         Teacher teacher = (Teacher) object;
         if (teacher == null) {

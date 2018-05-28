@@ -35,6 +35,13 @@ public class StudentService {
         }
         return students;
     }
+    public List<Student> getAllSorted(String column) {
+        List<Student> students = new ArrayList<>();
+        for (Object object : db.getAllSorted(column)) {
+            students.add((Student) object);
+        }
+        return students;
+    }
 
     public void add(Student student) throws DbException {
         db.add(student);

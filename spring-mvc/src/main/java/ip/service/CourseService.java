@@ -36,6 +36,14 @@ public class CourseService {
         return courses;
     }
 
+    public List<Course> getAllSorted(String column) {
+        List<Course> courses = new ArrayList<>();
+        for (Object object : db.getAllSorted(column)) {
+            courses.add((Course) object);
+        }
+        return courses;
+    }
+
     public void add(Course course) throws DbException {
         db.add(course);
     }

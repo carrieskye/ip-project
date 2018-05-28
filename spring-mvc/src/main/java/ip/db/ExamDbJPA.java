@@ -34,14 +34,16 @@ public class ExamDbJPA implements Db {
     }
 
     private void addTestData() {
-        add(new Exam(1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0), 2));
+        add(new Exam(1, LocalDate.of(2018, 6, 12), LocalTime.of(9, 0), LocalTime.of(12, 0), 3));
+        add(new Exam(2, LocalDate.of(2018, 6, 14), LocalTime.of(13, 0), LocalTime.of(16, 0), 1));
+        add(new Exam(3, LocalDate.of(2018, 6, 16), LocalTime.of(10, 0), LocalTime.of(12, 0), 3));
     }
 
     @Override
     public Object get(long id) {
         try {
             openConnection();
-            Object object = manager.find(Exam.class,id);
+            Object object = manager.find(Exam.class, id);
             closeConnection();
             return object;
         } catch (Exception e) {
@@ -54,6 +56,19 @@ public class ExamDbJPA implements Db {
         try {
             openConnection();
             Query query = manager.createQuery("select e from Exam e");
+            List<Object> exams = new ArrayList<Object>(query.getResultList());
+            closeConnection();
+            return exams;
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Object> getAllSorted(String column) {
+        try {
+            openConnection();
+            Query query = manager.createQuery("select e from Exam e order by e." + column);
             List<Object> exams = new ArrayList<Object>(query.getResultList());
             closeConnection();
             return exams;
@@ -104,7 +119,7 @@ public class ExamDbJPA implements Db {
             openConnection();
             EntityTransaction t = manager.getTransaction();
             t.begin();
-            Exam exam = manager.find(Exam.class,id);
+            Exam exam = manager.find(Exam.class, id);
             manager.remove(exam);
             manager.flush();
             t.commit();

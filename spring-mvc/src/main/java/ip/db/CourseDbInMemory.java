@@ -34,6 +34,11 @@ public class CourseDbInMemory implements Db {
         return new ArrayList<>(courses.values());
     }
 
+    public List<Object> getAllSorted(String column) {
+        //TODO
+        return new ArrayList<>(courses.values());
+    }
+
     public void add(Object object) throws DbException {
         Course course = (Course) object;
         if (course == null) {

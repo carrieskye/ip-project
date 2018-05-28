@@ -36,6 +36,12 @@ public class ExamDbInMemory implements Db {
     }
 
     @Override
+    public List<Object> getAllSorted(String column) {
+        //TODO
+        return new ArrayList<>(exams.values());
+    }
+
+    @Override
     public void add(Object object) throws DbException {
         Exam exam = (Exam) object;
         if (exam == null) {

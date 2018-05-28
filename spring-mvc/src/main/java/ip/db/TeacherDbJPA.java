@@ -41,7 +41,7 @@ public class TeacherDbJPA implements Db {
     public Object get(long id) {
         try {
             openConnection();
-            Object object = manager.find(Teacher.class,id);
+            Object object = manager.find(Teacher.class, id);
             closeConnection();
             return object;
         } catch (Exception e) {
@@ -54,6 +54,19 @@ public class TeacherDbJPA implements Db {
         try {
             openConnection();
             Query query = manager.createQuery("select t from Teacher t");
+            List<Object> teachers = new ArrayList<Object>(query.getResultList());
+            closeConnection();
+            return teachers;
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Object> getAllSorted(String column) {
+        try {
+            openConnection();
+            Query query = manager.createQuery("select t from Teacher t order by t." + column);
             List<Object> teachers = new ArrayList<Object>(query.getResultList());
             closeConnection();
             return teachers;
@@ -104,7 +117,7 @@ public class TeacherDbJPA implements Db {
             openConnection();
             EntityTransaction t = manager.getTransaction();
             t.begin();
-            Teacher teacher = manager.find(Teacher.class,id);
+            Teacher teacher = manager.find(Teacher.class, id);
             manager.remove(teacher);
             manager.flush();
             t.commit();

@@ -26,6 +26,11 @@ public class TeacherController {
         return new ModelAndView("teacher/overview", "teachers", service.getAll());
     }
 
+    @RequestMapping(value="sortedBy{column}", method = RequestMethod.GET)
+    public ModelAndView getTeachersSorted(@PathVariable String column) {
+        return new ModelAndView("teacher/overview", "teachers", service.getAllSorted(column.substring(0, 1).toLowerCase() + column.substring(1)));
+    }
+
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
         ModelAndView modelAndView = new ModelAndView("teacher/teacherForm", "teacher", new Teacher());

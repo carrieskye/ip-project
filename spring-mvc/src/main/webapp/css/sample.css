@@ -11,8 +11,7 @@ body {
 
 div#container {
     background-color: #FFF;
-    margin: auto;
-    margin-top: 10px;
+    margin: 10px auto auto;
 }
 
 footer {
@@ -26,7 +25,6 @@ nav ul {
     list-style: none;
     background-color: #E00049;
     box-sizing: border-box;
-    margin-bottom: 1em;
 }
 
 nav ul li {
@@ -57,9 +55,26 @@ img#logo {
 }
 
 img#logout-button {
-    height: 1.2em;
+    height: 1em;
     width: auto;
     margin-left: 0.2em;
+}
+
+.sort {
+    font-size: 100%;
+}
+
+.new {
+    font-size: 100%;
+    margin-top: 1.5em;
+}
+
+.sort img, .new img {
+    height: 0.7em;
+    width: auto;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    alignment: bottom;
 }
 
 h2, main, footer {
@@ -119,7 +134,7 @@ input, textarea {
     padding: 0.5em;
     line-height: 15px;
     border-radius: 3px;
-    box-shadow: inset 0px 1px 4px #ECECEC;
+    box-shadow: inset 0 1px 4px #ECECEC;
     box-sizing: border-box;
 }
 
@@ -173,12 +188,8 @@ input {
         border: none;
     }
 
-    nav ul li:first-child {
-        border: none;
-    }
-
     nav ul li a {
-        text-align: center;
+        alignment: center;
     }
 
     footer {
@@ -205,6 +216,12 @@ input {
 
     input[type="submit"] {
         margin-left: 112px;
+    }
+
+    input[type="submit"].remove {
+        margin-left: 0;
+        margin-top: -15px;
+        margin-right: 10px;
     }
 
     textarea {

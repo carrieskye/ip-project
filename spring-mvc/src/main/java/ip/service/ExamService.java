@@ -38,6 +38,14 @@ public class ExamService {
         return exams;
     }
 
+    public List<Exam> getAllSorted(String column) {
+        List<Exam> exams = new ArrayList<>();
+        for (Object object : db.getAllSorted(column)) {
+            exams.add((Exam) object);
+        }
+        return exams;
+    }
+
     public void add(Exam exam) throws DbException {
         db.add(exam);
     }
