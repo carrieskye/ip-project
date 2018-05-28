@@ -133,7 +133,7 @@ public class ObjectIT {
         if (object != null) {
             object.findElement(By.linkText("Remove")).click();
         }
-        driver.findElement(By.linkText("OK")).click();
+        driver.findElement(By.id("OK")).click();
     }
 
     WebElement getByUniqueValue(String type, String value) {

@@ -32,7 +32,7 @@ public class ExamIT extends ObjectIT {
 
         driver.get("http://localhost:8080/IP/exam.htm");
         fillOutField("username", "admin");
-        fillOutField("password", "t");
+        fillOutField("password", "adminpw345?");
         driver.findElement(By.id("login")).click();
 
         driver.get("http://localhost:8080/IP/exam.htm");

@@ -12,9 +12,9 @@
     <main>
         <p>Are you sure you want to remove ${course.info}?</p>
         <form>
-            <input class="remove" type="submit" value="OK"
+            <input class="remove" id="OK" type="submit" value="OK"
                    formaction="<c:url value="/course/remove${course.id}.htm"/>">
-            <input class="remove" type="submit" value="Cancel" formaction="<c:url value="/course.htm"/>">
+            <input class="remove" id="Cancel" type="submit" value="Cancel" formaction="<c:url value="/course.htm"/>">
         </form>
     </main>
     <footer> &copy; Carolyne Peelman, UC Leuven-Limburg</footer>

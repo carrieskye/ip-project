@@ -31,7 +31,7 @@ public class ClassroomIT extends ObjectIT {
 
         driver.get("http://localhost:8080/IP/classroom.htm");
         fillOutField("username", "admin");
-        fillOutField("password", "t");
+        fillOutField("password", "adminpw345?");
         driver.findElement(By.id("login")).click();
 
         driver.get("http://localhost:8080/IP/classroom.htm");

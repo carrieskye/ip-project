@@ -28,7 +28,7 @@ public class StudentIT extends ObjectIT {
 
         driver.get("http://localhost:8080/IP/student.htm");
         fillOutField("username", "admin");
-        fillOutField("password", "t");
+        fillOutField("password", "adminpw345?");
         driver.findElement(By.id("login")).click();
 
         driver.get("http://localhost:8080/IP/student.htm");
