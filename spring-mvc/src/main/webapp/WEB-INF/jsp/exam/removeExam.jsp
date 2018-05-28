@@ -11,14 +11,11 @@
     </jsp:include>
     <main>
         <p>Are you sure you want to remove exam ${course} on ${exam.date} (${exam.beginTime} - ${exam.endTime})?</p>
-
-        <p>
-            <a id="confirm" href="<c:url value="/exam/remove${exam.id}.htm"/>">OK</a>
-        </p>
-        <p>
-            <a href="<c:url value="/exam.htm"/>">Cancel</a>
-        </p>
-
+        <form>
+            <input class="remove" type="submit" value="OK"
+                   formaction="<c:url value="/exam/remove${exam.id}.htm"/>">
+            <input class="remove" type="submit" value="Cancel" formaction="<c:url value="/exam.htm"/>">
+        </form>
     </main>
     <footer> &copy; Carolyne Peelman, UC Leuven-Limburg</footer>
 </div>

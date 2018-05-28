@@ -8,6 +8,8 @@ public interface Db {
 
     List<Object> getAll();
 
+    List<Object> getAllSorted(String column);
+
     void add(Object object);
 
     void update(Object object);

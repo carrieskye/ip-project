@@ -11,11 +11,9 @@
     </jsp:include>
     <main>
         <p>${courseError}</p>
-
-        <p>
-            <a href="<c:url value="/teacher.htm"/>">Back</a>
-        </p>
-
+        <form>
+            <input class="remove" type="submit" value="Back" formaction="<c:url value="/teacher.htm"/>">
+        </form>
     </main>
     <footer> &copy; Carolyne Peelman, UC Leuven-Limburg</footer>
 </div>

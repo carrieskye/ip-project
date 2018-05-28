@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.ws.rs.Path;
 
 @Controller
 @RequestMapping(value = "/student")
@@ -26,10 +27,15 @@ public class StudentController {
         return new ModelAndView("student/overview", "students", service.getAll());
     }
 
+    @RequestMapping(value = "sortedBy{column}", method = RequestMethod.GET)
+    public ModelAndView getStudentsSorted(@PathVariable String column) {
+        return new ModelAndView("student/overview", "students", service.getAllSorted(column.substring(0, 1).toLowerCase() + column.substring(1)));
+    }
+
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView getNewForm() {
         ModelAndView modelAndView = new ModelAndView("student/studentForm", "student", new Student());
-        modelAndView.addObject("action","Add");
+        modelAndView.addObject("action", "Add");
         return modelAndView;
     }
 
@@ -55,7 +61,7 @@ public class StudentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("student/studentForm", "student", service.get(id));
-        modelAndView.addObject("action","Update");
+        modelAndView.addObject("action", "Update");
         return modelAndView;
     }
 

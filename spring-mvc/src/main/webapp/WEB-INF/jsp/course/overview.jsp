@@ -12,27 +12,29 @@
     <main>
         <table>
             <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Teacher</th>
+                <th class="sort">Code<a href="<c:url value="/course/sortedByCode.htm"/>"><img
+                        src="<c:url value="/images/sort.png"/>" alt="Sort"></a></th>
+                <th class="sort">Name<a href="<c:url value="/course/sortedByName.htm"/>"><img
+                        src="<c:url value="/images/sort.png"/>" alt="Sort"></a></th>
+                <th class="sort">Teacher<a href="<c:url value="/course/sortedByTeacher.htm"/>"><img
+                        src="<c:url value="/images/sort.png"/>" alt="Sort"></a></th>
                 <th></th>
             </tr>
 
             <c:forEach var="course" items="${courses}">
                 <tr>
-                    <td><a href="<c:url value="course/${course.id}.htm"/>">${course.code}</a></td>
+                    <td><a href="<c:url value="/course/${course.id}.htm"/>">${course.code}</a></td>
                     <td>${course.name}</td>
                     <td>${course.attributes.get("teacher").info}</td>
                     <td><a href="<c:url value="/course/confirmRemoval${course.id}.htm"/>">Remove</a></td>
                 </tr>
             </c:forEach>
 
-            <td><a href="<c:url value="/course/new.htm"/>">Add course</a></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <caption>Course Overview</caption>
         </table>
+
+        <p class="new"><img src="<c:url value="/images/add.png"/>" alt="Add"><a href="<c:url value="/course/new.htm"/>">Add course</a></p>
+
     </main>
     <footer> &copy; Carolyne Peelman, UC Leuven-Limburg</footer>
 </div>
