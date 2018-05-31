@@ -21,7 +21,7 @@ public class ClassroomServiceTest {
     private Classroom classroom = new Classroom("Helsinki", 150, "PC");
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         initMocks(this);
         service = new ClassroomService(db);
     }

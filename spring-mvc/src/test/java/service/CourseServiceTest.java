@@ -21,7 +21,7 @@ public class CourseServiceTest {
     private Course course = new Course("MBI987","Frans",1);
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         initMocks(this);
         service = new CourseService(db);
     }

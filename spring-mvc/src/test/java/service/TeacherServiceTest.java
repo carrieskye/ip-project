@@ -21,7 +21,7 @@ public class TeacherServiceTest {
     private Teacher teacher = new Teacher("u0012345","Kate","Jones");
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         initMocks(this);
         service = new TeacherService(db);
     }

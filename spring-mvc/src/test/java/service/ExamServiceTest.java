@@ -24,7 +24,7 @@ public class ExamServiceTest {
     private Exam exam = new Exam(1, LocalDate.of(2018,9,6), LocalTime.of(9,0), LocalTime.of(12,0), 1);
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         initMocks(this);
         service = new ExamService(db);
     }
